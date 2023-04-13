@@ -25,8 +25,8 @@ export const SearchSection = () => {
               sx={{
                 background: themeColors.BLUE1,
                 borderRadius: 3,
-                scale: "120%",
-                p: 0.2,
+                scale: "130%",
+                minWidth: 0,
                 color: themeColors.WHITE,
               }}
             />

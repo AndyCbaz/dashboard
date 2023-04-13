@@ -54,11 +54,11 @@ export const DevicePage = () => {
           justifyContent: "center",
         }}
       >
-        <CardDispositivos index={1} />
-        <CardDispositivos index={1} />
+        <CardDispositivos index={1} state={false} dataT={true} dataH={true} />
+        <CardDispositivos index={2} state={true} dataT={true} dataH={false}/>
       </Box>
       
-      {/* VeENTANA MODAL */}
+      {/* VENTANA MODAL */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -70,8 +70,8 @@ export const DevicePage = () => {
           sx={{
             borderRadius: 8,
             my: 8,
-            width: { xs: "75%", sm: "50%" },
-            ml: { xs: "15%", sm: "25%" },
+            width: { xs: "75%", sm: "30%" },
+            ml: { xs: "15%", sm: "35%" },mt:'20%'
           }}
         >
           <NewDevice />

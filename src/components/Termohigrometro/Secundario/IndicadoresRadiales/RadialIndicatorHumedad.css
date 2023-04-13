@@ -1,0 +1,14 @@
+.circle-back-humedad {
+  fill: none;
+  stroke: #ddd;
+}
+.circle-progress-humedad {
+  fill: none;
+  stroke: #70DA00;
+}
+
+.circle-text-humedad {
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}

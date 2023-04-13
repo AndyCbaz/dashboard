@@ -36,7 +36,7 @@ export default function Home(props: HomeProps) {
     <Box
       sx={{
         display: "flex",
-        // height: "100vh",
+        height: "100vh",
         // border: 'solid'
       }}
     >

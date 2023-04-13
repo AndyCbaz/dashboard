@@ -1,36 +1,36 @@
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
-export const drawerWidth = 200;
+export const drawerWidth = 210;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
+    duration: theme.transitions.duration.complex,
   }),
   overflowX: "hidden",
-  borderTopRightRadius: 20,
-  borderBottomRightRadius:20,
+  // borderTopRightRadius: 20,
+  // borderBottomRightRadius:20,
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.complex,
   }),
   overflowX: "hidden",
-  borderTopRightRadius: 20,
-  borderBottomRightRadius:20,
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  // borderTopRightRadius: 20,
+  // borderBottomRightRadius:20,
+  width: `calc(${theme.spacing(7)} + 2px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(8)} + 10px)`,
   },
       [theme.breakpoints.down("sm")]: {
     display: 'none'
   },
 });
 
-export const DrawerBig = styled(MuiDrawer, {
+export const DrawerBig:any = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,

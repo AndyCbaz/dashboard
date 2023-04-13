@@ -1,0 +1,14 @@
+.circle-back {
+  fill: none;
+  stroke: #ddd;
+}
+.circle-progress {
+  fill: none;
+  stroke: #78dae5;
+}
+
+.circle-text {
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}

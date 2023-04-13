@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent/CardContent";
 import Typography from "@mui/material/Typography";
 import { themeColors } from "../../../helpers/theme/theme.colors";
 import { Box } from "@mui/material";
-import { CircleSlider } from "./CircleSlider";
+// import { CircleSlider } from "./CircleSlider";
 // import { Link } from "react-router-dom";
 
 interface CardProp {
@@ -63,7 +63,7 @@ export const CardVariables: React.FC<CardProp> = ({
               </Typography>
               {/* <Typography>Valor Actual</Typography> */}
             </Box>
-            <CircleSlider valor={valor} circleWidth={100} unidad={unidad} />
+            {/* <CircleSlider valor={valor} circleWidth={100} unidad={unidad} /> */}
           </Box>
         </CardContent>
       </CardActionArea>

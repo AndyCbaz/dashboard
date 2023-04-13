@@ -30,13 +30,20 @@ const theme = createTheme({
         style: {},
       },
     },
+    MuiInput:{
+      defaultProps:{
+        style:{
+          borderRadius: 8
+        }
+      }
+    },
     MuiButton: {
       defaultProps: {
         style: {
-          background: themeColors.WHITE,
-          borderColor: themeColors.BLUE1,
+          background: themeColors.GRAY2,
           color: themeColors.BLACK,
           borderRadius: 8,
+          border:'none',
         },
       },
     },

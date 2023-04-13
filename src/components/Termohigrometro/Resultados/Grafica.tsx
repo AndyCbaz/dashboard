@@ -1,5 +1,6 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { Box } from "@mui/system";
 import {
   Chart as ChartJS,
   LineElement,
@@ -20,6 +21,7 @@ export const Grafica: React.FC<Props> = ({data, options}) => {
   return (
     
       <Line data={data} options={options}></Line>
+      
     
   );
 };

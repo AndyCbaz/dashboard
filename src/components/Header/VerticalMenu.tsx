@@ -92,14 +92,14 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
         </DrawerHeader>
       </Box>
       {/* Menu de Dashborad */}
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, mx:1 }}>
         <List>
           <ListItem key={"Dashboard"} disablePadding sx={{ display: "block" }}>
             {/* Item Dashboard */}
             <Box
               sx={{
-                borderRadius: 2,
-                mx: 0.5,
+                borderRadius: 1,
+                // mx: 0.5,
                 my: 0.5,
                 background:
                   pageActivated === 1 || pageActivated === 0
@@ -120,8 +120,8 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 <Box>
                   <ListItemIcon
                     sx={{
-                      minWidth: 0,
                       justifyContent: "center",
+                      minWidth: 0,
                     }}
                   >
                     <GridViewIcon />
@@ -144,6 +144,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                   gap: 1,
                   flexDirection: "column",
                   alignItems: "center",
+                  // mx:0.5,
                 }}
               >
                 {/* Boton termohigrometros */}
@@ -153,14 +154,15 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     navigate("/");
                   }}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 1,
                     display: "flex",
                     justifyContent: " center",
-                    width: "90%",
-                    "&:hover": { background: themeColors.BLUE1 },
+                    width: "100%",
+                    
+                    "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageActivated === "a"
-                        ? themeColors.BLUE1
+                        ? themeColors.BLUE2
                         : themeColors.GRAY,
                   }}
                 >
@@ -184,14 +186,14 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     navigate("/peso");
                   }}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 1,
                     display: "flex",
                     justifyContent: " center",
-                    width: "90%",
-                    "&:hover": { background: themeColors.BLUE1 },
+                    width: "100%",
+                    "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageActivated === "b"
-                        ? themeColors.BLUE1
+                        ? themeColors.BLUE2
                         : themeColors.GRAY,
                   }}
                 >
@@ -223,8 +225,8 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             {/* Item Zonas Header*/}
             <Box
               sx={{
-                borderRadius: 2,
-                mx: 0.5,
+                borderRadius: 1,
+                // mx: 0.5,
                 my: 0.5,
                 background:
                   pageActivated === 1 || pageActivated === 0
@@ -278,14 +280,14 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     handleSubMenuOptionSelectedZones("a");
                   }}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 1,
                     display: "flex",
                     justifyContent: " center",
-                    width: "90%",
-                    "&:hover": { background: themeColors.BLUE1 },
+                    width: "100%",
+                    "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageZone === "a"
-                        ? themeColors.BLUE1
+                        ? themeColors.BLUE2
                         : themeColors.GRAY,
                   }}
                 >
@@ -311,14 +313,14 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     handleSubMenuOptionSelectedZones("b");
                   }}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 1,
                     display: "flex",
                     justifyContent: " center",
-                    width: "90%",
-                    "&:hover": { background: themeColors.BLUE1 },
+                    width: "100%",
+                    "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageZone === "b"
-                        ? themeColors.BLUE1
+                        ? themeColors.BLUE2
                         : themeColors.GRAY,
                   }}
                 >
@@ -342,17 +344,18 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 <ListItemButton
                   onClick={() => {handleOpen()}}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: 1,
                     display: "flex",
                     justifyContent: " center",
-                    width: "90%",
+                    width: "100%",
                     "&:hover": { background: themeColors.BLUE1 },
                     background: themeColors.GRAY,
                   }}
                 >
                   <ListItemIcon
                     sx={{
-                      // display: props.open ? "none" : "flex",
+                      // border:'solid',
+                      minWidth: 0,
                       display: "flex",
                       justifyContent: "center",
                     }}
@@ -382,7 +385,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           background:
             pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
           borderRadius: 2,
-          mx: 0.5,
+          mx: 1,
           my: 0.5,
         }}
       >
@@ -424,7 +427,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       <Box
         sx={{
           borderRadius: 2,
-          mx: 0.5,
+          mx: 1,
           my: 0.5,
           mb: 4,
           background:
@@ -472,8 +475,8 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           sx={{
             borderRadius: 8,
             my: 8,
-            width: { xs: "75%", sm:'50%' },
-            ml: {xs:"15%", sm: "25%"},
+            width: { xs: "75%", sm:'25%' },
+            ml: {xs:"15%", sm: "36%"}, mt:'20%'
           }}
         >
           <NewZone />

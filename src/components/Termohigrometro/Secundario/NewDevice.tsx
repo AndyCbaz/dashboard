@@ -4,9 +4,9 @@ import Typography from "@mui/material/Typography";
 import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import ConstructionIcon from "@mui/icons-material/Construction";
-import ShowerIcon from '@mui/icons-material/Shower';
+import ShowerIcon from "@mui/icons-material/Shower";
 import { Button } from "@mui/material";
-import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import SaveIcon from "@mui/icons-material/Save";
 import { themeColors } from "../../../helpers/theme/theme.colors";
 
@@ -26,6 +26,7 @@ export const NewDevice = () => {
           Agregar Dispositivo
         </Typography>
         <Divider />
+
         {/* INPUT NOMBRE */}
         <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
           <Typography variant="body1">NOMBRE </Typography>
@@ -33,10 +34,9 @@ export const NewDevice = () => {
         <Input
           sx={{
             px: 1,
-            background: themeColors.GRAY,
+            background: themeColors.GRAY2,
             borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
+      
           }}
           id="input-search"
           disableUnderline
@@ -46,87 +46,93 @@ export const NewDevice = () => {
             </InputAdornment>
           }
         />
-        {/* INPUT TEMPERATURA MAXIMA */}
+        {/* INPUT TEMPERATURA MAXIMA y MINIMA */}
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+          <Box>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography variant="button">TEMPERATURA MÁXIMA </Typography>
+            </Box>
+            <Input
+              sx={{
+                px: 1,
+                background: themeColors.GRAY2,
+                borderRadius: 4,
+      
+              }}
+              id="input-search"
+              disableUnderline
+              startAdornment={
+                <InputAdornment position="start">
+                  <DeviceThermostatIcon />
+                </InputAdornment>
+              }
+            />
+          </Box>
+          <Box>
+            {/* INPUT TEMPERATURA MINIMA */}
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography variant="button">TEMPERATURA MÍNIMA </Typography>
+            </Box>
+            <Input
+              sx={{
+                px: 1,
+                background: themeColors.GRAY2,
+                borderRadius: 4,
 
-        <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-          <Typography variant="body1">TEMPERATURA MÁXIMA: </Typography>
+              }}
+              id="input-search"
+              disableUnderline
+              startAdornment={
+                <InputAdornment position="start">
+                  <DeviceThermostatIcon />
+                </InputAdornment>
+              }
+            />
+          </Box>
         </Box>
-        <Input
-          sx={{
-            px: 1,
-            background: themeColors.GRAY,
-            borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
-          }}
-          id="input-search"
-          disableUnderline
-          startAdornment={
-            <InputAdornment position="start">
-              <DeviceThermostatIcon />
-            </InputAdornment>
-          }
-        />
-        {/* INPUT TEMPERATURA MINIMA */}
-        <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-          <Typography variant="body1">TEMPERATURA MÍNIMA </Typography>
+        {/* INPUT HUMEDAD MAXIMA Y MINIMA */}
+        <Box sx={{display:'flex', justifyContent:'space-between', gap:2}}>
+          <Box>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography variant="button">HUMEDAD MÁXIMA </Typography>
+            </Box>
+            <Input
+              sx={{
+                px: 1,
+                background: themeColors.GRAY2,
+     
+              }}
+              id="input-search"
+              disableUnderline
+              startAdornment={
+                <InputAdornment position="start">
+                  <ShowerIcon />
+                </InputAdornment>
+              }
+            />
+          </Box>
+
+          <Box>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography variant="button">HUMEDAD MÍNIMA </Typography>
+            </Box>
+            <Input
+              sx={{
+                px: 1,
+                background: themeColors.GRAY2,
+                borderRadius: 4,
+     
+              }}
+              id="input-search"
+              disableUnderline
+              startAdornment={
+                <InputAdornment position="start">
+                  <ShowerIcon />
+                </InputAdornment>
+              }
+            />
+          </Box>
         </Box>
-        <Input
-          sx={{
-            px: 1,
-            background: themeColors.GRAY,
-            borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
-          }}
-          id="input-search"
-          disableUnderline
-          startAdornment={
-            <InputAdornment position="start">
-              <DeviceThermostatIcon />
-            </InputAdornment>
-          }
-        />
-        {/* INPUT HUMEDAD MAXIMA */}
-        <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-          <Typography variant="body1">HUMEDAD MÁXIMA </Typography>
-        </Box>
-        <Input
-          sx={{
-            px: 1,
-            background: themeColors.GRAY,
-            borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
-          }}
-          id="input-search"
-          disableUnderline
-          startAdornment={
-            <InputAdornment position="start">
-              <ShowerIcon />
-            </InputAdornment>
-          }
-        />
-        {/* INPUT HUMEDAD MINIMA */}
-        <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-          <Typography variant="body1">HUMEDAD MÍNIMA </Typography>
-        </Box>
-        <Input
-          sx={{
-            px: 1,
-            background: themeColors.GRAY,
-            borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
-          }}
-          id="input-search"
-          disableUnderline
-          startAdornment={
-            <InputAdornment position="start">
-              <ShowerIcon />
-            </InputAdornment>
-          }
-        />
 
         {/* </FormControl> */}
       </Box>

@@ -34,10 +34,10 @@ export const NewZone = () => {
         <Input
           sx={{
             px: 1,
-            background: themeColors.GRAY,
+            background: themeColors.GRAY2,
             borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
+            // border: "solid",
+            // borderColor: themeColors.DARKGRAY,
           }}
           id="input-search"
           disableUnderline
@@ -55,10 +55,9 @@ export const NewZone = () => {
         <Input
           sx={{
             px: 1,
-            background: themeColors.GRAY,
+            background: themeColors.GRAY2,
             borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
+
           }}
           id="input-search"
           disableUnderline
@@ -75,10 +74,9 @@ export const NewZone = () => {
         <Input
           sx={{
             px: 1,
-            background: themeColors.GRAY,
+            background: themeColors.GRAY2,
             borderRadius: 4,
-            border: "solid",
-            borderColor: themeColors.BLUE1,
+            
           }}
           id="input-search"
           disableUnderline

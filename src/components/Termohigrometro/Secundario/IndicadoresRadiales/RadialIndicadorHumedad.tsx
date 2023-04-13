@@ -1,5 +1,5 @@
 import React from "react";
-import "./CircleSlider.css";
+import "./RadialIndicatorHumedad.css";
 
 type Props = {
   valor: number;
@@ -7,12 +7,16 @@ type Props = {
   unidad: string;
 };
 
-export const CircleSlider: React.FC<Props> = ({ valor, circleWidth, unidad }) => {
-  const radio = 40;
-  const dashArray = radio * Math.PI * 2 ;
-  const dashOffset = dashArray - (dashArray * valor ) / 100;
+export const RadialIndicadorHumedad: React.FC<Props> = ({
+  valor,
+  circleWidth,
+  unidad,
+}) => {
+  const radio = 30;
+  const dashArray = radio * Math.PI * 2;
+  const dashOffset = dashArray - (dashArray * valor) / 100;
   return (
-    <div >
+    <div>
       <svg
         width={circleWidth}
         height={circleWidth}
@@ -21,25 +25,31 @@ export const CircleSlider: React.FC<Props> = ({ valor, circleWidth, unidad }) =>
         <circle
           cx={circleWidth / 2}
           cy={circleWidth / 2}
-          strokeWidth="15px"
+          strokeWidth="10px"
           r={radio}
-          className="circle-back"
+          className="circle-back-humedad"
         />
         <circle
           cx={circleWidth / 2}
           cy={circleWidth / 2}
-          strokeWidth="15px"
+          strokeWidth="10px"
           r={radio}
-          className="circle-progress"
+          className="circle-progress-humedad"
           style={{
             strokeDasharray: dashArray,
             strokeDashoffset: dashOffset,
           }}
           transform={`rotate(-90 ${circleWidth / 2} ${circleWidth / 2})`}
         />
-        
-        <text x="25%" y="50%" dy="0.3em" textAnchor="sm" className="circle-text">
-            {valor} {unidad}
+
+        <text
+          x="20%"
+          y="50%"
+          dy="0.3em"
+          // textAnchor="sm"
+          className="circle-text-humedad"
+        >
+          {valor} {unidad}
         </text>
       </svg>
     </div>

@@ -1,7 +1,6 @@
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { CardVariables } from "./CardVariables";
 import { Button, ButtonGroup, Paper, Modal, Divider } from "@mui/material";
 
 import { Grafica } from "./Grafica";
@@ -18,36 +17,6 @@ import { ExcelDatos } from "./ExcelDatos";
 import { RadialIndicadorTemperatura } from "./IndicadoresRadiales/RadialIndicadorTemperatura";
 import { RadialIndicadorHumedad } from "./IndicadoresRadiales/RadialIndicadorHumedad";
 
-const data = {
-  labels: ["1", "2 ", "3", "4", "5"],
-  datasets: [
-    {
-      labels: "Temperatura",
-      data: [20, 25, 23, 22, 41],
-      backgroundColor: "aqua",
-      borderColor: "#3be1ac",
-      pointBorderColor: "black",
-    },
-  ],
-};
-
-const optionsChart = {
-  plugins: {
-    legend: true,
-  },
-  scales: {
-    // yAxes: [
-    //   {
-    //     ticks: {
-    //       beginAtZero: true,
-    //     },
-    //   },
-    // ],
-  },
-  responsive: true,
-  maintainAspectRatio: false,
-};
-
 export const HomeResultados = () => {
   const navigate = useNavigate();
   const hancleClick = () => navigate("/");
@@ -55,6 +24,93 @@ export const HomeResultados = () => {
   const [value, setValue] = React.useState<Dayjs | null>(
     dayjs("2022-04-17T15:30")
   );
+
+  //Estados de las graficas
+  const [tempGrap, setTempGraph] = useState(false);
+  const [humGrap, setHumGraph] = useState(false);
+
+  //Configuracion Grafica
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Temperatura",
+        data: [32, 65, 74, 12, 2, 58, 96],
+        borderColor: themeColors.BLUE1,
+        backgroundColor: themeColors.BLUE1,
+        yAxisID: "y",
+        lineTension: 0.3,
+        hidden: tempGrap,
+      },
+      {
+        label: "Humedad",
+        data: [15, 59, 63, 47, 58, 54, 85],
+        borderColor: themeColors.GREEN,
+        backgroundColor: themeColors.GREEN,
+        yAxisID: "y1",
+        lineTension: 0.3,
+        hidden: humGrap,
+      },
+    ],
+  };
+
+  const optionsChart = {
+    responsive: true,
+    interaction: {
+      mode: "index" as const,
+      intersect: false,
+    },
+    stacked: false,
+
+    plugins: {
+      title: {
+        display: true,
+        text: "Temperatura y Humedad",
+        font: { size: 24 },
+      },
+      legend: {
+        display: true,
+        labels: {
+          font: {
+            size: 16,
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        type: "linear" as const,
+        display: !tempGrap,
+        position: "left" as const,
+      },
+      y1: {
+        type: "linear" as const,
+        display: !humGrap,
+        position: "right" as const,
+        grid: {
+          drawOnChartArea: false,
+        },
+      },
+    },
+    maintainAspectRatio: false,
+  };
+  //Control Gráfica
+
+  const handleDisplayTemperature = () => {
+    setTempGraph(!tempGrap);
+  };
+  const handleDisplayHumedad = () => {
+    setHumGraph(!humGrap);
+  };
 
   //Modal Excel
   const [openModalExcel, setOpenModalExcel] = useState(false);
@@ -80,19 +136,6 @@ export const HomeResultados = () => {
         width: "100%",
       }}
     >
-      {/* Boton Atras */}
-      <Box sx={{ display: "flex", pb: 1 }}>
-        <Button
-          onClick={() => {
-            hancleClick();
-          }}
-          variant="outlined"
-          startIcon={<ArrowBackIcon />}
-        >
-          Atras
-        </Button>
-      </Box>
-
       {/* GRAFICA */}
       {/* Cuadro de Grafica */}
       <Box
@@ -102,29 +145,44 @@ export const HomeResultados = () => {
           display: "flex",
           flexGrow: 1,
           flexDirection: "column",
-          px: 2,
+          p: 2,
           borderRadius: 2,
           background: themeColors.WHITE,
           boxShadow: 4,
         }}
       >
+        {/* Header */}
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          {/* Boton Atras */}
+          <Box sx={{ display: "flex", flexGrow: 1 }}>
+            <Button
+              onClick={() => {
+                hancleClick();
+              }}
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+            >
+              Atras
+            </Button>
+          </Box>
+          <Box sx={{ display: "flex", flexGrow: 1 }}>
+            <Typography variant="h4">Registro de Datos</Typography>
+          </Box>
+        </Box>
         {/* Control de Gráfica */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
+            flexDirection: { sm: "row", xs: "column" },
             // flexGrow: 1,
-            pb: 3,
+            m: 2,
+            gap: {xs:0.5, sm:8},
             // border: "solid",
           }}
         >
-          <Box sx={{ display: "flex" }}>
-            <Typography variant="h4">Registro de Datos</Typography>
-          </Box>
-
           {/* Cotroles botones  */}
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box sx={{ display: "flex", justifyContent: "center", flexGrow: 1 }}>
             <Box
               sx={{
                 display: "flex",
@@ -135,6 +193,7 @@ export const HomeResultados = () => {
                 },
               }}
             >
+              <Typography>Seleccione un periodo</Typography>
               <ButtonGroup
                 variant="outlined"
                 aria-label="opciones de grafica"
@@ -171,207 +230,286 @@ export const HomeResultados = () => {
               </ButtonGroup>
             </Box>
           </Box>
+          <Divider
+            orientation="vertical"
+            sx={{ display: { sm: "block", xs: "none" } }}
+          />
+          <Divider sx={{ display: { xs: "block", sm: "none" } }} />
+
           {/* Controles fechas */}
           <Box
             sx={{
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "column",
               alignItems: "center",
-              gap: { xs: 2, sm: 8 },
-              flexDirection: { xs: "column", sm: "row" },
-              // border:'solid'
+              gap: 0.5,
             }}
           >
-            <Box sx={{display:'flex', height:'70%'}}><Button>Buscar</Button></Box>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer
-                sx={{ display: "flex" }}
-                components={["DateTimePicker"]}
+            <Typography>Seleccione una Fecha</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: { xs: 2, sm: 4 },
+                // flexDirection: { xs: "column", sm: "row" },
+                flexGrow: 2,
+                // border:'solid'
+              }}
+            >
+              <Box sx={{ display: "flex", height: "70%" }}>
+                <Button>Buscar</Button>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { sm: "row", xs: "column" },
+                  gap: 1,
+                }}
               >
-                <Box>
-                  <DateTimePicker
-                    label="Fecha Inicial"
-                    value={value}
-                    onChange={(newValue) => setValue(newValue)}
-                  />
-                </Box>
-              </DemoContainer>
-              <DemoContainer
-                sx={{ display: "flex" }}
-                components={["DateTimePicker"]}
-              >
-                <Box>
-                  <DateTimePicker
-                    label="Fecha Final"
-                    value={value}
-                    onChange={(newValue) => setValue(newValue)}
-                  />
-                </Box>
-              </DemoContainer>
-            </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    sx={{ display: "flex" }}
+                    components={["DateTimePicker"]}
+                  >
+                    <Box>
+                      <DateTimePicker
+                        label="Fecha Inicial"
+                        value={value}
+                        onChange={(newValue) => setValue(newValue)}
+                      />
+                    </Box>
+                  </DemoContainer>
+                  <DemoContainer
+                    sx={{ display: "flex" }}
+                    components={["DateTimePicker"]}
+                  >
+                    <Box>
+                      <DateTimePicker
+                        label="Fecha Final"
+                        value={value}
+                        onChange={(newValue) => setValue(newValue)}
+                      />
+                    </Box>
+                  </DemoContainer>
+                </LocalizationProvider>
+              </Box>
+            </Box>
           </Box>
         </Box>
         {/* Grafica */}
         <Box
           sx={{
-            // border: "solid",
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
-            // justifyContent: "space-between",
+            justifyContent: "center",
+            // alignItems: "stretch",
+            // border:'solid',
             // flexGrow: 1,
+            gap:4,
             width: "100%",
-            gap: 3,
           }}
         >
+          {/* Informacion grafica */}
           <Box
             sx={{
               display: "flex",
-              p: 1,
+              p: 2,
               flexDirection: "column",
               boxShadow: 2,
               borderRadius: 2,
+              
+              // border:'solid'
             }}
           >
-            <Box sx={{ textAlign: "center" }}>
-              <Typography>Información</Typography>
+            <Box sx={{ textAlign: "center", pb: 1 }}>
+              <Typography variant="h5">Información</Typography>
             </Box>
-            <Box sx={{ display: "flex", gap: 1, pb: 1 }}>
+            {/* Botones */}
+            <Box sx={{ display: "flex", justifyContent:'center',gap: 3, pb: 1 }}>
               {/* Boton Temperatura */}
               <Box>
-                <Button>Temperatura</Button>
+                <Button
+                  onClick={handleDisplayTemperature}
+                  sx={{
+                    background: !tempGrap
+                      ? themeColors.BLUE1
+                      : themeColors.GRAY,
+                    transform: !tempGrap ? "scale3d(1.05, 1.05, 1)" : "none",
+                    "&:hover": {
+                      transform: "scale3d(1.05, 1.05, 1)",
+                      background: themeColors.BLUE1,
+                    },
+                  }}
+                >
+                  Temperatura
+                </Button>
               </Box>
               {/* Boton Humedad */}
               <Box>
-                <Button>Humedad</Button>
+                <Button
+                  onClick={handleDisplayHumedad}
+                  sx={{
+                    background: !humGrap ? themeColors.GREEN : themeColors.GRAY,
+                    transform: !humGrap ? "scale3d(1.05, 1.05, 1)" : "none",
+                    "&:hover": {
+                      transform: "scale3d(1.05, 1.05, 1)",
+                      background: themeColors.GREEN,
+                    },
+                  }}
+                >
+                  Humedad
+                </Button>
               </Box>
             </Box>
-            <Divider />
+            <Box>
+              <Divider />
+            </Box>
+            <Box sx={{gap:1, display:'flex', flexDirection:{sm:'column', xs:'row'}}}>
             {/* Datos de Temperatura */}
-            <Box sx={{ display: "flex", py: 1, justifyContent:'center',alignItems:'center' }}>
-              <Box >
-                <RadialIndicadorTemperatura
-                  valor={25}
-                  circleWidth={105}
-                  unidad="°C"
-                />
-              </Box>
-              {/* Texto Resumen Card */}
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
-                  textAlign: "center",
+                  py: 1,
+                  justifyContent: "center",
                   alignItems: "center",
-                  gap: 1.5,
-                  // border: "solid",
+                  gap: 2,
                 }}
               >
-                {/* MAXIMO */}
-                <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                  22°C <br />{" "}
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: themeColors.DARKGRAY,
-                    }}
-                  >
-                    {" "}
-                    MÁXIMO
-                  </span>
-                </Typography>
-                {/* MINIMO */}
-                <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                  48°C <br />
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: themeColors.DARKGRAY,
-                    }}
-                  >
-                    {" "}
-                    MÍNIMO
-                  </span>
-                </Typography>
-                {/* PROMEDIO */}
-                <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                  50°C <br />{" "}
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: themeColors.DARKGRAY,
-                    }}
-                  >
-                    {" "}
-                    PROMEDIO
-                  </span>
-                </Typography>
+                <Box>
+                  <RadialIndicadorTemperatura
+                    valor={25}
+                    circleWidth={105}
+                    unidad="°C"
+                  />
+                </Box>
+                {/* Texto Resumen Card */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                    alignItems: "center",
+                    gap: 1.5,
+                    // border: "solid",
+                  }}
+                >
+                  {/* MAXIMO */}
+                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                    22°C <br />{" "}
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: themeColors.DARKGRAY,
+                      }}
+                    >
+                      {" "}
+                      MÁXIMO
+                    </span>
+                  </Typography>
+                  {/* MINIMO */}
+                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                    48°C <br />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: themeColors.DARKGRAY,
+                      }}
+                    >
+                      {" "}
+                      MÍNIMO
+                    </span>
+                  </Typography>
+                  {/* PROMEDIO */}
+                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                    50°C <br />{" "}
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: themeColors.DARKGRAY,
+                      }}
+                    >
+                      {" "}
+                      PROMEDIO
+                    </span>
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-            <Divider />
-            {/* Datos de Humedad */}
-            <Box sx={{ display: "flex", py: 1, justifyContent:'center',alignItems:'center' }}>
-              <Box >
-                <RadialIndicadorHumedad
-                  valor={30}
-                  circleWidth={105}
-                  unidad="%"
-                />
-              </Box>
-              {/* Texto Resumen Card */}
+              <Divider sx={{display:{xs:'none', sm:'block'}}}/>
+              <Divider orientation="vertical" sx={{display:{xs:'block', sm:'none'}}}/>
+              {/* Datos de Humedad */}
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
-                  textAlign: "center",
+                  py: 1,
+                  justifyContent: "center",
                   alignItems: "center",
-                  gap: 1.5,
-                  // border: "solid",
+                  gap: 2,
                 }}
               >
-                {/* MAXIMO */}
-                <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                  40% <br />{" "}
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: themeColors.DARKGRAY,
-                    }}
-                  >
-                    {" "}
-                    MÁXIMO
-                  </span>
-                </Typography>
-                {/* MINIMO */}
-                <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                  35%C <br />
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: themeColors.DARKGRAY,
-                    }}
-                  >
-                    {" "}
-                    MÍNIMO
-                  </span>
-                </Typography>
-                {/* PROMEDIO */}
-                <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                  38% <br />{" "}
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      color: themeColors.DARKGRAY,
-                    }}
-                  >
-                    {" "}
-                    PROMEDIO
-                  </span>
-                </Typography>
+                <Box>
+                  <RadialIndicadorHumedad
+                    valor={30}
+                    circleWidth={105}
+                    unidad="%"
+                  />
+                </Box>
+                {/* Texto Resumen Card */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                    alignItems: "center",
+                    gap: 1.5,
+                    // border: "solid",
+                  }}
+                >
+                  {/* MAXIMO */}
+                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                    40% <br />{" "}
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: themeColors.DARKGRAY,
+                      }}
+                    >
+                      {" "}
+                      MÁXIMO
+                    </span>
+                  </Typography>
+                  {/* MINIMO */}
+                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                    35% <br />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: themeColors.DARKGRAY,
+                      }}
+                    >
+                      {" "}
+                      MÍNIMO
+                    </span>
+                  </Typography>
+                  {/* PROMEDIO */}
+                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                    38% <br />{" "}
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: themeColors.DARKGRAY,
+                      }}
+                    >
+                      {" "}
+                      PROMEDIO
+                    </span>
+                  </Typography>
+                </Box>
               </Box>
             </Box>
             <Divider />
-            {/* Boton de Descargar */}
-            <Box sx={{ display: "flex", justifyContent: "center", py:2 }}>
+            {/* Boton de Ver Datos*/}
+            <Box sx={{ display: "flex", justifyContent: "center", pt: 1 }}>
               <Button
                 onClick={() => {
                   handleOpenModal();
@@ -381,25 +519,21 @@ export const HomeResultados = () => {
               </Button>
             </Box>
           </Box>
+          {/* Grafica  */}
           <Box
             sx={{
-              width: "100%",
-              border: "solid",
+              width: {sm:"60%",xs:"99%"},
+              height:{sm:'100%',xs:'300px'},
+              // border: "solid",
               display: "flex",
               justifyContent: "center",
+              boxShadow: 4,
+              // mx: 4,
+              borderRadius: 2,
+              p: 2,
             }}
           >
-            {/* <Grafica data={data} options={optionsChart} /> */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                // border: "solid",
-                alignItems: "center",
-              }}
-            >
-              <Typography>Aqui va la gráfica</Typography>
-            </Box>
+            <Grafica data={data} options={optionsChart} />
           </Box>
         </Box>
       </Box>
@@ -414,8 +548,8 @@ export const HomeResultados = () => {
           sx={{
             borderRadius: 8,
             my: 4,
-            width: { xs: "75%", sm: "50%" },
-            ml: { xs: "15%", sm: "25%" },
+            width: { xs: "95%", sm: "75%" },
+            ml: { xs: "2%", sm: "15%" },
           }}
         >
           <ExcelDatos label={label} />

@@ -55,7 +55,7 @@ export const DevicePage = () => {
         }}
       >
         <CardDispositivos index={1} state={false} dataT={true} dataH={true} />
-        <CardDispositivos index={2} state={true} dataT={true} dataH={false}/>
+        {/* <CardDispositivos index={2} state={true} dataT={true} dataH={false}/> */}
       </Box>
       
       {/* VENTANA MODAL */}
@@ -69,9 +69,10 @@ export const DevicePage = () => {
           variant="outlined"
           sx={{
             borderRadius: 8,
-            my: 8,
-            width: { xs: "75%", sm: "30%" },
-            ml: { xs: "15%", sm: "35%" },mt:'20%'
+            // my: 8,
+            width: '400px',
+            ml: { xs: "8%", sm: "35%" },
+            mt:4
           }}
         >
           <NewDevice />

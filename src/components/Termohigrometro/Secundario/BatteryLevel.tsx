@@ -21,7 +21,7 @@ export const BatteryLevel = (props: props) => {
 
   return (
     <Box sx={{ display: "flex", gap: 0.5 }}>
-      {batteryValue >= 0 && batteryValue < 10 ? (
+      {batteryValue >= 0 && batteryValue < 11 ? (
         <>
           <Typography sx={{ color: themeColors.RED3 }}>
             {`${batteryValue}%`}
@@ -29,7 +29,7 @@ export const BatteryLevel = (props: props) => {
           <Battery0BarIcon sx={{ color: themeColors.RED3 }} />
           <Typography sx={{ color: themeColors.RED3 }}>!</Typography>
         </>
-      ) : batteryValue >= 10 && batteryValue < 25 ? (
+      ) : batteryValue >= 11 && batteryValue < 26 ? (
         <>
           
           <Typography sx={{ color: themeColors.RED3 }}>
@@ -38,7 +38,7 @@ export const BatteryLevel = (props: props) => {
           <BatteryCharging20Icon sx={{ color: themeColors.RED3 }} />
           
         </>
-      ) : batteryValue >= 25 && batteryValue < 51 ? (
+      ) : batteryValue >= 26 && batteryValue < 51 ? (
         <>
           
           <Typography >

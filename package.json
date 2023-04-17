@@ -16,6 +16,7 @@
     "@mui/x-date-pickers": "^6.0.4",
     "chart.js": "^4.2.1",
     "dayjs": "^1.11.7",
+    "faker": "^5.5.3",
     "localforage": "^1.10.0",
     "lottie-react": "^2.4.0",
     "match-sorter": "^6.3.1",
@@ -24,9 +25,10 @@
     "react-chartjs-2": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
-    "sort-by": "^1.2.0"
+    "sort-by": "^0.0.2"
   },
   "devDependencies": {
+    "@types/faker": "^6.6.9",
     "@types/mui-datatables": "^4.3.4",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",

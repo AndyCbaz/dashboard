@@ -22,13 +22,13 @@ setSignalValue(props.value)
   
   return (
     <Box sx={{display:"flex"}}  >
-      {(signalValue >= 0) && (signalValue < 10) ? (
+      {(signalValue >= 0) && (signalValue < 11) ? (
         <>
         <Typography sx={{color: themeColors.RED3}}>{`${signalValue}%`}</Typography>
         <SignalWifi0BarIcon sx={{color: themeColors.RED3}}/>
         <Typography sx={{color:themeColors.RED3}}>!</Typography>
         </>
-      ) : (signalValue >= 10) && (signalValue < 25) ? (
+      ) : (signalValue >= 11) && (signalValue < 25) ? (
         <>
         <Typography sx={{color: themeColors.RED3}}>{`${signalValue}%`}</Typography>
         <SignalWifi1BarIcon sx={{color: themeColors.RED3}}/>

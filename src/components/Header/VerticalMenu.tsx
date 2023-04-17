@@ -27,6 +27,7 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { themeColors } from "../../helpers/theme/theme.colors";
 import { useNavigate } from "react-router-dom";
 import { NewZone } from "./NewZone";
+import { LogoSectionShort } from "./LogoSectionShort";
 
 interface VerticalMenuProp {
   open: boolean;
@@ -84,12 +85,9 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       }}
     >
       {/* Seccion del Logo */}
-      <Box sx={{display:'flex'}}>
-        <DrawerHeader>
-          <Box sx={{ ...(!props.open && { display: "none" }) }}>
-            <LogoSection />
-          </Box>
-        </DrawerHeader>
+      <Box sx={{display:'flex', height:'50px', justifyContent:'center'}}>
+            <Box sx={{...(!props.open && { display: "none" })}}><LogoSection /></Box>
+            <Box sx={{...(props.open && { display: "none" })}}><LogoSectionShort /></Box>
       </Box>
       {/* Menu de Dashborad */}
       <Box sx={{ flexGrow: 1, mx:1 }}>
@@ -158,6 +156,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     display: "flex",
                     justifyContent: " center",
                     width: "100%",
+                    minHeight: 48,
                     
                     "&:hover": { background: themeColors.BLUE2 },
                     background:
@@ -190,6 +189,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     display: "flex",
                     justifyContent: " center",
                     width: "100%",
+                    minHeight: 48,
                     "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageActivated === "b"
@@ -284,6 +284,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     display: "flex",
                     justifyContent: " center",
                     width: "100%",
+                    minHeight: 48,
                     "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageZone === "a"
@@ -317,6 +318,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     display: "flex",
                     justifyContent: " center",
                     width: "100%",
+                    minHeight: 48,
                     "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageZone === "b"
@@ -348,6 +350,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     display: "flex",
                     justifyContent: " center",
                     width: "100%",
+                    minHeight: 48,
                     "&:hover": { background: themeColors.BLUE1 },
                     background: themeColors.GRAY,
                   }}
@@ -404,12 +407,15 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 minHeight: 48,
                 justifyContent: props.open ? "initial" : "center",
                 px: 2.5,
+                display:'flex',
+                gap:0,
+                
               }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
-                  mr: props.open ? 3 : "auto",
+                  // mr: props.open ? 3 : "auto",
                   justifyContent: "center",
                 }}
               >
@@ -417,7 +423,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
               </ListItemIcon>
               <ListItemText
                 primary={"Configuración"}
-                sx={{ opacity: props.open ? 1 : 0 }}
+                sx={{ opacity: props.open ? 1 : 0, textAlign:'center' }}
               />
             </ListItemButton>
           </Box>
@@ -475,8 +481,9 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           sx={{
             borderRadius: 8,
             my: 8,
-            width: { xs: "75%", sm:'25%' },
-            ml: {xs:"15%", sm: "36%"}, mt:'20%'
+            width: '350px',
+            ml: {xs:"15%", sm: "36%"}, 
+            mt:4
           }}
         >
           <NewZone />

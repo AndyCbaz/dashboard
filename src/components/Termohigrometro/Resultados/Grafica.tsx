@@ -7,6 +7,9 @@ import {
   CategoryScale, // x axis
   LinearScale, // y axis
   PointElement,
+  Title,
+  Tooltip,
+  Legend,
 } from "chart.js";
 
 type Props = {
@@ -14,14 +17,16 @@ type Props = {
   options?: any;
 };
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-export const Grafica: React.FC<Props> = ({data, options}) => {
-
-  return (
-    
-      <Line data={data} options={options}></Line>
-      
-    
-  );
+export const Grafica: React.FC<Props> = ({ data, options }) => {
+  return <Line data={data} options={options}></Line>;
 };

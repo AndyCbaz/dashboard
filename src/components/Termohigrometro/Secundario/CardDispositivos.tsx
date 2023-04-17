@@ -35,7 +35,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
         display: "flex",
         boxShadow: 10,
         borderRadius: 1.5,
-        // width: { xs: "90%", sm: "45%" },
+        pt:0.5, pb:1, px:1        // width: { xs: "90%", sm: "45%" },
       }}
     >
       <CardActionArea
@@ -58,7 +58,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
           </Box>
           {/* Indicador de Bateria */}
           <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-            <BatteryLevel value={24} />
+            <BatteryLevel value={95} />
           </Box>
           {/* Indicador de Señal */}
           <Box
@@ -70,7 +70,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
               alignItems: "center",
             }}
           >
-            <RatingCustom value={80} />
+            <RatingCustom value={100} />
           </Box>
         </Box>
         {/* Contenido de Card */}
@@ -182,7 +182,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   {/* Indicador Circular  Resumen*/}
                   <Box sx={{ display: "flex", alignItems: " center" }}>
                     <RadialIndicadorTemperatura
-                      valor={25}
+                      valor={59}
                       circleWidth={70}
                       unidad="°C"
                     />

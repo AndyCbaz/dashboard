@@ -78,7 +78,7 @@ export default function Home(props: HomeProps) {
             >
               <SearchSection />
             </Box>
-            <Box sx={{ flexGrow: 1, textAlign: "end" }}>
+            {/* <Box sx={{ flexGrow: 1, textAlign: "end" }}>
               <Typography
                 variant="h6"
                 noWrap
@@ -87,7 +87,7 @@ export default function Home(props: HomeProps) {
               >
                 Prinprexart
               </Typography>
-            </Box>
+            </Box> */}
           </Box>
         </Toolbar>
       </AppBar>
@@ -136,7 +136,7 @@ export default function Home(props: HomeProps) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           // border: "solid",
           display: "flex",
-          mt: 8,
+          mt: 6,
           background: themeColors.GRAY,
         }}
       >

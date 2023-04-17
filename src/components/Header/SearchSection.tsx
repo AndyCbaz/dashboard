@@ -23,11 +23,11 @@ export const SearchSection = () => {
           <InputAdornment position="end">
             <SearchIcon
               sx={{
-                background: themeColors.BLUE1,
+                
                 borderRadius: 3,
                 scale: "130%",
                 minWidth: 0,
-                color: themeColors.WHITE,
+                color: themeColors.BLUE1,
               }}
             />
           </InputAdornment>

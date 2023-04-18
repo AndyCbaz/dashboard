@@ -87,17 +87,33 @@ export const HomeResultados = () => {
       },
     },
     scales: {
+
       y: {
         type: "linear" as const,
         display: !tempGrap,
         position: "left" as const,
+        title:{
+          display:true,
+          text:'Temperatura',
+          font:{
+            size: 18
+          }
+        }
+
       },
       y1: {
         type: "linear" as const,
         display: !humGrap,
         position: "right" as const,
+        title:{
+          display:true,
+          text:'Humedad',
+          font:{
+            size: 18
+          }
+        },
         grid: {
-          drawOnChartArea: false,
+          drawOnChartArea: !humGrap,
         },
       },
     },

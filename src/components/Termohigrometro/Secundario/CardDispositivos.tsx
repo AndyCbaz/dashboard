@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -8,7 +7,6 @@ import { Box } from "@mui/system";
 import { themeColors } from "../../../helpers/theme/theme.colors";
 import CircleIcon from "@mui/icons-material/Circle";
 import RatingCustom from "./Rating";
-import IndicadorHorizontal from "./IndicadorHorizontal";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import ShowerIcon from "@mui/icons-material/Shower";
 import { BatteryLevel } from "./BatteryLevel";
@@ -34,8 +32,11 @@ export const CardDispositivos: React.FC<CardProp> = ({
       sx={{
         display: "flex",
         boxShadow: 10,
-        borderRadius: 1.5,
-        pt:0.5, pb:1, px:1        // width: { xs: "90%", sm: "45%" },
+        borderRadius: 4,
+        "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
+        pt: 1,
+        pb: 1.5,
+        px: 2,
       }}
     >
       <CardActionArea
@@ -56,21 +57,25 @@ export const CardDispositivos: React.FC<CardProp> = ({
               }}
             />
           </Box>
-          {/* Indicador de Bateria */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-            <BatteryLevel value={95} />
-          </Box>
-          {/* Indicador de Señal */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              pr: 2,
-              display: "flex",
-              justifyContent: "end",
-              alignItems: "center",
-            }}
-          >
-            <RatingCustom value={100} />
+          <Box sx={{display:'flex'}}>
+            {/* Indicador de Bateria */}
+            <Box
+              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+            >
+              <BatteryLevel value={95} />
+            </Box>
+            {/* Indicador de Señal */}
+            <Box
+              sx={{
+                flexGrow: 1,
+                pr: 2,
+                display: "flex",
+                justifyContent: "end",
+                alignItems: "center",
+              }}
+            >
+              <RatingCustom value={100} />
+            </Box>
           </Box>
         </Box>
         {/* Contenido de Card */}
@@ -109,7 +114,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                 display: "flex",
                 flexDirection: " column",
                 // border: "solid",
-                gap: 0.5,
+                gap: 1,
                 p: 0.5,
               }}
             >
@@ -135,7 +140,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                       flexDirection: "column",
                       textAlign: "center",
                       alignItems: "center",
-                      gap: 1.5,
+                      gap: 2,
                       // border: "solid",
                     }}
                   >
@@ -213,7 +218,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                 display: "flex",
                 flexDirection: " column",
                 // border: "solid",
-                gap: dataH ? 0.5 : 0,
+                gap: 1,
                 p: 0.5,
               }}
             >
@@ -246,7 +251,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                       flexDirection: "column",
                       textAlign: "center",
                       alignItems: "center",
-                      gap: 1.5,
+                      gap: 2,
                       // border: "solid",
                     }}
                   >

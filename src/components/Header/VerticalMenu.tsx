@@ -1,5 +1,4 @@
 import * as React from "react";
-import { DrawerHeader } from "../../helpers/Home/DrawerStyle";
 import Box from "@mui/material/Box";
 import { LogoSection } from "./LogoSection";
 import {
@@ -23,11 +22,12 @@ import ThermostatIcon from "@mui/icons-material/Thermostat";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import MonitorWeightIcon from "@mui/icons-material/MonitorWeight";
 import LogoutIcon from "@mui/icons-material/Logout";
-import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+
 import { themeColors } from "../../helpers/theme/theme.colors";
 import { useNavigate } from "react-router-dom";
-import { NewZone } from "./NewZone";
+import { NewZone } from "../Zonas/NewZone";
 import { LogoSectionShort } from "./LogoSectionShort";
+import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed";
 
 interface VerticalMenuProp {
   open: boolean;
@@ -65,12 +65,12 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
     setPageActivated(page);
   };
   const handleSubMenuOptionSelected = (subpage: string) => {
-    if ((pageActivated === 1)||(pageActivated === 0)) {
+    if (pageActivated === 1 || pageActivated === 0) {
       setSubpageActivated(subpage);
     }
   };
   const handleSubMenuOptionSelectedZones = (subpagezone: string) => {
-    if ((pageActivated === 1)||(pageActivated === 0)) {
+    if (pageActivated === 1 || pageActivated === 0) {
       setSubPageZone(subpagezone);
     }
   };
@@ -85,12 +85,16 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       }}
     >
       {/* Seccion del Logo */}
-      <Box sx={{display:'flex', height:'50px', justifyContent:'center'}}>
-            <Box sx={{...(!props.open && { display: "none" })}}><LogoSection /></Box>
-            <Box sx={{...(props.open && { display: "none" })}}><LogoSectionShort /></Box>
+      <Box sx={{ display: "flex", height: "50px", justifyContent: "center" }}>
+        <Box sx={{ ...(!props.open && { display: "none" }) }}>
+          <LogoSection />
+        </Box>
+        <Box sx={{ ...(props.open && { display: "none" }) }}>
+          <LogoSectionShort />
+        </Box>
       </Box>
       {/* Menu de Dashborad */}
-      <Box sx={{ flexGrow: 1, mx:1 }}>
+      <Box sx={{ flexGrow: 1, mx: 1 }}>
         <List>
           <ListItem key={"Dashboard"} disablePadding sx={{ display: "block" }}>
             {/* Item Dashboard */}
@@ -100,9 +104,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 // mx: 0.5,
                 my: 0.5,
                 background:
-                  pageActivated === 1 || pageActivated === 0
-                    ? themeColors.BLUE1
-                    : themeColors.GRAY,
+                  pageActivated === 0 ? themeColors.BLUE1 : themeColors.GRAY,
               }}
             >
               <ListItemButton
@@ -125,12 +127,12 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     <GridViewIcon />
                   </ListItemIcon>
                 </Box>
-                {open ? <ExpandLess /> : <ExpandMore />}
 
                 <ListItemText
                   primary={"DASHBOARD"}
-                  sx={{ opacity: props.open ? 1 : 0 }}
+                  sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
                 />
+                {open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
             </Box>
             {/* Subitems de Dashboard */}
@@ -157,7 +159,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     justifyContent: " center",
                     width: "100%",
                     minHeight: 48,
-                    
+
                     "&:hover": { background: themeColors.BLUE2 },
                     background:
                       subpageActivated === "a"
@@ -217,176 +219,101 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             </Collapse>
           </ListItem>
           {/* Separador */}
-          <Divider sx={{ mt: 2 }} />
+          <Divider sx={{ mt: 1 }} />
         </List>
         {/* Menu de Zonas */}
-        <List>
-          <ListItem key={"Zones"} disablePadding sx={{ display: "block" }}>
-            {/* Item Zonas Header*/}
-            <Box
+        <ListItem key={"Zones"} disablePadding sx={{ display: "block" }}>
+          {/* Item Zonas Header*/}
+          <Box
+            sx={{
+              borderRadius: 1,
+
+              background:
+                pageActivated === 1 ? themeColors.BLUE1 : themeColors.GRAY,
+            }}
+          >
+            <ListItemButton
+              onClick={() => {
+                handleMenuOptionSelected(1);
+                navigate("/zonas");
+              }}
               sx={{
-                borderRadius: 1,
-                // mx: 0.5,
-                my: 0.5,
-                background:
-                  pageActivated === 1 || pageActivated === 0
-                    ? themeColors.BLUE1
-                    : themeColors.GRAY,
-                // themeColors.BLUE1
+                minHeight: 48,
+                justifyContent: props.open ? "start" : "center",
+                px: 2.5,
               }}
             >
-              <ListItemButton
-                onClick={() => {
-                  handleMenuOptionSelected(1);
-                }}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: props.open ? "start" : "center",
-                  px: 2.5,
-                }}
-              >
-                <Box>
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      justifyContent: "center",
-                    }}
-                  >
-                    <BusinessCenterIcon />
-                  </ListItemIcon>
-                </Box>
-                {openZone ? <ExpandLess /> : <ExpandMore />}
+              <Box>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    justifyContent: "center",
+                  }}
+                >
+                  <BusinessCenterIcon />
+                </ListItemIcon>
+              </Box>
 
-                <ListItemText
-                  primary={"ZONAS"}
-                  sx={{ opacity: props.open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </Box>
-            {/* Zonas Disponibles */}
-            <Collapse in={openZone} timeout={600} unmountOnExit>
-              <List
-                component="div"
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                {/* Zona 1 */}
-                <ListItemButton
-                  onClick={() => {
-                    handleSubMenuOptionSelectedZones("a");
-                  }}
+              <ListItemText
+                primary={"ZONAS"}
+                sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
+              />
+            </ListItemButton>
+          </Box>
+        </ListItem>
+        {/* Separador */}
+        <Divider sx={{ my: 1 }} />
+        {/* Menu de Aréas */}
+        <ListItem key={"Areas"} disablePadding sx={{ display: "block" }}>
+          {/* Item Zonas Header*/}
+          <Box
+            sx={{
+              borderRadius: 1,
+              // mx: 0.5,
+              my: 0.5,
+              background:
+                pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
+              // themeColors.BLUE1
+            }}
+          >
+            <ListItemButton
+              onClick={() => {
+                handleMenuOptionSelected(2);
+                navigate("/areas");
+              }}
+              sx={{
+                minHeight: 48,
+                justifyContent: props.open ? "start" : "center",
+                px: 2.5,
+              }}
+            >
+              <Box>
+                <ListItemIcon
                   sx={{
-                    borderRadius: 1,
-                    display: "flex",
-                    justifyContent: " center",
-                    width: "100%",
-                    minHeight: 48,
-                    "&:hover": { background: themeColors.BLUE2 },
-                    background:
-                      subpageZone === "a"
-                        ? themeColors.BLUE2
-                        : themeColors.GRAY,
+                    minWidth: 0,
+                    justifyContent: "center",
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      display: props.open ? "none" : "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Typography>Zona1</Typography>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Bodega"
-                    sx={{
-                      display: props.open ? "block" : "none",
-                      textAlign: "center",
-                    }}
-                  />
-                </ListItemButton>
-                {/* Zona 2 */}
-                <ListItemButton
-                  onClick={() => {
-                    handleSubMenuOptionSelectedZones("b");
-                  }}
-                  sx={{
-                    borderRadius: 1,
-                    display: "flex",
-                    justifyContent: " center",
-                    width: "100%",
-                    minHeight: 48,
-                    "&:hover": { background: themeColors.BLUE2 },
-                    background:
-                      subpageZone === "b"
-                        ? themeColors.BLUE2
-                        : themeColors.GRAY,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      display: props.open ? "none" : "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Typography>Zona2</Typography>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Almacen"
-                    sx={{
-                      display: props.open ? "block" : "none",
-                      textAlign: "center",
-                    }}
-                  />
-                </ListItemButton>
-                {/* Boton Agregar Zona */}
-                <ListItemButton
-                  onClick={() => {handleOpen()}}
-                  sx={{
-                    borderRadius: 1,
-                    display: "flex",
-                    justifyContent: " center",
-                    width: "100%",
-                    minHeight: 48,
-                    "&:hover": { background: themeColors.BLUE1 },
-                    background: themeColors.GRAY,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      // border:'solid',
-                      minWidth: 0,
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <AddLocationAltIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Añadir Zona"
-                    sx={{
-                      display: props.open ? "block" : "none",
+                  <GpsNotFixedIcon />
+                </ListItemIcon>
+              </Box>
 
-                      textAlign: "center",
-                    }}
-                  />
-                </ListItemButton>
-              </List>
-            </Collapse>
-          </ListItem>
-          {/* Separador */}
-          <Divider sx={{ mt: 2 }} />
-        </List>
+              <ListItemText
+                primary={"ÁREAS"}
+                sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
+              />
+            </ListItemButton>
+          </Box>
+        </ListItem>
+        {/* Separador */}
+        <Divider sx={{ my: 1 }} />
       </Box>
 
       {/* Menu Configuracion */}
       <Box
         sx={{
           background:
-            pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
+            pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
           borderRadius: 2,
           mx: 1,
           my: 0.5,
@@ -400,16 +327,15 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           <Box>
             <ListItemButton
               onClick={() => {
-                handleMenuOptionSelected(2);
+                handleMenuOptionSelected(3);
                 navigate("/settings");
               }}
               sx={{
                 minHeight: 48,
                 justifyContent: props.open ? "initial" : "center",
                 px: 2.5,
-                display:'flex',
-                gap:0,
-                
+                display: "flex",
+                gap: 0,
               }}
             >
               <ListItemIcon
@@ -423,7 +349,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
               </ListItemIcon>
               <ListItemText
                 primary={"Configuración"}
-                sx={{ opacity: props.open ? 1 : 0, textAlign:'center' }}
+                sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
               />
             </ListItemButton>
           </Box>
@@ -437,13 +363,13 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           my: 0.5,
           mb: 4,
           background:
-            pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
+            pageActivated === 4 ? themeColors.BLUE1 : themeColors.GRAY,
         }}
       >
         <ListItem key={"LogOut"} disablePadding sx={{ display: "block" }}>
           <ListItemButton
             onClick={() => {
-              handleMenuOptionSelected(3);
+              handleMenuOptionSelected(4);
               navigate("/logout");
             }}
             sx={{
@@ -481,9 +407,9 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           sx={{
             borderRadius: 8,
             my: 8,
-            width: '350px',
-            ml: {xs:"15%", sm: "36%"}, 
-            mt:4
+            width: "350px",
+            ml: { xs: "15%", sm: "36%" },
+            mt: 4,
           }}
         >
           <NewZone />

@@ -6,12 +6,15 @@ import { ThemeConfig } from "./config/theme.config";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./views/Home";
 
+
 import { Pesopage } from "./components/Peso/Pesopage";
 import { LogOut } from "./components/LogOut/LogOut";
-import { Configuracion } from "./components/Configuracion/Configuracion";
+import { Configuracion } from "./components/Configuracion/ConfiguracionPage";
 import { NotFound } from "./views/NotFound";
 import { DevicePage } from "./components/Termohigrometro/Secundario/DevicePage";
 import { HomeResultados } from "./components/Termohigrometro/Resultados/HomeResultados";
+import { Zonas } from "./components/Zonas/ZonasPage"
+import {Areas} from "./components/Areas/AreasPage"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeConfig>
@@ -24,6 +27,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <Route element={<Configuracion/>} path="settings" />
           <Route element={<DevicePage/>} index={true} />
           <Route element={<HomeResultados/>} path="resultados" />
+          <Route element={<Zonas/>} path="zonas" />
+          <Route element={<Areas/>} path="areas" />
           {/* <Route errorElement={<NotFound/>} path=""/> */}
         </Route>
 

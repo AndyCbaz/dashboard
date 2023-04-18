@@ -50,6 +50,16 @@ const theme = createTheme({
         },
       },
     },
+    MuiSelect:{
+      defaultProps:{
+        style:{
+          background: themeColors.GRAY2,
+          border:'none',
+          borderRadius:8,
+          textDecoration:'none'
+        }
+      }
+    }
   },
 
   typography: {

@@ -11,7 +11,7 @@ import { Button } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { themeColors } from "../../helpers/theme/theme.colors";
 
-export const NewZone = () => {
+export const NewArea = () => {
   return (
     <React.Fragment>
       <Box
@@ -24,7 +24,7 @@ export const NewZone = () => {
         }}
       >
         <Typography variant="h4" sx={{ textAlign: "center" }}>
-          Agregar Zona
+          Agregar Área
         </Typography>
         <Divider />
         {/* INPUT NOMBRE */}
@@ -67,25 +67,7 @@ export const NewZone = () => {
             </InputAdornment>
           }
         />
-        {/* INPUT GATEWAY */}
-        <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-          <Typography variant="body1">Gateway: </Typography>
-        </Box>
-        <Input
-          sx={{
-            px: 1,
-            background: themeColors.GRAY2,
-            borderRadius: 4,
-            
-          }}
-          id="input-search"
-          disableUnderline
-          startAdornment={
-            <InputAdornment position="start">
-              <CellTowerIcon />
-            </InputAdornment>
-          }
-        />
+
 
         {/* </FormControl> */}
       </Box>

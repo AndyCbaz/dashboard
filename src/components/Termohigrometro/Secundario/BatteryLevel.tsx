@@ -20,7 +20,7 @@ export const BatteryLevel = (props: props) => {
   }, [props.value]);
 
   return (
-    <Box sx={{ display: "flex", gap: 0.5 }}>
+    <Box sx={{ display: "flex" }}>
       {batteryValue >= 0 && batteryValue < 11 ? (
         <>
           <Typography sx={{ color: themeColors.RED3 }}>

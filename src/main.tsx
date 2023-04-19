@@ -18,13 +18,18 @@ import { Areas } from "./components/Areas/AreasPage";
 import { LoginPage } from "./views/LoginPage";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { Cliente } from "./components/Login/Cliente";
+import { Usuario } from "./components/Login/Usuario";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <ThemeConfig>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} index={true} />
+          <Route path="/" element={<LoginPage />}>
+            <Route index={true} element={<Cliente/>}/>
+            <Route path="loguser" element={<Usuario/>}/>
+          </Route>
           <Route path="/home*" element={<Home />}>
             {/* <Route element={<Termopage/>}index={true} /> */}
             <Route element={<Pesopage />} path="peso" />

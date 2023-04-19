@@ -1,6 +1,7 @@
 import { Box } from "@mui/system";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ButtonGroup, Paper, Modal, Divider } from "@mui/material";
 
 import { Grafica } from "./Grafica";
@@ -17,34 +18,31 @@ import { ExcelDatos } from "./ExcelDatos";
 import { RadialIndicadorTemperatura } from "./IndicadoresRadiales/RadialIndicadorTemperatura";
 import { RadialIndicadorHumedad } from "./IndicadoresRadiales/RadialIndicadorHumedad";
 
+
+
 export const HomeResultados = () => {
   const navigate = useNavigate();
-  const hancleClick = () => navigate("/");
+  const hancleClick = () => navigate("/home");
   const [label, setLabel] = useState("Temperatura");
+  const [dataAxios,setDataAxios] = useState([]);
   const [value, setValue] = React.useState<Dayjs | null>(
     dayjs("2022-04-17T15:30")
   );
+  
+  
 
   //Estados de las graficas
   const [tempGrap, setTempGraph] = useState(false);
   const [humGrap, setHumGraph] = useState(false);
 
   //Configuracion Grafica
-  const labels = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-  ];
+  const labels = dataAxios.map((e: { id: number; })=>e.id);
   const data = {
     labels,
     datasets: [
       {
         label: "Temperatura",
-        data: [32, 65, 74, 12, 2, 58, 96],
+        data: dataAxios.map((e: {Temperatura: number;})=>e.Temperatura),
         borderColor: themeColors.BLUE1,
         backgroundColor: themeColors.BLUE1,
         yAxisID: "y",
@@ -53,7 +51,7 @@ export const HomeResultados = () => {
       },
       {
         label: "Humedad",
-        data: [15, 59, 63, 47, 58, 54, 85],
+        data: dataAxios.map((e: {Humedad: number;})=>e.Humedad),
         borderColor: themeColors.GREEN,
         backgroundColor: themeColors.GREEN,
         yAxisID: "y1",
@@ -142,6 +140,23 @@ export const HomeResultados = () => {
     rowsPerPageOptions: number[];
     responsive: string;
   }
+
+  //Data Axios
+  const getDataTemperatura = async () => {
+    try {
+      const res = await axios.get("https://retoolapi.dev/b14wCg/data");
+      
+       setDataAxios(res.data);
+       
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(()=>{
+    getDataTemperatura()
+    
+  },[]);
 
   return (
     <Box

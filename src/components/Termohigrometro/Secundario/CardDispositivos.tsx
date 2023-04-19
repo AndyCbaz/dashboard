@@ -42,7 +42,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
       <CardActionArea
         sx={{ display: "flex", flexDirection: "column" }}
         component={Link}
-        to="/resultados"
+        to="/home/resultados"
       >
         {/* Area de Indicadores Visuales */}
         <Box

@@ -1,22 +1,26 @@
 import * as React from "react";
+// MUI
 import Box from "@mui/material/Box";
-
 import Toolbar from "@mui/material/Toolbar";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import Drawer from "@mui/material/Drawer";
+import Typography from "@mui/material/Typography";
+// Iconos
+import PersonIcon from "@mui/icons-material/Person";
+// Otros componentes
 import { themeColors } from "../helpers/theme/theme.colors";
 import { DrawerBig, drawerWidth } from "../helpers/Home/DrawerStyle";
-import Drawer from "@mui/material/Drawer";
-
 import { AppBar } from "../helpers/Home/AppBarStyle";
-
 import { HomeProps } from "../types/home/homeProps";
 import { VerticalMenu } from "../components/Header/VerticalMenu";
 import { SearchSection } from "../components/Header/SearchSection";
+// React Router Dom
 import { Outlet } from "react-router-dom";
+// Redux
+import { selectUser } from "../features/userSlice";
+import { useAppSelector } from "../app/hooks";
 
 export default function Home(props: HomeProps) {
   const { window } = props;
@@ -32,12 +36,13 @@ export default function Home(props: HomeProps) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  const user = useAppSelector(selectUser);
+
   return (
     <Box
       sx={{
         display: "flex",
         height: "100vh",
-        // border: 'solid'
       }}
     >
       <CssBaseline />
@@ -78,16 +83,17 @@ export default function Home(props: HomeProps) {
             >
               <SearchSection />
             </Box>
-            {/* <Box sx={{ flexGrow: 1, textAlign: "end" }}>
+            <Box sx={{ flexGrow: 1, textAlign: "end", display:'flex', justifyContent:'end', alignItems:'center', gap:1 }}>
+              <PersonIcon />
               <Typography
                 variant="h6"
                 noWrap
                 component="div"
                 color={themeColors.BLUE1}
               >
-                Prinprexart
+                Usuario: {user}
               </Typography>
-            </Box> */}
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>

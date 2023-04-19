@@ -151,7 +151,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 <ListItemButton
                   onClick={() => {
                     handleSubMenuOptionSelected("a");
-                    navigate("/");
+                    navigate("/home");
                   }}
                   sx={{
                     borderRadius: 1,
@@ -184,7 +184,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 <ListItemButton
                   onClick={() => {
                     handleSubMenuOptionSelected("b");
-                    navigate("/peso");
+                    navigate("/home/peso");
                   }}
                   sx={{
                     borderRadius: 1,
@@ -235,7 +235,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             <ListItemButton
               onClick={() => {
                 handleMenuOptionSelected(1);
-                navigate("/zonas");
+                navigate("/home/zonas");
               }}
               sx={{
                 minHeight: 48,
@@ -279,7 +279,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             <ListItemButton
               onClick={() => {
                 handleMenuOptionSelected(2);
-                navigate("/areas");
+                navigate("/home/areas");
               }}
               sx={{
                 minHeight: 48,
@@ -328,7 +328,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             <ListItemButton
               onClick={() => {
                 handleMenuOptionSelected(3);
-                navigate("/settings");
+                navigate("/home/settings");
               }}
               sx={{
                 minHeight: 48,
@@ -370,7 +370,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           <ListItemButton
             onClick={() => {
               handleMenuOptionSelected(4);
-              navigate("/logout");
+              navigate("/home/logout");
             }}
             sx={{
               minHeight: 48,

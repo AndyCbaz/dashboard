@@ -20,18 +20,26 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { Cliente } from "./components/Login/Cliente";
 import { Usuario } from "./components/Login/Usuario";
+import { ProtectedRoutes } from "./routes/RutaProtegida";
+import { ProtectedRoutesLogin } from "./routes/RutaProtegidaLogin";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <ThemeConfig>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />}>
-            <Route index={true} element={<Cliente/>}/>
-            <Route path="loguser" element={<Usuario/>}/>
+          <Route path="/" element={<ProtectedRoutesLogin><LoginPage /></ProtectedRoutesLogin>}>
+            <Route index={true} element={<Cliente />} />
+            <Route path="loguser" element={<Usuario />} />
           </Route>
-          <Route path="/home*" element={<Home />}>
-            {/* <Route element={<Termopage/>}index={true} /> */}
+          <Route
+            path="home/*"
+            element={
+              <ProtectedRoutes>
+                <Home />
+              </ProtectedRoutes>
+            }
+          >
             <Route element={<Pesopage />} path="peso" />
             <Route element={<LogOut />} path="logout" />
             <Route element={<Configuracion />} path="settings" />
@@ -39,7 +47,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             <Route element={<HomeResultados />} path="resultados" />
             <Route element={<Zonas />} path="zonas" />
             <Route element={<Areas />} path="areas" />
-            {/* <Route errorElement={<NotFound/>} path=""/> */}
           </Route>
 
           <Route path="*" element={<NotFound />} />

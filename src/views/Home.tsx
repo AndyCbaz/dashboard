@@ -19,7 +19,7 @@ import { SearchSection } from "../components/Header/SearchSection";
 // React Router Dom
 import { Outlet } from "react-router-dom";
 // Redux
-import { selectUser } from "../features/userSlice";
+import { selectUser, selectClient } from "../features/userSlice";
 import { useAppSelector } from "../app/hooks";
 
 export default function Home(props: HomeProps) {
@@ -37,6 +37,9 @@ export default function Home(props: HomeProps) {
     window !== undefined ? () => window().document.body : undefined;
 
   const user = useAppSelector(selectUser);
+  const client = useAppSelector(selectClient);
+
+  const localClient = localStorage.getItem('cliente')
 
   return (
     <Box
@@ -91,7 +94,7 @@ export default function Home(props: HomeProps) {
                 component="div"
                 color={themeColors.BLUE1}
               >
-                Usuario: {user}
+                Usuario: {localClient}
               </Typography>
             </Box>
           </Box>

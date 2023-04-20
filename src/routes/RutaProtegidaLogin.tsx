@@ -8,14 +8,10 @@ type Props = {
   children: ReactNode;
 };
 
-export const ProtectedRoutes = ({ children }: Props) => {
+export const ProtectedRoutesLogin = ({ children }: Props) => {
   
   const cliente = useAppSelector(selectClient);
 
-  
-  
- 
-
-  if (cliente) return <>{children}</>;
-  else return <Navigate to="/" replace />;
+  if (cliente) return <Navigate to="/home" replace />;
+  else return <>{children}</>;
 };

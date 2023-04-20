@@ -6,28 +6,29 @@ import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
-import { Button } from "@mui/material";
-import Link from "@mui/material/Link";
+import Button from "@mui/material/Button/Button";
+
 //Otros componentes
 import useForm from "../../hooks/useForm";
 import { themeColors } from "../../helpers/theme/theme.colors";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  setUser,
-  selectUser,
+  setClient,
+  selectClient,
   setPassword,
   selectPassword,
 } from "../../features/userSlice";
 //React Router Dom
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Cliente = () => {
   //React router dom
   const navigate = useNavigate();
   //Redux
-  const user = useAppSelector(selectUser);
   const password = useAppSelector(selectPassword);
+  const client = useAppSelector(selectClient);
   const dispatch = useAppDispatch();
   //Formulario
   const initialValues = {
@@ -53,28 +54,30 @@ export const Cliente = () => {
     initialValues,
     onValidate
   );
-  
+
   //Ingresar Funcion
   const handleFunctionIngresar = () => {
-    dispatch(setUser(form.user)), dispatch(setPassword(form.password));
+    dispatch(setClient(form.client));
+    dispatch(setPassword(form.password));
+    localStorage.setItem('cliente',form.client);
   };
 
   useEffect(() => {
-    if (user === "0000000000" && password === "1234") {
+    if (client === "0000000000" && password === "1234") {
       setErrorMensaje("");
       setErrorStatus(false);
       navigate("/home");
-    } else if (user === "0000000000" && password !== "1234") {
+    } else if (client === "0000000000" && password !== "1234") {
       setErrorMensaje("constraseña incorrecta");
       setErrorStatus(true);
-    } else if (user !== "0000000000" && password === "1234") {
+    } else if (client !== "0000000000" && password === "1234") {
       setErrorMensaje("usuario incorrecto");
       setErrorStatus(true);
     } else {
       setErrorMensaje("datos incorrectos");
       setErrorStatus(true);
     }
-  }, [user, password]);
+  }, [client, password]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -87,7 +90,7 @@ export const Cliente = () => {
         >
           <Typography>CI/Cliente</Typography>
           <Input
-            id="user"
+            id="client"
             sx={{
               background: themeColors.GRAY2,
               borderRadius: 8,
@@ -150,9 +153,9 @@ export const Cliente = () => {
         </Button>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
-        <Link href="loguser" underline="hover" >
+        <Button component={Link} to={"/loguser"}>
           Entrar como Usuario
-        </Link>
+        </Button>
       </Box>
     </form>
   );

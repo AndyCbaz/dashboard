@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { NewZone } from "../Zonas/NewZone";
 import { LogoSectionShort } from "./LogoSectionShort";
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed";
+import { LogOut } from "../LogOut/LogOut";
 
 interface VerticalMenuProp {
   open: boolean;
@@ -370,7 +371,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           <ListItemButton
             onClick={() => {
               handleMenuOptionSelected(4);
-              navigate("/home/logout");
+              handleOpen();
             }}
             sx={{
               minHeight: 48,
@@ -395,7 +396,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           </ListItemButton>
         </ListItem>
       </Box>
-      {/* Modal de Agregar Zona */}
+      {/* Modal de Cerrar Sesion */}
       <Modal
         open={openModal}
         onClose={handleClose}
@@ -412,7 +413,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             mt: 4,
           }}
         >
-          <NewZone />
+          <LogOut/>
         </Paper>
         {/* </Box> */}
       </Modal>

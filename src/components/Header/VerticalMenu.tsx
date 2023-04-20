@@ -25,7 +25,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import { themeColors } from "../../helpers/theme/theme.colors";
 import { useNavigate } from "react-router-dom";
-import { NewZone } from "../Zonas/NewZone";
+import { NewZone } from "../Areas/Zonas/NewZone";
 import { LogoSectionShort } from "./LogoSectionShort";
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed";
 import { LogOut } from "../LogOut/LogOut";
@@ -225,7 +225,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
         {/* Menu de Zonas */}
         <ListItem key={"Zones"} disablePadding sx={{ display: "block" }}>
           {/* Item Zonas Header*/}
-          <Box
+          {/* <Box
             sx={{
               borderRadius: 1,
 
@@ -260,18 +260,17 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
               />
             </ListItemButton>
-          </Box>
+          </Box> */}
         </ListItem>
         {/* Separador */}
-        <Divider sx={{ my: 1 }} />
+        {/* <Divider sx={{ my: 1 }} /> */}
         {/* Menu de Aréas */}
         <ListItem key={"Areas"} disablePadding sx={{ display: "block" }}>
-          {/* Item Zonas Header*/}
+          {/* Item Areas Header*/}
           <Box
             sx={{
               borderRadius: 1,
-              // mx: 0.5,
-              my: 0.5,
+
               background:
                 pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
               // themeColors.BLUE1
@@ -413,7 +412,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             mt: 4,
           }}
         >
-          <LogOut/>
+          <LogOut />
         </Paper>
         {/* </Box> */}
       </Modal>

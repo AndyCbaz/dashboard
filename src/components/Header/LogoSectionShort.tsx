@@ -5,8 +5,8 @@ export const LogoSectionShort = () => {
   return (
     // <Box sx={{marginRight: 4, width: "200px", height: "100%"}}>
       <img
-        src="logo1.png"
-        alt="logo"
+        src="/logo1.png"
+        alt="logo1"
         style={{ width: "100%", height: "100%", scale: '75%' }}
       />
     // </Box>

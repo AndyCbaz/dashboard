@@ -5,7 +5,7 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { Button, Paper } from "@mui/material";
 import Modal from "@mui/material/Modal";
 //Otros componentes
-import { NewDevice } from "./NewDevice";
+import { NewDevice } from "../../Areas/Dispositivos/NewDevice";
 import { CardDispositivos } from "./CardDispositivos";
 //React Router Dom
 import { useNavigate } from "react-router-dom";

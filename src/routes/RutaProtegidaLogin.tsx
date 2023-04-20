@@ -12,6 +12,6 @@ export const ProtectedRoutesLogin = ({ children }: Props) => {
   
   const cliente = useAppSelector(selectClient);
 
-  if (cliente) return <Navigate to="/home" replace />;
+  if (cliente ==='0000000000') return <Navigate to="/home" replace />;
   else return <>{children}</>;
 };

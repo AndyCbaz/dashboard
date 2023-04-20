@@ -2,12 +2,13 @@ import React from "react";
 
 import { Box } from "@mui/system";
 import Card from "@mui/material/Card";
-import { Button, Modal, Paper, Typography } from "@mui/material";
-import { CardActionArea, Divider } from "@mui/material";
+import {  Typography } from "@mui/material";
+import { CardActionArea } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 import { themeColors } from "../../helpers/theme/theme.colors";
-import DomainIcon from '@mui/icons-material/Domain';
-import FmdGoodIcon from '@mui/icons-material/FmdGood';
+
+import FmdGoodIcon from "@mui/icons-material/FmdGood";
+import { Link } from "react-router-dom";
 
 interface CardProp {
   index: number;
@@ -28,7 +29,7 @@ export const CardAreas: React.FC<CardProp> = ({ index, state }) => {
         px: 2,
       }}
     >
-      <CardActionArea>
+      <CardActionArea component={Link} to="/home/areas/zonas">
         <Box>
           <CircleIcon
             sx={{
@@ -37,17 +38,16 @@ export const CardAreas: React.FC<CardProp> = ({ index, state }) => {
             }}
           />
         </Box>
-        <Box sx={{display:'flex', justifyContent:'center'}}>
-            <FmdGoodIcon sx={{width:'50px',height:'50px', color:themeColors.BLUE1}}/>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <FmdGoodIcon
+            sx={{ width: "50px", height: "50px", color: themeColors.BLUE1 }}
+          />
         </Box>
         <Box>
           <Typography>Nombre: PB</Typography>
         </Box>
         <Box>
           <Typography>Id de Área: 1</Typography>
-        </Box>
-        <Box>
-          <Typography>Id de Cliente: 0</Typography>
         </Box>
       </CardActionArea>
     </Card>

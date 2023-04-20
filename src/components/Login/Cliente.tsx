@@ -62,22 +62,7 @@ export const Cliente = () => {
     localStorage.setItem('cliente',form.client);
   };
 
-  useEffect(() => {
-    if (client === "0000000000" && password === "1234") {
-      setErrorMensaje("");
-      setErrorStatus(false);
-      navigate("/home");
-    } else if (client === "0000000000" && password !== "1234") {
-      setErrorMensaje("constraseña incorrecta");
-      setErrorStatus(true);
-    } else if (client !== "0000000000" && password === "1234") {
-      setErrorMensaje("usuario incorrecto");
-      setErrorStatus(true);
-    } else {
-      setErrorMensaje("datos incorrectos");
-      setErrorStatus(true);
-    }
-  }, [client, password]);
+
 
   return (
     <form onSubmit={handleSubmit}>

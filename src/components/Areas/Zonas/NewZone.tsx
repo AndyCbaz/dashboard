@@ -9,7 +9,7 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import CellTowerIcon from "@mui/icons-material/CellTower";
 import { Button } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
-import { themeColors } from "../../helpers/theme/theme.colors";
+import { themeColors } from "../../../helpers/theme/theme.colors";
 
 export const NewZone = () => {
   return (
@@ -57,7 +57,6 @@ export const NewZone = () => {
             px: 1,
             background: themeColors.GRAY2,
             borderRadius: 4,
-
           }}
           id="input-search"
           disableUnderline
@@ -76,7 +75,6 @@ export const NewZone = () => {
             px: 1,
             background: themeColors.GRAY2,
             borderRadius: 4,
-            
           }}
           id="input-search"
           disableUnderline

@@ -13,8 +13,8 @@ import { Configuracion } from "./components/Configuracion/ConfiguracionPage";
 import { NotFound } from "./views/NotFound";
 import { DevicePage } from "./components/Termohigrometro/Secundario/DevicePage";
 import { HomeResultados } from "./components/Termohigrometro/Resultados/HomeResultados";
-import { Zonas } from "./components/Zonas/ZonasPage";
-import { Areas } from "./components/Areas/AreasPage";
+import { Zonas } from "./components/Areas/Zonas/ZonasPage";
+import { AreasPage } from "./components/Areas/AreasPage";
 import { LoginPage } from "./views/LoginPage";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
@@ -22,13 +22,22 @@ import { Cliente } from "./components/Login/Cliente";
 import { Usuario } from "./components/Login/Usuario";
 import { ProtectedRoutes } from "./routes/RutaProtegida";
 import { ProtectedRoutesLogin } from "./routes/RutaProtegidaLogin";
+import { Areas } from "./components/Areas/Areas/Areas";
+import { Dispositivos } from "./components/Areas/Dispositivos/DispositivosPage";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <ThemeConfig>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<ProtectedRoutesLogin><LoginPage /></ProtectedRoutesLogin>}>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoutesLogin>
+                <LoginPage />
+              </ProtectedRoutesLogin>
+            }
+          >
             <Route index={true} element={<Cliente />} />
             <Route path="loguser" element={<Usuario />} />
           </Route>
@@ -46,7 +55,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             <Route element={<DevicePage />} index={true} />
             <Route element={<HomeResultados />} path="resultados" />
             <Route element={<Zonas />} path="zonas" />
-            <Route element={<Areas />} path="areas" />
+            <Route element={<AreasPage />} path="areas/*">
+              <Route element={<Areas />} index={true} />
+              <Route element={<Zonas />} path="zonas/" />
+              <Route element={<Dispositivos />} path="zonas/dispositivos/" />
+            </Route>
           </Route>
 
           <Route path="*" element={<NotFound />} />

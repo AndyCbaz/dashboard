@@ -1,9 +1,5 @@
 import { useState } from "react";
-interface Props {
-  user: string;
-  password: string;
-  client: string;
-}
+import { Props } from "../helpers/Login/formProps";
 
 
 const useForm = (initialValues: Props, onValidate: any) => {

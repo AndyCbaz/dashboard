@@ -22,20 +22,18 @@ import {
 //React Router Dom
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+//Helpers
+import { initialValues } from "../../helpers/Login/formProps";
 
 export const Cliente = () => {
   //React router dom
   const navigate = useNavigate();
   //Redux
   const password = useAppSelector(selectPassword);
-  const client = useAppSelector(selectClient);
+  const cliente = useAppSelector(selectClient);
   const dispatch = useAppDispatch();
   //Formulario
-  const initialValues = {
-    user: "",
-    password: "",
-    client: "",
-  };
+
   //Require Formulario (Por completar)
   const onValidate = (form: any) => {
     let isError = false;
@@ -56,13 +54,32 @@ export const Cliente = () => {
   );
 
   //Ingresar Funcion
-  const handleFunctionIngresar = () => {
+  const handleFunctionIngresarCliente = () => {
     dispatch(setClient(form.client));
     dispatch(setPassword(form.password));
-    localStorage.setItem('cliente',form.client);
+    
   };
 
-
+  useEffect(() => {
+    if (cliente === "0000000000" && password==='1234') {
+      setErrorMensaje("");
+      setErrorStatus(false);
+      localStorage.setItem("cliente", form.client);
+      navigate('/home')
+    } else if(cliente === "" && password===''){
+      setErrorMensaje("");
+      setErrorStatus(false);
+    } else if(cliente !== '0000000000' && password!=='1234'){
+      setErrorMensaje('Datos Incorrectos')
+      setErrorStatus(true)
+    } else if(cliente !== '0000000000'){
+      setErrorMensaje('Cliente no Existente')
+      setErrorStatus(true)
+    }else if(password!=='1234'){
+      setErrorMensaje('Contraseña Incorrecta')
+      setErrorStatus(true)
+    }
+  }, [handleFunctionIngresarCliente]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -130,7 +147,7 @@ export const Cliente = () => {
       <Box sx={{ display: "flex", pt: 2 }}>
         <Button
           onClick={() => {
-            handleFunctionIngresar();
+            handleFunctionIngresarCliente();
           }}
           sx={{ width: "100%", background: themeColors.BLUE1 }}
         >

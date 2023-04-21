@@ -8,14 +8,11 @@ type Props = {
   children: ReactNode;
 };
 
+
 export const ProtectedRoutes = ({ children }: Props) => {
-  
-  const cliente = useAppSelector(selectClient);
+  const cliente = localStorage.getItem('cliente')
+  const usuario = localStorage.getItem('usuario')
 
-  
-  
- 
-
-  if (cliente) return <>{children}</>;
-  else return <Navigate to="/" replace />;
+  if (usuario!=='' || cliente!=='') return <>{children}</>;
+  else return <Navigate to="/" />;
 };

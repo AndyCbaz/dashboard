@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 //Redux
 import { useAppSelector } from "../app/hooks";
 import { selectClient } from "../features/userSlice";
+import { Usuario } from "../components/Login/Usuario";
 
 type Props = {
   children: ReactNode;
@@ -10,8 +11,9 @@ type Props = {
 
 export const ProtectedRoutesLogin = ({ children }: Props) => {
   
-  const cliente = useAppSelector(selectClient);
+  const cliente = localStorage.getItem('cliente');
+  const usuario = localStorage.getItem('usuario');
 
-  if (cliente ==='0000000000') return <Navigate to="/home" replace />;
+  if (cliente !=='' || usuario !== '') return <Navigate to="/home" replace />;
   else return <>{children}</>;
 };

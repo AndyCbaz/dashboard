@@ -2,14 +2,19 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../app/store";
 
 export interface UserState {
-  valueClient: string | null;
+  valueClient: string;
   valueUser: string;
   valuePasword: string;
 }
 
+let initialUser = localStorage.getItem('cliente');
+if(initialUser===null) initialUser=""
+let initialClient = localStorage.getItem('usuario')
+if(initialClient===null) initialClient=""
+
 const initialState: UserState = {
-  valueClient: localStorage.getItem('cliente'),
-  valueUser: "",
+  valueClient: initialUser,
+  valueUser: initialClient,
   valuePasword: "",
 };
 

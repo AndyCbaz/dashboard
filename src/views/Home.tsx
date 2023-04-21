@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 // MUI
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -22,10 +22,11 @@ import { Outlet } from "react-router-dom";
 import { selectUser, selectClient } from "../features/userSlice";
 import { useAppSelector } from "../app/hooks";
 
+
 export default function Home(props: HomeProps) {
   const { window } = props;
-  const [open, setOpen] = React.useState(false);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -36,10 +37,13 @@ export default function Home(props: HomeProps) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const user = useAppSelector(selectUser);
-  const client = useAppSelector(selectClient);
-
-  const localClient = localStorage.getItem('cliente')
+    //redux
+    const usuario = useAppSelector(selectUser);
+    const cliente = useAppSelector(selectClient);
+useEffect(()=>{
+  console.log(cliente)
+  console.log(usuario)
+},[])
 
   return (
     <Box
@@ -86,7 +90,16 @@ export default function Home(props: HomeProps) {
             >
               <SearchSection />
             </Box>
-            <Box sx={{ flexGrow: 1, textAlign: "end", display:'flex', justifyContent:'end', alignItems:'center', gap:1 }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                textAlign: "end",
+                display: "flex",
+                justifyContent: "end",
+                alignItems: "center",
+                gap: 1,
+              }}
+            >
               <PersonIcon />
               <Typography
                 variant="h6"
@@ -94,7 +107,11 @@ export default function Home(props: HomeProps) {
                 component="div"
                 color={themeColors.BLUE1}
               >
-                Usuario: {localClient}
+                {cliente !== ""
+                  ? cliente
+                  : usuario !== ""
+                  ? usuario
+                  : ""}
               </Typography>
             </Box>
           </Box>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //MUI
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,14 +11,27 @@ import Link from "@mui/material/Link";
 //Otros componentes
 import useForm from "../../hooks/useForm";
 import { themeColors } from "../../helpers/theme/theme.colors";
+//Redux
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectUser, setUser } from "../../features/userSlice";
+
+//React Router Dom
+import { useNavigate } from "react-router-dom";
+//Helpers
+import { initialValues } from "../../helpers/Login/formProps";
 
 export const Usuario = () => {
+  //Redux
+  const dispatch = useAppDispatch();
+  const usuario = useAppSelector(selectUser);
+  //React router dom
+  const navigate = useNavigate();
   //Formulario
-  const initialValues = {
-    user: "",
-    password: "",
-    client: "",
-  };
+  // const initialValues = {
+  //   user: localStorage.getItem('cliente'),
+  //   password: "",
+  //   client: localStorage.getItem('usuario'),
+  // };
   //Require Formulario (Por completar)
   const onValidate = (form: any) => {
     let isError = false;
@@ -37,6 +50,26 @@ export const Usuario = () => {
     initialValues,
     onValidate
   );
+
+  const handleFunctionIngresarUsuario = () => {
+    dispatch(setUser(form.user));
+  };
+  
+  useEffect(() => {
+    if (usuario === "usuarioB") {
+      localStorage.setItem("usuario", usuario);
+      navigate("/home");
+      setErrorStatus(true);
+      setErrorMensaje("");
+    } else if (usuario === "") {
+      setErrorStatus(false);
+      setErrorMensaje("");
+    } else {
+      setErrorMensaje("usuario no registrado");
+      setErrorStatus(true);
+    }
+  }, [handleFunctionIngresarUsuario]);
+
   return (
     <form onSubmit={handleSubmit}>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -63,10 +96,20 @@ export const Usuario = () => {
           />
         </Box>
         <Box sx={{ display: "flex", pt: 2 }}>
-          <Button sx={{ width: "100%", background: themeColors.BLUE1 }}>
+          <Button
+            onClick={handleFunctionIngresarUsuario}
+            sx={{ width: "100%", background: themeColors.BLUE1 }}
+          >
             <Typography variant="body1">Ingresar</Typography>
           </Button>
         </Box>
+        {errorStatus ? (
+          <Box>
+            <Typography color='error'>{errorMensaje}</Typography>
+          </Box>
+        ) : (
+          <></>
+        )}
       </Box>
     </form>
   );

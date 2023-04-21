@@ -13,16 +13,22 @@ import {
   setPassword,
   setUser
 } from "../../features/userSlice";
+//React Router Dom
+import { useNavigate } from "react-router-dom";
 
 export const LogOut = () => {
+  //reac-router-dom
+  const navigate = useNavigate();
   //REDUX
   const dispatch = useAppDispatch();
   //HANDLE CERRAR SESION
   const handleLogout = () => {
-    localStorage.removeItem('cliente')
+    localStorage.setItem('cliente','')
+    localStorage.setItem('usuario','')
     dispatch(setClient(''));
     dispatch(setPassword(''));
     dispatch(setUser(''));
+    navigate('/')
   }
 
   return (

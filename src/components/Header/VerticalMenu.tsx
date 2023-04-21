@@ -1,6 +1,6 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+//MUI
 import Box from "@mui/material/Box";
-import { LogoSection } from "./LogoSection";
 import {
   Divider,
   List,
@@ -19,33 +19,41 @@ import Collapse from "@mui/material/Collapse";
 import SettingsIcon from "@mui/icons-material/Settings";
 import GridViewIcon from "@mui/icons-material/GridView";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
-import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import MonitorWeightIcon from "@mui/icons-material/MonitorWeight";
 import LogoutIcon from "@mui/icons-material/Logout";
-
-import { themeColors } from "../../helpers/theme/theme.colors";
-import { useNavigate } from "react-router-dom";
-import { NewZone } from "../Areas/Zonas/NewZone";
 import { LogoSectionShort } from "./LogoSectionShort";
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed";
+
+import { themeColors } from "../../helpers/theme/theme.colors";
+//react router dom
+import { useNavigate } from "react-router-dom";
+//Other components
 import { LogOut } from "../LogOut/LogOut";
+import { LogoSection } from "./LogoSection";
+//Redux
+//Redux
+import {  useAppSelector } from "../../app/hooks";
+import { selectUser } from "../../features/userSlice";
 
 interface VerticalMenuProp {
   open: boolean;
 }
 
 export const VerticalMenu = (props: VerticalMenuProp) => {
-  const [open, setOpen] = React.useState(true);
-  const [openZone, setOpenZone] = React.useState(true);
-  const [pageActivated, setPageActivated] = React.useState(0);
-  const [subpageActivated, setSubpageActivated] = React.useState("a");
-  const [subpageZone, setSubPageZone] = React.useState("a");
+  const [open, setOpen] = useState(true);
+  const [openZone, setOpenZone] = useState(true);
+  const [pageActivated, setPageActivated] = useState(0);
+  const [subpageActivated, setSubpageActivated] = useState("a");
+  const [subpageZone, setSubPageZone] = useState("a");
   //Modal
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
-
+  //React Router Dom
   const navigate = useNavigate();
+  //REDUX
+  const usuario = useAppSelector(selectUser);
+  
 
   const handleClick = () => {
     setOpen(!open);
@@ -75,6 +83,8 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       setSubPageZone(subpagezone);
     }
   };
+
+
 
   return (
     <Box
@@ -222,91 +232,56 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           {/* Separador */}
           <Divider sx={{ mt: 1 }} />
         </List>
-        {/* Menu de Zonas */}
-        <ListItem key={"Zones"} disablePadding sx={{ display: "block" }}>
-          {/* Item Zonas Header*/}
-          {/* <Box
-            sx={{
-              borderRadius: 1,
+        {usuario !== "" ? (
+          <></>
+        ) : (
+          <>
+            {" "}
+            {/* Menu de Aréas */}
+            <ListItem key={"Areas"} disablePadding sx={{ display: "block" }}>
+              {/* Item Areas Header*/}
+              <Box
+                sx={{
+                  borderRadius: 1,
 
-              background:
-                pageActivated === 1 ? themeColors.BLUE1 : themeColors.GRAY,
-            }}
-          >
-            <ListItemButton
-              onClick={() => {
-                handleMenuOptionSelected(1);
-                navigate("/home/zonas");
-              }}
-              sx={{
-                minHeight: 48,
-                justifyContent: props.open ? "start" : "center",
-                px: 2.5,
-              }}
-            >
-              <Box>
-                <ListItemIcon
+                  background:
+                    pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
+                  // themeColors.BLUE1
+                }}
+              >
+                <ListItemButton
+                  onClick={() => {
+                    handleMenuOptionSelected(2);
+                    navigate("/home/areas");
+                  }}
                   sx={{
-                    minWidth: 0,
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: props.open ? "start" : "center",
+                    px: 2.5,
                   }}
                 >
-                  <BusinessCenterIcon />
-                </ListItemIcon>
+                  <Box>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <GpsNotFixedIcon />
+                    </ListItemIcon>
+                  </Box>
+
+                  <ListItemText
+                    primary={"ÁREAS"}
+                    sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
+                  />
+                </ListItemButton>
               </Box>
-
-              <ListItemText
-                primary={"ZONAS"}
-                sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
-              />
-            </ListItemButton>
-          </Box> */}
-        </ListItem>
-        {/* Separador */}
-        {/* <Divider sx={{ my: 1 }} /> */}
-        {/* Menu de Aréas */}
-        <ListItem key={"Areas"} disablePadding sx={{ display: "block" }}>
-          {/* Item Areas Header*/}
-          <Box
-            sx={{
-              borderRadius: 1,
-
-              background:
-                pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
-              // themeColors.BLUE1
-            }}
-          >
-            <ListItemButton
-              onClick={() => {
-                handleMenuOptionSelected(2);
-                navigate("/home/areas");
-              }}
-              sx={{
-                minHeight: 48,
-                justifyContent: props.open ? "start" : "center",
-                px: 2.5,
-              }}
-            >
-              <Box>
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    justifyContent: "center",
-                  }}
-                >
-                  <GpsNotFixedIcon />
-                </ListItemIcon>
-              </Box>
-
-              <ListItemText
-                primary={"ÁREAS"}
-                sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
-              />
-            </ListItemButton>
-          </Box>
-        </ListItem>
-        {/* Separador */}
-        <Divider sx={{ my: 1 }} />
+            </ListItem>
+            {/* Separador */}
+            <Divider sx={{ my: 1 }} />
+          </>
+        )}
       </Box>
 
       {/* Menu Configuracion */}

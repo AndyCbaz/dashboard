@@ -35,7 +35,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             element={
               <ProtectedRoutesLogin>
                 <LoginPage />
-              </ProtectedRoutesLogin>
+               </ProtectedRoutesLogin>
             }
           >
             <Route index={true} element={<Cliente />} />

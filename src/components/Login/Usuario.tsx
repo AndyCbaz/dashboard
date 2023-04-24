@@ -52,7 +52,19 @@ export const Usuario = () => {
   );
 
   const handleFunctionIngresarUsuario = () => {
-    dispatch(setUser(form.user));
+    // dispatch(setUser(form.user));
+    if (form.user === "usuarioB") {
+      localStorage.setItem("usuario", form.user);
+      navigate("/home");
+      setErrorStatus(true);
+      setErrorMensaje("");}
+    // } else if (usuario === "") {
+    //   setErrorStatus(false);
+    //   setErrorMensaje("");
+    // } else {
+    //   setErrorMensaje("usuario no registrado");
+    //   setErrorStatus(true);
+    // }
   };
   
   useEffect(() => {

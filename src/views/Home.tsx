@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 // MUI
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,13 +20,21 @@ import { SearchSection } from "../components/Header/SearchSection";
 import { Outlet } from "react-router-dom";
 // Redux
 import { selectUser, selectClient } from "../features/userSlice";
-import { useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
+
+// Funcion para adquirir Datos de la api 1 loginuser
 
 export default function Home(props: HomeProps) {
   const { window } = props;
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const usuario = localStorage.getItem('usuario')
+  const cliente = localStorage.getItem('cliente')
+
+  //redux
+  // const dispatch = useAppDispatch();
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -36,14 +44,7 @@ export default function Home(props: HomeProps) {
   };
   const container =
     window !== undefined ? () => window().document.body : undefined;
-
-    //redux
-    const usuario = useAppSelector(selectUser);
-    const cliente = useAppSelector(selectClient);
-useEffect(()=>{
-  console.log(cliente)
-  console.log(usuario)
-},[])
+    // useEffect(()=>{console.log(data)},[])
 
   return (
     <Box
@@ -107,11 +108,7 @@ useEffect(()=>{
                 component="div"
                 color={themeColors.BLUE1}
               >
-                {cliente !== ""
-                  ? cliente
-                  : usuario !== ""
-                  ? usuario
-                  : ""}
+                {cliente !== "" ? cliente : usuario !== "" ? usuario : ""}
               </Typography>
             </Box>
           </Box>
@@ -153,21 +150,18 @@ useEffect(()=>{
       >
         <VerticalMenu open={open} />
       </DrawerBig>
-
+      {/* Area de Trabajo  */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 2,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          // border: "solid",
           display: "flex",
           mt: 6,
           background: themeColors.GRAY,
         }}
       >
-        {/* <Toolbar /> */}
-
         <Outlet />
       </Box>
     </Box>

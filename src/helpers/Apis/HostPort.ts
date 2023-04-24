@@ -1,2 +1,3 @@
-export const HOST = 'https://retoolapi.dev'
-export const PORT = 'b14wCg'
+export const HOST = 'localhost'
+export const PORT = '6500'
+

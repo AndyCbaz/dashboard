@@ -55,31 +55,38 @@ export const Cliente = () => {
 
   //Ingresar Funcion
   const handleFunctionIngresarCliente = () => {
-    dispatch(setClient(form.client));
-    dispatch(setPassword(form.password));
-    
-  };
-
-  useEffect(() => {
-    if (cliente === "0000000000" && password==='1234') {
+    // dispatch(setClient(form.client));
+    // dispatch(setPassword(form.password));
+    if (form.client === "0000000000" && form.password==='1234') {
       setErrorMensaje("");
       setErrorStatus(false);
       localStorage.setItem("cliente", form.client);
       navigate('/home')
-    } else if(cliente === "" && password===''){
-      setErrorMensaje("");
-      setErrorStatus(false);
-    } else if(cliente !== '0000000000' && password!=='1234'){
-      setErrorMensaje('Datos Incorrectos')
-      setErrorStatus(true)
-    } else if(cliente !== '0000000000'){
-      setErrorMensaje('Cliente no Existente')
-      setErrorStatus(true)
-    }else if(password!=='1234'){
-      setErrorMensaje('Contraseña Incorrecta')
-      setErrorStatus(true)
     }
-  }, [handleFunctionIngresarCliente]);
+    
+  };
+
+  // useEffect(() => {
+  //   if (cliente === "0000000000" && password==='1234') {
+  //     setErrorMensaje("");
+  //     setErrorStatus(false);
+  //     localStorage.setItem("cliente", form.client);
+  //     navigate('/home')
+  //   }
+  //   } else if(cliente === "" && password===''){
+  //     setErrorMensaje("");
+  //     setErrorStatus(false);
+  //   } else if(cliente !== '0000000000' && password!=='1234'){
+  //     setErrorMensaje('Datos Incorrectos')
+  //     setErrorStatus(true)
+  //   } else if(cliente !== '0000000000'){
+  //     setErrorMensaje('Cliente no Existente')
+  //     setErrorStatus(true)
+  //   }else if(password!=='1234'){
+  //     setErrorMensaje('Contraseña Incorrecta')
+  //     setErrorStatus(true)
+  //   }
+  // }, [handleFunctionIngresarCliente]);
 
   return (
     <form onSubmit={handleSubmit}>

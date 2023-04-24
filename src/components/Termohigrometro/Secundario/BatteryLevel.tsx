@@ -27,7 +27,7 @@ export const BatteryLevel = (props: props) => {
             {`${batteryValue}%`}
           </Typography>
           <Battery0BarIcon sx={{ color: themeColors.RED3 }} />
-          <Typography sx={{ color: themeColors.RED3 }}>!</Typography>
+          <Typography sx={{ color: themeColors.RED3 }}></Typography>
         </>
       ) : batteryValue >= 11 && batteryValue < 26 ? (
         <>

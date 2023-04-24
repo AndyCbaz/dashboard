@@ -4,7 +4,14 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { ThemeConfig } from "./config/theme.config";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+  redirect,
+  BrowserRouter
+} from "react-router-dom";
 import Home from "./views/Home";
 
 import { Pesopage } from "./components/Peso/Pesopage";
@@ -24,47 +31,58 @@ import { ProtectedRoutes } from "./routes/RutaProtegida";
 import { ProtectedRoutesLogin } from "./routes/RutaProtegidaLogin";
 import { Areas } from "./components/Areas/Areas/Areas";
 import { Dispositivos } from "./components/Areas/Dispositivos/DispositivosPage";
+import { dataLoader } from "./helpers/Apis/loader";
+
+
+const RoutesTSX = (
+  <>
+    <Route
+      path="/"
+      element={
+        <ProtectedRoutesLogin>
+          <LoginPage />
+        </ProtectedRoutesLogin>
+      }
+    >
+      <Route index={true} element={<Cliente />} />
+      <Route path="loguser" element={<Usuario />} />
+    </Route>
+    <Route
+      path="home/*"
+      element={
+        <ProtectedRoutes>
+          <Home />
+        </ProtectedRoutes>
+      }
+      
+    >
+      <Route element={<DevicePage />} index={true} loader={dataLoader} />
+      <Route element={<Pesopage />} path="peso" />
+      <Route element={<LogOut />} path="logout" />
+      <Route element={<Configuracion />} path="settings" />
+      <Route element={<HomeResultados />} path="resultados" loader={dataLoader} />
+      <Route element={<Zonas />} path="zonas" />
+      <Route element={<AreasPage />} path="areas/*">
+        <Route element={<Areas />} index={true} />
+        <Route element={<Zonas />} path="zonas/" />
+        <Route element={<Dispositivos />} path="zonas/dispositivos/" />
+      </Route>
+    </Route>
+
+    <Route path="*" element={<NotFound />} />
+    
+  </>
+);
+
+const routes = createRoutesFromElements(RoutesTSX);
+const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  // <React.StrictMode>
   <Provider store={store}>
     <ThemeConfig>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoutesLogin>
-                <LoginPage />
-               </ProtectedRoutesLogin>
-            }
-          >
-            <Route index={true} element={<Cliente />} />
-            <Route path="loguser" element={<Usuario />} />
-          </Route>
-          <Route
-            path="home/*"
-            element={
-              <ProtectedRoutes>
-                <Home />
-              </ProtectedRoutes>
-            }
-          >
-            <Route element={<Pesopage />} path="peso" />
-            <Route element={<LogOut />} path="logout" />
-            <Route element={<Configuracion />} path="settings" />
-            <Route element={<DevicePage />} index={true} />
-            <Route element={<HomeResultados />} path="resultados" />
-            <Route element={<Zonas />} path="zonas" />
-            <Route element={<AreasPage />} path="areas/*">
-              <Route element={<Areas />} index={true} />
-              <Route element={<Zonas />} path="zonas/" />
-              <Route element={<Dispositivos />} path="zonas/dispositivos/" />
-            </Route>
-          </Route>
-
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </ThemeConfig>
   </Provider>
+  // </React.StrictMode>
 );

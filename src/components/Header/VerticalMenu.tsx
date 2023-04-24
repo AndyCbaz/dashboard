@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 //MUI
 import Box from "@mui/material/Box";
 import {
@@ -31,8 +31,7 @@ import { useNavigate } from "react-router-dom";
 import { LogOut } from "../LogOut/LogOut";
 import { LogoSection } from "./LogoSection";
 //Redux
-//Redux
-import {  useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { selectUser } from "../../features/userSlice";
 
 interface VerticalMenuProp {
@@ -52,8 +51,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
   //React Router Dom
   const navigate = useNavigate();
   //REDUX
-  const usuario = useAppSelector(selectUser);
-  
+  const usuario = localStorage.getItem('usuario');
 
   const handleClick = () => {
     setOpen(!open);
@@ -83,8 +81,6 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       setSubPageZone(subpagezone);
     }
   };
-
-
 
   return (
     <Box
@@ -285,51 +281,59 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       </Box>
 
       {/* Menu Configuracion */}
-      <Box
-        sx={{
-          background:
-            pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
-          borderRadius: 2,
-          mx: 1,
-          my: 0.5,
-        }}
-      >
-        <ListItem
-          key={"Configuración"}
-          disablePadding
-          sx={{ display: "block" }}
-        >
-          <Box>
-            <ListItemButton
-              onClick={() => {
-                handleMenuOptionSelected(3);
-                navigate("/home/settings");
-              }}
-              sx={{
-                minHeight: 48,
-                justifyContent: props.open ? "initial" : "center",
-                px: 2.5,
-                display: "flex",
-                gap: 0,
-              }}
+      {usuario !== "" ? (
+        <></>
+      ) : (
+        <>
+          {" "}
+          <Box
+            sx={{
+              background:
+                pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
+              borderRadius: 2,
+              mx: 1,
+              my: 0.5,
+            }}
+          >
+            <ListItem
+              key={"Configuración"}
+              disablePadding
+              sx={{ display: "block" }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  // mr: props.open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={"Configuración"}
-                sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
-              />
-            </ListItemButton>
+              <Box>
+                <ListItemButton
+                  onClick={() => {
+                    handleMenuOptionSelected(3);
+                    navigate("/home/settings");
+                  }}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: props.open ? "initial" : "center",
+                    px: 2.5,
+                    display: "flex",
+                    gap: 0,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      // mr: props.open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Configuración"}
+                    sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
+                  />
+                </ListItemButton>
+              </Box>
+            </ListItem>
           </Box>
-        </ListItem>
-      </Box>
+        </>
+      )}
+
       {/* Menu LogOut */}
       <Box
         sx={{

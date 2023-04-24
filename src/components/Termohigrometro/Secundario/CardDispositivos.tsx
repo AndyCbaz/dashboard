@@ -12,35 +12,71 @@ import ShowerIcon from "@mui/icons-material/Shower";
 import { BatteryLevel } from "./BatteryLevel";
 import { RadialIndicadorTemperatura } from "./IndicadoresRadiales/RadialIndicadorTemperatura";
 import { RadialIndicadorHumedad } from "./IndicadoresRadiales/RadialIndicadorHumedad";
+import { getDataDevicesDetalle } from "../../../services/Results/getDataDeviceDetalle";
+// Redux
+import {  useAppDispatch } from "../../../app/hooks";
+import { setDataResultDevice } from "../../../features/clientApiDataSlice";
 
 interface CardProp {
-  index: number;
-  state: boolean;
+  idmac: number;
+  iddispositivo:number;
+  state: number;
+  nombre: string;
+  senial:number;
   dataT: boolean;
   dataH: boolean;
+  zona:string;
+  bateria:number;
+  actualTemp:number;
+  actualHum: number;
+  tmax: number| null ;
+  tmin: number | null;
+  tprom: number | null;
+  hmax: number | null;
+  hmin: number | null;
+  hprom: number | null;
 }
 
 export const CardDispositivos: React.FC<CardProp> = ({
-  index,
+  iddispositivo,
+  idmac,
+  nombre,
+  bateria,
+  senial,
   state,
   dataT,
   dataH,
+  zona,
+  actualTemp,
+  actualHum,
+  tmax,
+  tmin,
+  tprom,
+  hmax,
+  hmin,
+  hprom,
 }) => {
+ const dispatch = useAppDispatch();
+  const handleClickAPIResult = () => {
+    getDataDevicesDetalle(idmac,iddispositivo)
+    .then((data)=>{dispatch(setDataResultDevice(data))})
+  }
+
   return (
     <Card
-      key={index}
       sx={{
         display: "flex",
         boxShadow: 10,
         borderRadius: 4,
-        "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
-        pt: 1,
-        pb: 1.5,
-        px: 2,
+        "&:hover": { transform: "scale3d(1.02, 1.02, 1)",  },
+        // pt: 1,
+        // pb: 1.5,
+        // px: 2,
       }}
     >
       <CardActionArea
-        sx={{ display: "flex", flexDirection: "column" }}
+        sx={{ display: "flex", flexDirection: "column", pt:1,pb:1.5,px:2 }}
+        onClick={handleClickAPIResult}
         component={Link}
         to="/home/resultados"
       >
@@ -52,7 +88,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
           <Box sx={{ flexGrow: 1, pl: 2, display: "flex" }}>
             <CircleIcon
               sx={{
-                color: state ? themeColors.RED3 : themeColors.GREEN,
+                color: state!==1 ? themeColors.RED3 : themeColors.GREEN,
                 borderRadius: 4,
               }}
             />
@@ -62,7 +98,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
             <Box
               sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
             >
-              <BatteryLevel value={95} />
+              <BatteryLevel value={bateria} />
             </Box>
             {/* Indicador de Señal */}
             <Box
@@ -74,7 +110,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                 alignItems: "center",
               }}
             >
-              <RatingCustom value={100} />
+              <RatingCustom value={senial} />
             </Box>
           </Box>
         </Box>
@@ -92,22 +128,23 @@ export const CardDispositivos: React.FC<CardProp> = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
+              p:0.8
             }}
           >
             <Box sx={{ display: "flex", flexGrow: 1, pl: 1 }}>
               <Typography variant="body1" sx={{ textAlign: "center" }}>
-                Termohigrómetro
+                {nombre}
               </Typography>
             </Box>
             <Box sx={{ display: "flex", flexGrow: 2 }}>
-              <Typography variant="body2" sx={{ textAlign: "center" }}>
-                Zona{" "}
+              <Typography variant="body1" sx={{ textAlign: "center" }}>
+                {zona}
               </Typography>
             </Box>
           </Box>
           <Divider />
           {/* Contenedor de Variables */}
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box sx={{ display: "flex", justifyContent: "center", gap:0.5 }}>
             {/* Variable Temperatura */}
             <Box
               sx={{
@@ -146,7 +183,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   >
                     {/* MAXIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      22°C <br />{" "}
+                      {tmax}°C <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -159,7 +196,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* MINIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      48°C <br />
+                      {tmin}°C <br />
                       <span
                         style={{
                           fontSize: "10px",
@@ -172,7 +209,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* PROMEDIO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      50°C <br />{" "}
+                      {tprom}°C <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -187,7 +224,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   {/* Indicador Circular  Resumen*/}
                   <Box sx={{ display: "flex", alignItems: " center" }}>
                     <RadialIndicadorTemperatura
-                      valor={59}
+                      valor={actualTemp}
                       circleWidth={70}
                       unidad="°C"
                     />
@@ -257,7 +294,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   >
                     {/* MAXIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      40% <br />{" "}
+                      {hmax}% <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -270,7 +307,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* MINIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      35% <br />
+                      {hmin}% <br />
                       <span
                         style={{
                           fontSize: "10px",
@@ -283,7 +320,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* PROMEDIO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      38% <br />{" "}
+                      {hprom}% <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -305,7 +342,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     }}
                   >
                     <RadialIndicadorHumedad
-                      valor={28}
+                      valor={actualHum}
                       circleWidth={70}
                       unidad="%"
                     />

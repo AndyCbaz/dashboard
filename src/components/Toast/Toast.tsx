@@ -4,7 +4,7 @@ import { ToastContainer, toast} from 'react-toastify'
 const Toast = () => {
   return (
     <Box >
-        <ToastContainer position="top-center" toastStyle={{borderRadius:15,padding:4}}/>
+        <ToastContainer position="top-center" toastStyle={{borderRadius:15,padding:4,boxShadow:'10px'}}/>
     </Box>
   )
 }

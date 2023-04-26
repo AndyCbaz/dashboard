@@ -16,10 +16,10 @@ export const userDataSlice = createSlice({
   name: "userDataGlobal",
   initialState,
   reducers: {
-    setUserDataGlobal: (state, action: PayloadAction<IData>) => {
+    setUserDataGlobal: (state, action: PayloadAction<any>) => {
       state.data = action.payload;
     },
-    setDevicesResumen: (state, action: PayloadAction<string>) => {
+    setDevicesResumen: (state, action: PayloadAction<any>) => {
       state.devicesresumen = action.payload;
     },
   },

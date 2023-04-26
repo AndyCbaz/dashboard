@@ -25,14 +25,14 @@ export const LoginPage = () => {
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {/* Logo Empresa */}
           <Box sx={{ display: "flex", justifyContent:'center' }}>
-            <img src="/logo2.png" style={{ width: "350px" }} />
+            <img src="/logo2.png" style={{ width: "200px" }} />
           </Box>
           {/* Mensaje */}
-          <Box sx={{ display: "flex", my: 2, justifyContent: "center" }}>
-            <Typography variant="h6">
+          {/* <Box sx={{ display: "flex", my: 2, justifyContent: "center" }}>
+            <Typography variant="body2">
               Ingrese sus credenciales para continuar
             </Typography>
-          </Box>
+          </Box> */}
           {/* Inputs */}
           <Outlet/>
 

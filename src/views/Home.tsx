@@ -44,6 +44,7 @@ import {
   selectSearchDisplayState,
   setToastDisplay,
 } from "../features/headerDisplay";
+//toast
 import Toast from "../components/Toast/Toast";
 import { toast } from "react-toastify";
 
@@ -72,6 +73,7 @@ export default function Home(props: HomeProps) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -85,7 +87,7 @@ export default function Home(props: HomeProps) {
 
   useEffect(() => {
     if (dataUserGlobal.length === 0 || dataDevicesResumen.length === 0) {
-      handleShowServerToast();
+      // handleShowServerToast();
     } else {
       if (cliente !== "") {
         if (
@@ -95,7 +97,7 @@ export default function Home(props: HomeProps) {
         ) {
           getDataLoginClient(cliente, clave).then((data) => {
             dispatch(setDataCliente(data));
-          });
+          }).catch(()=>{handleShowServerToast()});
         }
       } else if (usuario !== "") {
         if (
@@ -103,7 +105,8 @@ export default function Home(props: HomeProps) {
           dataUsuario.idusuario === "" &&
           dataUsuario.nombre === ""
         ) {
-          getDataLoginUser(usuario).then((data) => {
+          getDataLoginUser(usuario)
+          .then((data) => {
             dispatch(setDataUsuario(data));
             getDataUser(data.idusuario, data.idcliente).then((data) => {
               dispatch(setUserDataGlobal(data));
@@ -121,12 +124,12 @@ export default function Home(props: HomeProps) {
                     ).then((data) => {
                       devices.push(data);
                       dispatch(setDevicesResumen(devices));
-                    });
+                    }).catch(()=>{handleShowServerToast()});
                   }
                 }
               }
-            });
-          });
+            }).catch(()=>{handleShowServerToast()});
+          }).catch(()=>{handleShowServerToast()});
         }
       }
     }

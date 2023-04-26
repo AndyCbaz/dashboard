@@ -17,6 +17,9 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { ExcelDatos } from "./ExcelDatos";
 import { RadialIndicadorTemperatura } from "./IndicadoresRadiales/RadialIndicadorTemperatura";
 import { RadialIndicadorHumedad } from "./IndicadoresRadiales/RadialIndicadorHumedad";
+//toast
+import Toast from "../../../components/Toast/Toast";
+import { toast } from "react-toastify";
 //redux
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
@@ -24,7 +27,10 @@ import {
   selectDatosResultConsulta,
   setDataResultDevice,
 } from "../../../features/userResultsSlice";
-import { selectSearchDisplayState,setSearchDisplayState } from "../../../features/headerDisplay";
+import {
+  selectSearchDisplayState,
+  setSearchDisplayState,
+} from "../../../features/headerDisplay";
 //time
 import date from "date-and-time";
 import { getDataDevicesDetalle } from "../../../services/Results/getDataDeviceDetalle";
@@ -64,8 +70,17 @@ export const HomeResultados = () => {
     dayjs(fechaFinalEdit)
   );
   ////
-  const fi = new Date(fechaInicialEdit);
-  const ff = new Date(fechaFinalEdit);
+let fi;
+let ff;
+  // const ff = new Date(fechaFinalEdit);
+  if (dataResult.length === 0) {
+     fi = new Date(fechaInicialEdit);
+     ff = new Date(fechaFinalEdit);
+  }else{
+     fi = new Date(dataResult[0].fecha);
+     ff = new Date(dataResult[dataResult.length - 1].fecha);
+  }
+  
   const fechaRecibidaFormato = dataResult
     .map((data: any) => data["fecha"])
     .map((data: any) => {
@@ -195,7 +210,7 @@ export const HomeResultados = () => {
   let horaF = "";
 
   if (fechaInicialEdit === "") {
-    console.log("Rango de tiempo inicial");
+    // console.log("Rango de tiempo inicial");
     let fechautc = date.format(new Date(), "YYYY/MM/DD", true);
     let formatUTC = date.parse(fechautc, "YYYY/MM/DD");
     // let fechaEcuador = date.addHours(formatUTC, -5);
@@ -210,40 +225,178 @@ export const HomeResultados = () => {
     horaI = fechaInicialEdit;
     horaF = fechaFinalEdit;
   }
+  const handleShowServerToast = () => {
+    toast.warning("Servidor sin Conexión");
+  };
   const handleSearchNewDate = () => {
-    console.log(horaI);
-    console.log(horaF);
     getDataDevicesDetalle(
       dataConsulta.idgateway,
       dataConsulta.iddispositivo,
       horaI,
       horaF
-    ).then((data) => {
-      if (data !== undefined) {
-        dispatch(setDataResultDevice(data));
-        console.log(data);
-      }
-    });
+    )
+      .then((data) => {
+        if (data !== undefined) {
+          dispatch(setDataResultDevice(data));
+          console.log(data);
+        }
+      })
+      .catch(() => {
+        handleShowServerToast();
+      });
   };
 
-  useEffect(() => {
-    getDataDevicesDetalle(dataConsulta.idgateway, dataConsulta.iddispositivo, horaI, horaF)
+
+
+  const handleTresMesesSearch = () => {
+    //dia inicial
+    let fechaEcuador = date.addDays(formatUTC, -90);
+    let year = date.format(fechaEcuador, "YYYY");
+    let month = date.format(fechaEcuador, "MM");
+    let day = date.format(fechaEcuador, "DD");
+    horaI = `${year}-${month}-${day} 08:00:00`;
+    //dia final
+    let fechaEcuadorfinal = date.addHours(formatUTC, 0);
+    let yearf = date.format(fechaEcuadorfinal, "YYYY");
+    let monthf = date.format(fechaEcuadorfinal, "MM");
+    let dayf = date.format(fechaEcuadorfinal, "DD");
+    horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
+    console.log(horaI)
+    console.log(horaF)
+    getDataDevicesDetalle(
+      dataConsulta.idgateway,
+      dataConsulta.iddispositivo,
+      horaI,
+      horaF
+    )
       .then((data) => {
-        if (data !== undefined) { 
+        if (data !== undefined) {
           dispatch(setDataResultDevice(data));
-          console.log(data)
+          console.log(data);
         }
-        console.log(data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        handleShowServerToast();
       });
-      if(location.href === 'http://localhost:5173/home/resultados'){
-        dispatch(setSearchDisplayState(false))
-      }
-      
+  };
+  const handleUnMesSearch = () => {
+    //dia inicial
+    let fechaEcuador = date.addDays(formatUTC, -30);
+    let year = date.format(fechaEcuador, "YYYY");
+    let month = date.format(fechaEcuador, "MM");
+    let day = date.format(fechaEcuador, "DD");
+    horaI = `${year}-${month}-${day} 08:00:00`;
+    //dia final
+    let fechaEcuadorfinal = date.addHours(formatUTC, 0);
+    let yearf = date.format(fechaEcuadorfinal, "YYYY");
+    let monthf = date.format(fechaEcuadorfinal, "MM");
+    let dayf = date.format(fechaEcuadorfinal, "DD");
+    horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
+    console.log(horaI)
+    console.log(horaF)
+    getDataDevicesDetalle(
+      dataConsulta.idgateway,
+      dataConsulta.iddispositivo,
+      horaI,
+      horaF
+    )
+      .then((data) => {
+        if (data !== undefined) {
+          dispatch(setDataResultDevice(data));
+          console.log(data);
+        }
+      })
+      .catch(() => {
+        handleShowServerToast();
+      });
+  };
+  const handleTwoWeeksSearch = () => {
+    //dia inicial
+    let fechaEcuador = date.addDays(formatUTC, -15);
+    let year = date.format(fechaEcuador, "YYYY");
+    let month = date.format(fechaEcuador, "MM");
+    let day = date.format(fechaEcuador, "DD");
+    horaI = `${year}-${month}-${day} 08:00:00`;
+    //dia final
+    let fechaEcuadorfinal = date.addHours(formatUTC, 0);
+    let yearf = date.format(fechaEcuadorfinal, "YYYY");
+    let monthf = date.format(fechaEcuadorfinal, "MM");
+    let dayf = date.format(fechaEcuadorfinal, "DD");
+    horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
+    console.log(horaI)
+    console.log(horaF)
+    getDataDevicesDetalle(
+      dataConsulta.idgateway,
+      dataConsulta.iddispositivo,
+      horaI,
+      horaF
+    )
+      .then((data) => {
+        if (data !== undefined) {
+          dispatch(setDataResultDevice(data));
+          console.log(data);
+        }
+      })
+      .catch(() => {
+        handleShowServerToast();
+      });
+  };
+  const handleOneWeekSearch = () => {
+    //dia inicial
+    let fechaEcuador = date.addDays(formatUTC, -7);
+    let year = date.format(fechaEcuador, "YYYY");
+    let month = date.format(fechaEcuador, "MM");
+    let day = date.format(fechaEcuador, "DD");
+    horaI = `${year}-${month}-${day} 08:00:00`;
+    //dia final
+    let fechaEcuadorfinal = date.addHours(formatUTC, 0);
+    let yearf = date.format(fechaEcuadorfinal, "YYYY");
+    let monthf = date.format(fechaEcuadorfinal, "MM");
+    let dayf = date.format(fechaEcuadorfinal, "DD");
+    horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
+    console.log(horaI)
+    console.log(horaF)
+    getDataDevicesDetalle(
+      dataConsulta.idgateway,
+      dataConsulta.iddispositivo,
+      horaI,
+      horaF
+    )
+      .then((data) => {
+        if (data !== undefined) {
+          dispatch(setDataResultDevice(data));
+          console.log(data);
+        }
+      })
+      .catch(() => {
+        handleShowServerToast();
+      });
+  };
+
+  //useefect
+  useEffect(() => {
+    getDataDevicesDetalle(
+      dataConsulta.idgateway,
+      dataConsulta.iddispositivo,
+      horaI,
+      horaF
+    )
+      .then((data) => {
+        if (data !== undefined) {
+          dispatch(setDataResultDevice(data));
+        }
+      })
+      .catch(() => {
+        handleShowServerToast();
+      });
+    if (location.href === "http://localhost:5173/home/resultados") {
+      dispatch(setSearchDisplayState(false));
+    }
   }, []);
+
   return (
+    <>
+    <Toast />
     <Box
       sx={{
         display: "flex",
@@ -252,6 +405,7 @@ export const HomeResultados = () => {
         width: "100%",
       }}
     >
+      
       {/* GRAFICA */}
       {/* Cuadro de Grafica */}
       <Box
@@ -316,6 +470,7 @@ export const HomeResultados = () => {
                 sx={{ display: "flex", gap: 1 }}
               >
                 <Button
+                  onClick={handleTresMesesSearch}
                   sx={{
                     "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
                   }}
@@ -323,6 +478,7 @@ export const HomeResultados = () => {
                   3M
                 </Button>
                 <Button
+                  onClick={handleUnMesSearch}
                   sx={{
                     "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
                   }}
@@ -330,13 +486,15 @@ export const HomeResultados = () => {
                   1M
                 </Button>
                 <Button
+                  onClick={handleTwoWeeksSearch}
                   sx={{
                     "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
                   }}
                 >
-                  1S
+                  2S
                 </Button>
                 <Button
+                  onClick={handleOneWeekSearch}
                   sx={{
                     "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
                   }}
@@ -700,6 +858,8 @@ export const HomeResultados = () => {
         </Paper>
         {/* </Box> */}
       </Modal>
+      
     </Box>
+    </>
   );
 };

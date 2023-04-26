@@ -31,6 +31,10 @@ import { setSearchDisplayState } from "../../../features/headerDisplay";
 import { getDataLoginUser } from "../../../services/DevicePage/getDataLoginUser";
 import { getDataDevicesResumen } from "../../../services/DevicePage/getDataDevicesResumen";
 import { Loader } from "../../Loader/Loader";
+//toast
+import Toast from "../../../components/Toast/Toast";
+import { toast } from "react-toastify";
+
 
 export const DevicePage = () => {
   //redux
@@ -41,7 +45,9 @@ export const DevicePage = () => {
   const dataDevicesResumen = useAppSelector(selectDevicesResumen);
 
 
-
+  const handleShowServerToast = () => {
+    toast.warning("Servidor sin Conexión");
+  };
 
 
   useEffect(() => {
@@ -67,20 +73,16 @@ export const DevicePage = () => {
                     ).then((data) => {
                       devices.push(data);
                       dispatch(setDevicesResumen(devices));
-                    });
+                    }).catch(()=>{handleShowServerToast()});
                   }
                 }
               }
             })
-            .catch((error) => {
-              console.error(error);
-            });
+            .catch(()=>{handleShowServerToast()});
         })
-        .catch((error) => {
-          console.error(error);
-        });
+        .catch(()=>{handleShowServerToast()});
     }
-    console.log(dataDevicesResumen);
+    // console.log(dataDevicesResumen);
   }, [usuario]);
 
   return (
@@ -144,6 +146,7 @@ export const DevicePage = () => {
           </Box>
         </>
       )}
+
     </Box>
   );
 };

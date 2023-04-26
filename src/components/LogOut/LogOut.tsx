@@ -9,9 +9,10 @@ import { themeColors } from "../../helpers/theme/theme.colors";
 //REDUX
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setClientCI, setUsuario, setClave } from "../../features/userSlice";
-import { setUserDataGlobal } from "../../features/userDataSlice";
+import { setDevicesResumen, setUserDataGlobal } from "../../features/userDataSlice";
 //React Router Dom
 import { useNavigate } from "react-router-dom";
+import { setDataResultDevice } from "../../features/userResultsSlice";
 
 
 export const LogOut = () => {
@@ -27,6 +28,8 @@ export const LogOut = () => {
     dispatch(setClientCI(""));
     dispatch(setClave(""));
     dispatch(setUsuario(""));
+    dispatch(setUserDataGlobal([]));
+    dispatch(setDevicesResumen([]))
     navigate("/");
   };
 

@@ -66,6 +66,9 @@ export const Usuario = () => {
   const handleShowLoginUserToast = () => {
     toast.error("Usuario no Valido");
   };
+  const handleShowServerToast = () => {
+    toast.warning("Servidor sin Conexión");
+  };
 
   const handleFunctionIngresarUsuario = () => {
     // dispatch(setUser(form.user));
@@ -93,20 +96,24 @@ export const Usuario = () => {
                     getDataDevicesResumen(
                       data.areas[i].zonas[j].dispositivos[k].idmacgateway,
                       data.areas[i].zonas[j].dispositivos[k].iddispositivo
-                    ).then((data) => {
-                      devices.push(data);
-                      dispatch(setDevicesResumen(devices));
-                    });
+                    )
+                      .then((data) => {
+                        devices.push(data);
+                        dispatch(setDevicesResumen(devices));
+                      })
+                      .catch(() => {
+                        // handleShowServerToast();
+                      });
                   }
                 }
               }
             })
-            .catch((error) => {
-              console.error(error);
+            .catch(() => {
+              // handleShowServerToast();
             });
         })
-        .catch((error) => {
-          console.error(error);
+        .catch(() => {
+          // handleShowServerToast();
         });
       navigate("/home");
     } else {

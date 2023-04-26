@@ -21,11 +21,11 @@ export const LoginPage = () => {
         background: themeColors.GRAY2,
       }}
     >
-      <Card sx={{ borderRadius: 4, p: 6 }}>
+      <Card sx={{ borderRadius: 12, p: 6, boxShadow:4 }}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {/* Logo Empresa */}
-          <Box sx={{ display: "flex" }}>
-            <img src="/logo2.png" style={{ width: "400px" }} />
+          <Box sx={{ display: "flex", justifyContent:'center' }}>
+            <img src="/logo2.png" style={{ width: "350px" }} />
           </Box>
           {/* Mensaje */}
           <Box sx={{ display: "flex", my: 2, justifyContent: "center" }}>

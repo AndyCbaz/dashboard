@@ -13,19 +13,17 @@ export const CardUsuarios = () => {
         boxShadow: 10,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
-        pt: 1,
-        pb: 1.5,
-        px: 2,
+
       }}
     >
-      <CardActionArea>
+      <CardActionArea sx={{pt:1,pb:1.5,px:2}}>
 
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <PeopleAltIcon
             sx={{ width: "70px", height: "70px", color: themeColors.BLUE1 }}
           />
         </Box>
-        <Box>
+        <Box sx={{textAlign:'center'}}>
           <Typography>USUARIOS</Typography>
         </Box>
  

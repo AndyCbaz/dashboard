@@ -1,49 +1,82 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../app/store";
 
-export interface UserState {
-  valueClient: string;
-  valueUser: string;
-  valuePasword: string;
+export interface IDataCliente {
+  idcliente: number | string;
+  nombre: string;
+  empresa: string;
+}
+interface IDataUsuario {
+  idusuario: number | string;
+  idcliente: string;
+  nombre: string;
 }
 
-let initialUser = localStorage.getItem('cliente');
-if(initialUser===null) initialUser=""
-let initialClient = localStorage.getItem('usuario')
-if(initialClient===null) initialClient=""
+export interface UserState {
+  clienteCI: string;
+  usuario: string;
+  clave: string;
+  datacliente: IDataCliente;
+  datausuario: IDataUsuario;
+}
+
+let initialUser = localStorage.getItem("cliente");
+if (initialUser === null) initialUser = "";
+let initialClient = localStorage.getItem("usuario");
+if (initialClient === null) initialClient = "";
+let initialPassword = localStorage.getItem("clave");
+if (initialPassword === null) initialPassword = "";
 
 const initialState: UserState = {
-  valueClient: initialUser,
-  valueUser: initialClient,
-  valuePasword: "",
+  clienteCI: initialUser,
+  usuario: initialClient,
+  clave: initialPassword,
+  datacliente: {
+    idcliente: "",
+    nombre: "",
+    empresa: "",
+  },
+  datausuario: {
+    idusuario: "",
+    idcliente: "",
+    nombre:"",
+  },
 };
 
 export const userSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<string>) => {
-      state.valueUser = action.payload;
+    setClientCI: (state, action: PayloadAction<string>) => {
+      state.clienteCI = action.payload;
     },
-    setPassword: (state, action: PayloadAction<string>) => {
-      state.valuePasword = action.payload;
+    setUsuario: (state, action: PayloadAction<string>) => {
+      state.usuario = action.payload;
     },
-    setClient: (state, action: PayloadAction<string>) => {
-      state.valueClient = action.payload;
+    setClave: (state, action: PayloadAction<string>) => {
+      state.clave = action.payload;
     },
-    removeUser: (state) => {
-      state.valueUser = "";
+    setDataCliente: (state, action: PayloadAction<IDataCliente>) => {
+      state.datacliente = action.payload;
     },
-    removeClient: (state) => {
-      state.valueClient = "";
+    setDataUsuario: (state, action: PayloadAction<IDataUsuario>) => {
+      state.datausuario = action.payload;
     },
   },
 });
 
-export const { setUser, setPassword, setClient, removeUser, removeClient } = userSlice.actions;
+export const {
+  setUsuario,
+  setClientCI,
+  setClave,
+  setDataCliente,
+  setDataUsuario,
+} = userSlice.actions;
 
-export const selectUser = (state: RootState) => state.login.valueUser;
-export const selectPassword = (state: RootState) => state.login.valuePasword;
-export const selectClient = (state: RootState) => state.login.valueClient;
+export const selectClientCI = (state: RootState) => state.login.clienteCI;
+export const selectUsuario = (state: RootState) => state.login.usuario;
+export const selectClave = (state: RootState) => state.login.clave;
+export const selectDataCliente = (state: RootState) => state.login.datacliente;
+export const selectDataUsuario = (state: RootState) => state.login.datausuario;
 
 export default userSlice.reducer;

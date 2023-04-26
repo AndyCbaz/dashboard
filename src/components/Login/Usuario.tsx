@@ -13,17 +13,30 @@ import useForm from "../../hooks/useForm";
 import { themeColors } from "../../helpers/theme/theme.colors";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectUser, setUser } from "../../features/userSlice";
+import {
+  selectUsuario,
+  setUsuario,
+  setClave,
+  setClientCI,
+  setDataUsuario,
+} from "../../features/userSlice";
+import { setDevicesResumen } from "../../features/userDataSlice";
 
 //React Router Dom
 import { useNavigate } from "react-router-dom";
 //Helpers
 import { initialValues } from "../../helpers/Login/formProps";
+import { getDataLoginUser } from "../../services/DevicePage/getDataLoginUser";
+import { getDataUser } from "../../services/DevicePage/getDataUser";
+import { setUserDataGlobal } from "../../features/userDataSlice";
+import { getDataDevicesResumen } from "../../services/DevicePage/getDataDevicesResumen";
+import Toast from "../../components/Toast/Toast";
+import { toast } from "react-toastify";
 
 export const Usuario = () => {
   //Redux
   const dispatch = useAppDispatch();
-  const usuario = useAppSelector(selectUser);
+  const usuario = useAppSelector(selectUsuario);
   //React router dom
   const navigate = useNavigate();
   //Formulario
@@ -50,14 +63,55 @@ export const Usuario = () => {
     initialValues,
     onValidate
   );
+  const handleShowLoginUserToast = () => {
+    toast.error("Usuario no Valido");
+  };
 
   const handleFunctionIngresarUsuario = () => {
     // dispatch(setUser(form.user));
     if (form.user === "usuarioB") {
       localStorage.setItem("usuario", form.user);
-      navigate("/home");
       setErrorStatus(true);
-      setErrorMensaje("");}
+      setErrorMensaje("");
+      dispatch(setClave(""));
+      dispatch(setUsuario(form.user));
+      dispatch(setClientCI(""));
+      getDataLoginUser(form.user)
+        .then((data) => {
+          dispatch(setDataUsuario(data));
+          getDataUser(data.idusuario, data.idcliente)
+            .then((data) => {
+              dispatch(setUserDataGlobal(data));
+              let devices: any = [];
+              for (let i = 0; i < data.areas.length; i++) {
+                for (let j = 0; j < data.areas[i].zonas.length; j++) {
+                  for (
+                    let k = 0;
+                    k < data.areas[i].zonas[j].dispositivos.length;
+                    k++
+                  ) {
+                    getDataDevicesResumen(
+                      data.areas[i].zonas[j].dispositivos[k].idmacgateway,
+                      data.areas[i].zonas[j].dispositivos[k].iddispositivo
+                    ).then((data) => {
+                      devices.push(data);
+                      dispatch(setDevicesResumen(devices));
+                    });
+                  }
+                }
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      navigate("/home");
+    } else {
+      handleShowLoginUserToast();
+    }
     // } else if (usuario === "") {
     //   setErrorStatus(false);
     //   setErrorMensaje("");
@@ -66,21 +120,21 @@ export const Usuario = () => {
     //   setErrorStatus(true);
     // }
   };
-  
-  useEffect(() => {
-    if (usuario === "usuarioB") {
-      localStorage.setItem("usuario", usuario);
-      navigate("/home");
-      setErrorStatus(true);
-      setErrorMensaje("");
-    } else if (usuario === "") {
-      setErrorStatus(false);
-      setErrorMensaje("");
-    } else {
-      setErrorMensaje("usuario no registrado");
-      setErrorStatus(true);
-    }
-  }, [handleFunctionIngresarUsuario]);
+
+  // useEffect(() => {
+  //   if (usuario === "usuarioB") {
+  //     localStorage.setItem("usuario", usuario);
+  //     navigate("/home");
+  //     setErrorStatus(true);
+  //     setErrorMensaje("");
+  //   } else if (usuario === "") {
+  //     setErrorStatus(false);
+  //     setErrorMensaje("");
+  //   } else {
+  //     setErrorMensaje("usuario no registrado");
+  //     setErrorStatus(true);
+  //   }
+  // }, [handleFunctionIngresarUsuario]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -117,12 +171,13 @@ export const Usuario = () => {
         </Box>
         {errorStatus ? (
           <Box>
-            <Typography color='error'>{errorMensaje}</Typography>
+            <Typography color="error">{errorMensaje}</Typography>
           </Box>
         ) : (
           <></>
         )}
       </Box>
+      <Toast />
     </form>
   );
 };

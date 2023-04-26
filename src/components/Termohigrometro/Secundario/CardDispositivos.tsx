@@ -14,22 +14,24 @@ import { RadialIndicadorTemperatura } from "./IndicadoresRadiales/RadialIndicado
 import { RadialIndicadorHumedad } from "./IndicadoresRadiales/RadialIndicadorHumedad";
 import { getDataDevicesDetalle } from "../../../services/Results/getDataDeviceDetalle";
 // Redux
-import {  useAppDispatch } from "../../../app/hooks";
-import { setDataResultDevice } from "../../../features/clientApiDataSlice";
+import { useAppDispatch } from "../../../app/hooks";
+import { setDataResultDevice } from "../../../features/userResultsSlice";
+//time
+import date from "date-and-time";
 
 interface CardProp {
   idmac: number;
-  iddispositivo:number;
+  iddispositivo: number;
   state: number;
   nombre: string;
-  senial:number;
+  senial: number;
   dataT: boolean;
   dataH: boolean;
-  zona:string;
-  bateria:number;
-  actualTemp:number;
+  zona: string;
+  bateria: number;
+  actualTemp: number;
   actualHum: number;
-  tmax: number| null ;
+  tmax: number | null;
   tmin: number | null;
   tprom: number | null;
   hmax: number | null;
@@ -56,11 +58,28 @@ export const CardDispositivos: React.FC<CardProp> = ({
   hmin,
   hprom,
 }) => {
- const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const handleClickAPIResult = () => {
-    getDataDevicesDetalle(idmac,iddispositivo)
-    .then((data)=>{dispatch(setDataResultDevice(data))})
-  }
+    // Formato de fechas y horas sin modificacion de hora ===>>>
+    let fechautc = date.format(new Date(), "YYYY/MM/DD", true);
+    let formatUTC = date.parse(fechautc, "YYYY/MM/DD");
+    let fechaEcuador = date.addHours(formatUTC, 0);
+    let year = date.format(fechaEcuador, "YYYY");
+    let month = date.format(fechaEcuador, "MM");
+    let day = date.format(fechaEcuador, "DD");
+
+    getDataDevicesDetalle(
+      idmac,
+      iddispositivo,
+      `${year}-${month}-${day} 08:00:00`,
+      `${year}-${month}-${day} 17:00:00`
+    ).then((data) => {
+      console.log(data)
+      // if (data !== undefined) {
+      //   dispatch(setDataResultDevice(data));
+      // }
+    });
+  };
 
   return (
     <Card
@@ -68,14 +87,11 @@ export const CardDispositivos: React.FC<CardProp> = ({
         display: "flex",
         boxShadow: 10,
         borderRadius: 4,
-        "&:hover": { transform: "scale3d(1.02, 1.02, 1)",  },
-        // pt: 1,
-        // pb: 1.5,
-        // px: 2,
+        "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
       }}
     >
       <CardActionArea
-        sx={{ display: "flex", flexDirection: "column", pt:1,pb:1.5,px:2 }}
+        sx={{ display: "flex", flexDirection: "column", pt: 1, pb: 1.5, px: 2 }}
         onClick={handleClickAPIResult}
         component={Link}
         to="/home/resultados"
@@ -88,12 +104,12 @@ export const CardDispositivos: React.FC<CardProp> = ({
           <Box sx={{ flexGrow: 1, pl: 2, display: "flex" }}>
             <CircleIcon
               sx={{
-                color: state!==1 ? themeColors.RED3 : themeColors.GREEN,
+                color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
                 borderRadius: 4,
               }}
             />
           </Box>
-          <Box sx={{display:'flex'}}>
+          <Box sx={{ display: "flex" }}>
             {/* Indicador de Bateria */}
             <Box
               sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
@@ -110,7 +126,9 @@ export const CardDispositivos: React.FC<CardProp> = ({
                 alignItems: "center",
               }}
             >
-              <RatingCustom value={senial} />
+              <RatingCustom
+                value={Number((senial * 1.4286 + 142.86).toFixed(0))}
+              />
             </Box>
           </Box>
         </Box>
@@ -128,7 +146,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "start",
-              p:0.8
+              p: 0.8,
             }}
           >
             <Box sx={{ display: "flex", flexGrow: 1, pl: 1 }}>
@@ -144,7 +162,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
           </Box>
           <Divider />
           {/* Contenedor de Variables */}
-          <Box sx={{ display: "flex", justifyContent: "center", gap:0.5 }}>
+          <Box sx={{ display: "flex", justifyContent: "center", gap: 0.5 }}>
             {/* Variable Temperatura */}
             <Box
               sx={{
@@ -209,7 +227,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* PROMEDIO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {tprom}°C <br />{" "}
+                      {tprom?.toFixed(1)}°C <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -320,7 +338,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* PROMEDIO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {hprom}% <br />{" "}
+                      {hprom?.toFixed(1)}% <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",

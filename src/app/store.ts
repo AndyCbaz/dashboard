@@ -1,12 +1,16 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 //reducers
 import userReducer from "../features/userSlice";
-import userApiDataReducer from "../features/clientApiDataSlice"
+import userApiDataReducer from "../features/userResultsSlice";
+import userDataGlobalReducer from "../features/userDataSlice";
+import userSearchDisplayState from "../features/headerDisplay"
 
 export const store = configureStore({
   reducer: {
     login: userReducer,
-    loginUserApi: userApiDataReducer,
+    userDataGlobal: userDataGlobalReducer,
+    resultados: userApiDataReducer,
+    headerDisplayState: userSearchDisplayState,
   },
 });
 

@@ -23,12 +23,10 @@ export const CardZonas: React.FC<CardProp> = ({ index, state }) => {
         boxShadow: 10,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
-        pt: 1,
-        pb: 1.5,
-        px: 2,
+  
       }}
     >
-      <CardActionArea component={Link} to='/home/areas/zonas/dispositivos'>
+      <CardActionArea component={Link} to='/home/areas/zonas/dispositivos' sx={{ pt:1,pb:1.5,px:2}}>
         <Box>
           <CircleIcon
             sx={{

@@ -56,11 +56,11 @@ const RoutesTSX = (
       }
       
     >
-      <Route element={<DevicePage />} index={true} loader={dataLoader} />
+      <Route element={<DevicePage />} index={true} />
       <Route element={<Pesopage />} path="peso" />
       <Route element={<LogOut />} path="logout" />
       <Route element={<Configuracion />} path="settings" />
-      <Route element={<HomeResultados />} path="resultados" loader={dataLoader} />
+      <Route element={<HomeResultados />} path="resultados"/>
       <Route element={<Zonas />} path="zonas" />
       <Route element={<AreasPage />} path="areas/*">
         <Route element={<Areas />} index={true} />

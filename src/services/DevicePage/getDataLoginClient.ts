@@ -1,11 +1,11 @@
 import axios from "axios";
 import { HOST, PORT } from "../../helpers/Apis/HostPort";
 
-export const getDataUser = async (idusuario: number | string, idcliente: number | string) => {
+export const getDataLoginClient = async (cedula: string, clave: string) => {
   try {
     const res = await axios.post(
-      `http://${HOST}:${PORT}/api/user/listaDispositivos`,
-      { idusuario: idusuario, idcliente: idcliente }
+      `http://${HOST}:${PORT}/api/user/login`,
+      { "cedula": cedula, "clave": clave }
     );
     return res.data;
   } catch (error) {

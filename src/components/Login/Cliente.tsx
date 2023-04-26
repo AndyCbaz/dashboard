@@ -7,6 +7,9 @@ import InputAdornment from "@mui/material/InputAdornment";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LockIcon from "@mui/icons-material/Lock";
 import Button from "@mui/material/Button/Button";
+//toast
+import Toast from "../../components/Toast/Toast";
+import { toast } from "react-toastify";
 
 //Otros componentes
 import useForm from "../../hooks/useForm";
@@ -14,23 +17,24 @@ import { themeColors } from "../../helpers/theme/theme.colors";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  setClient,
-  selectClient,
-  setPassword,
-  selectPassword,
+  setDataCliente,
+  setClientCI,
+  setClave,
+  setUsuario,
 } from "../../features/userSlice";
 //React Router Dom
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 //Helpers
 import { initialValues } from "../../helpers/Login/formProps";
+import { getDataLoginClient } from "../../services/DevicePage/getDataLoginClient";
 
 export const Cliente = () => {
   //React router dom
   const navigate = useNavigate();
   //Redux
-  const password = useAppSelector(selectPassword);
-  const cliente = useAppSelector(selectClient);
+  // const password = useAppSelector(selectPassword);
+  // const cliente = useAppSelector(selectClient);
   const dispatch = useAppDispatch();
   //Formulario
 
@@ -53,40 +57,42 @@ export const Cliente = () => {
     onValidate
   );
 
+  const handleShowLoginClientToast = () => {
+    toast.error("Cliente no Valido");
+  };
+  const handleShowLoginClientCredencialesToast = () => {
+    toast.error("Credenciales no Validas");
+  };
+  const handleShowLoginClientContraseñaToast = () => {
+    toast.error("Contraseña no Valida");
+  };
+
   //Ingresar Funcion
   const handleFunctionIngresarCliente = () => {
-    // dispatch(setClient(form.client));
-    // dispatch(setPassword(form.password));
-    if (form.client === "0000000000" && form.password==='1234') {
+    if (form.client === "0000000000" && form.password === "12345") {
       setErrorMensaje("");
       setErrorStatus(false);
       localStorage.setItem("cliente", form.client);
-      navigate('/home')
+      localStorage.setItem("clave", form.password);
+      dispatch(setClientCI(form.client));
+      dispatch(setClave(form.password));
+      dispatch(setUsuario(""));
+      getDataLoginClient(form.client, form.password)
+        .then((data) => {
+          dispatch(setDataCliente(data));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      navigate("/home");
+    } else if (form.client !== "0000000000" && form.password !== "12345") {
+      handleShowLoginClientCredencialesToast();
+    } else if (form.client !== "0000000000" && form.password === "12345") {
+      handleShowLoginClientToast();
+    } else if (form.client === "0000000000" && form.password !== "12345") {
+      handleShowLoginClientContraseñaToast();
     }
-    
   };
-
-  // useEffect(() => {
-  //   if (cliente === "0000000000" && password==='1234') {
-  //     setErrorMensaje("");
-  //     setErrorStatus(false);
-  //     localStorage.setItem("cliente", form.client);
-  //     navigate('/home')
-  //   }
-  //   } else if(cliente === "" && password===''){
-  //     setErrorMensaje("");
-  //     setErrorStatus(false);
-  //   } else if(cliente !== '0000000000' && password!=='1234'){
-  //     setErrorMensaje('Datos Incorrectos')
-  //     setErrorStatus(true)
-  //   } else if(cliente !== '0000000000'){
-  //     setErrorMensaje('Cliente no Existente')
-  //     setErrorStatus(true)
-  //   }else if(password!=='1234'){
-  //     setErrorMensaje('Contraseña Incorrecta')
-  //     setErrorStatus(true)
-  //   }
-  // }, [handleFunctionIngresarCliente]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -166,6 +172,7 @@ export const Cliente = () => {
           Entrar como Usuario
         </Button>
       </Box>
+      <Toast />
     </form>
   );
 };

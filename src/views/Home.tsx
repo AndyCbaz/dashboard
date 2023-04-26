@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // MUI
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,9 +19,33 @@ import { SearchSection } from "../components/Header/SearchSection";
 // React Router Dom
 import { Outlet } from "react-router-dom";
 // Redux
-import { selectUser, selectClient } from "../features/userSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-
+import {
+  selectClientCI,
+  selectUsuario,
+  selectDataCliente,
+  selectDataUsuario,
+  selectClave,
+  setDataCliente,
+  setDataUsuario,
+} from "../features/userSlice";
+import {
+  selectDevicesResumen,
+  selectUserDataGlobal,
+  setDevicesResumen,
+  setUserDataGlobal,
+} from "../features/userDataSlice";
+//funciones
+import { getDataLoginClient } from "../services/DevicePage/getDataLoginClient";
+import { getDataLoginUser } from "../services/DevicePage/getDataLoginUser";
+import { getDataUser } from "../services/DevicePage/getDataUser";
+import { getDataDevicesResumen } from "../services/DevicePage/getDataDevicesResumen";
+import {
+  selectSearchDisplayState,
+  setToastDisplay,
+} from "../features/headerDisplay";
+import Toast from "../components/Toast/Toast";
+import { toast } from "react-toastify";
 
 // Funcion para adquirir Datos de la api 1 loginuser
 
@@ -29,12 +53,18 @@ export default function Home(props: HomeProps) {
   const { window } = props;
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const usuario = localStorage.getItem('usuario')
-  const cliente = localStorage.getItem('cliente')
-
+  const usuarioLocal = localStorage.getItem("usuario");
+  const clienteLocal = localStorage.getItem("cliente");
   //redux
-  // const dispatch = useAppDispatch();
-  
+  const dispatch = useAppDispatch();
+  const cliente = useAppSelector(selectClientCI);
+  const usuario = useAppSelector(selectUsuario);
+  const clave = useAppSelector(selectClave);
+  const dataCliente = useAppSelector(selectDataCliente);
+  const dataUsuario = useAppSelector(selectDataUsuario);
+  const searchDisplayState = useAppSelector(selectSearchDisplayState);
+  const dataUserGlobal = useAppSelector(selectUserDataGlobal);
+  const dataDevicesResumen = useAppSelector(selectDevicesResumen);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -44,7 +74,63 @@ export default function Home(props: HomeProps) {
   };
   const container =
     window !== undefined ? () => window().document.body : undefined;
-    // useEffect(()=>{console.log(data)},[])
+
+  // useEffect(() => {
+
+  // }, []);
+
+  const handleShowServerToast = () => {
+    toast.warning("Servidor sin Conexión");
+  };
+
+  useEffect(() => {
+    if (dataUserGlobal.length === 0 || dataDevicesResumen.length === 0) {
+      handleShowServerToast();
+    } else {
+      if (cliente !== "") {
+        if (
+          dataCliente.idcliente === "" &&
+          dataCliente.empresa === "" &&
+          dataCliente.nombre === ""
+        ) {
+          getDataLoginClient(cliente, clave).then((data) => {
+            dispatch(setDataCliente(data));
+          });
+        }
+      } else if (usuario !== "") {
+        if (
+          dataUsuario.idcliente === "" &&
+          dataUsuario.idusuario === "" &&
+          dataUsuario.nombre === ""
+        ) {
+          getDataLoginUser(usuario).then((data) => {
+            dispatch(setDataUsuario(data));
+            getDataUser(data.idusuario, data.idcliente).then((data) => {
+              dispatch(setUserDataGlobal(data));
+              let devices: any = [];
+              for (let i = 0; i < data.areas.length; i++) {
+                for (let j = 0; j < data.areas[i].zonas.length; j++) {
+                  for (
+                    let k = 0;
+                    k < data.areas[i].zonas[j].dispositivos.length;
+                    k++
+                  ) {
+                    getDataDevicesResumen(
+                      data.areas[i].zonas[j].dispositivos[k].idmacgateway,
+                      data.areas[i].zonas[j].dispositivos[k].iddispositivo
+                    ).then((data) => {
+                      devices.push(data);
+                      dispatch(setDevicesResumen(devices));
+                    });
+                  }
+                }
+              }
+            });
+          });
+        }
+      }
+    }
+  }, []);
 
   return (
     <Box
@@ -80,17 +166,25 @@ export default function Home(props: HomeProps) {
             <MenuIcon />
           </IconButton>
           <Box sx={{ display: "flex", width: "100%", gap: 2 }}>
-            <Box
-              sx={{
-                display: "flex",
-                // border: "solid",
-                borderRadius: 4,
-                background: "white",
-                px: 0.5,
-              }}
-            >
-              <SearchSection />
-            </Box>
+            {searchDisplayState ? (
+              <>
+                {" "}
+                <Box
+                  sx={{
+                    display: "flex",
+                    // border: "solid",
+                    borderRadius: 4,
+                    background: "white",
+                    px: 0.5,
+                  }}
+                >
+                  <SearchSection />
+                </Box>
+              </>
+            ) : (
+              <></>
+            )}
+
             <Box
               sx={{
                 flexGrow: 1,
@@ -102,14 +196,27 @@ export default function Home(props: HomeProps) {
               }}
             >
               <PersonIcon />
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                color={themeColors.BLUE1}
-              >
-                {cliente !== "" ? cliente : usuario !== "" ? usuario : ""}
-              </Typography>
+              {cliente !== "" ? (
+                <Box>
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    color={themeColors.BLUE1}
+                  >
+                    {dataCliente.nombre}
+                  </Typography>
+                </Box>
+              ) : (
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="div"
+                  color={themeColors.BLUE1}
+                >
+                  {usuario}
+                </Typography>
+              )}
             </Box>
           </Box>
         </Toolbar>
@@ -164,6 +271,7 @@ export default function Home(props: HomeProps) {
       >
         <Outlet />
       </Box>
+      <Toast />
     </Box>
   );
 }

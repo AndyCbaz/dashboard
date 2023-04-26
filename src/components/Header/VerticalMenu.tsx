@@ -31,8 +31,17 @@ import { useNavigate } from "react-router-dom";
 import { LogOut } from "../LogOut/LogOut";
 import { LogoSection } from "./LogoSection";
 //Redux
-import { useAppSelector } from "../../app/hooks";
-import { selectUser } from "../../features/userSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectUsuario, setDataUsuario } from "../../features/userSlice";
+
+import {
+  setDevicesResumen,
+  setUserDataGlobal,
+} from "../../features/userDataSlice";
+//Funciones
+import { getDataLoginUser } from "../../services/DevicePage/getDataLoginUser";
+import { getDataUser } from "../../services/DevicePage/getDataUser";
+import { getDataDevicesResumen } from "../../services/DevicePage/getDataDevicesResumen";
 
 interface VerticalMenuProp {
   open: boolean;
@@ -51,7 +60,9 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
   //React Router Dom
   const navigate = useNavigate();
   //REDUX
-  const usuario = localStorage.getItem('usuario');
+  const dispatch = useAppDispatch();
+  // const usuario = localStorage.getItem('usuario');
+  const usuario = useAppSelector(selectUsuario);
 
   const handleClick = () => {
     setOpen(!open);
@@ -79,6 +90,34 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
   const handleSubMenuOptionSelectedZones = (subpagezone: string) => {
     if (pageActivated === 1 || pageActivated === 0) {
       setSubPageZone(subpagezone);
+    }
+  };
+  const handleUpdateRedux = () => {
+    if (usuario !== "") {
+      getDataLoginUser(usuario).then((data) => {
+        dispatch(setDataUsuario(data));
+        getDataUser(data.idusuario, data.idcliente).then((data) => {
+          dispatch(setUserDataGlobal(data));
+          let devices: any = [];
+          for (let i = 0; i < data.areas.length; i++) {
+            for (let j = 0; j < data.areas[i].zonas.length; j++) {
+              for (
+                let k = 0;
+                k < data.areas[i].zonas[j].dispositivos.length;
+                k++
+              ) {
+                getDataDevicesResumen(
+                  data.areas[i].zonas[j].dispositivos[k].idmacgateway,
+                  data.areas[i].zonas[j].dispositivos[k].iddispositivo
+                ).then((data) => {
+                  devices.push(data);
+                  dispatch(setDevicesResumen(devices));
+                });
+              }
+            }
+          }
+        });
+      });
     }
   };
 
@@ -158,6 +197,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 <ListItemButton
                   onClick={() => {
                     handleSubMenuOptionSelected("a");
+                    handleUpdateRedux();
                     navigate("/home");
                   }}
                   sx={{

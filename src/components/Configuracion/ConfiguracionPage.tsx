@@ -1,18 +1,17 @@
 import React from "react";
 import { Box, Divider } from "@mui/material";
-import { CardUsuarios } from "./CardUsuarios";
+import { Outlet } from "react-router-dom";
+import { RouterBreadcrumbs } from "./Breadcrumbs";
 
 export const Configuracion = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        p: 2,
-        gap: 1,
+        display: "flex", flexDirection: "column", gap: 1 
       }}
     >
-      <CardUsuarios />
+      <Box><RouterBreadcrumbs/></Box>
+      <Outlet/>
     </Box>
   );
 };

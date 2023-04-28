@@ -4,6 +4,7 @@ import { CardActionArea } from "@mui/material";
 import Card from "@mui/material/Card";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { themeColors } from "../../helpers/theme/theme.colors";
+import { Link } from "react-router-dom";
 
 export const CardUsuarios = () => {
   return (
@@ -16,7 +17,7 @@ export const CardUsuarios = () => {
 
       }}
     >
-      <CardActionArea sx={{pt:1,pb:1.5,px:2}}>
+      <CardActionArea sx={{pt:1,pb:1.5,px:2}} component={Link} to={'/home/settings/usuarios'}>
 
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <PeopleAltIcon

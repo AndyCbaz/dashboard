@@ -16,7 +16,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   selectUsuario,
   setUsuario,
-  setClave,
   setClientCI,
   setDataUsuario,
 } from "../../features/userSlice";
@@ -59,89 +58,27 @@ export const Usuario = () => {
   const [errorMensaje, setErrorMensaje] = useState("");
   const [errorStatus, setErrorStatus] = useState(false);
 
-  const { form, handleSubmit, handleChange } = useForm(
-    initialValues,
-    onValidate
-  );
-  const handleShowLoginUserToast = () => {
-    toast.error("Usuario no Valido");
-  };
-  const handleShowServerToast = () => {
-    toast.warning("Servidor sin Conexión");
+  const { form, handleChange, handleSubmit } = useForm(initialValues);
+  const handleIngreseUsuario = () => {
+    toast.error("Campo de Texto Vacio");
   };
 
-  const handleFunctionIngresarUsuario = () => {
-    // dispatch(setUser(form.user));
-    if (form.user === "usuarioB") {
-      localStorage.setItem("usuario", form.user);
-      setErrorStatus(true);
-      setErrorMensaje("");
-      dispatch(setClave(""));
-      dispatch(setUsuario(form.user));
-      dispatch(setClientCI(""));
-      getDataLoginUser(form.user)
-        .then((data) => {
-          dispatch(setDataUsuario(data));
-          getDataUser(data.idusuario, data.idcliente)
-            .then((data) => {
-              dispatch(setUserDataGlobal(data));
-              let devices: any = [];
-              for (let i = 0; i < data.areas.length; i++) {
-                for (let j = 0; j < data.areas[i].zonas.length; j++) {
-                  for (
-                    let k = 0;
-                    k < data.areas[i].zonas[j].dispositivos.length;
-                    k++
-                  ) {
-                    getDataDevicesResumen(
-                      data.areas[i].zonas[j].dispositivos[k].idmacgateway,
-                      data.areas[i].zonas[j].dispositivos[k].iddispositivo
-                    )
-                      .then((data) => {
-                        devices.push(data);
-                        dispatch(setDevicesResumen(devices));
-                      })
-                      .catch(() => {
-                        // handleShowServerToast();
-                      });
-                  }
-                }
-              }
-            })
-            .catch(() => {
-              // handleShowServerToast();
-            });
-        })
-        .catch(() => {
-          // handleShowServerToast();
-        });
-      navigate("/home");
+  const handleFunctionIngresarUsuario = async () => {
+    if (form.user !== "") {
+      const data = await getDataLoginUser(form.user);
+      if (data !== undefined) {
+        localStorage.setItem('usuario',data.nombreusuario)
+        localStorage.setItem('idcliente',data.idcliente)
+        localStorage.setItem('idusuario',data.idusuario)
+        dispatch(setClientCI(""));
+        dispatch(setUsuario(form.user));
+        dispatch(setDataUsuario(data))
+        navigate("/home");
+      }
     } else {
-      handleShowLoginUserToast();
+      handleIngreseUsuario();
     }
-    // } else if (usuario === "") {
-    //   setErrorStatus(false);
-    //   setErrorMensaje("");
-    // } else {
-    //   setErrorMensaje("usuario no registrado");
-    //   setErrorStatus(true);
-    // }
   };
-
-  // useEffect(() => {
-  //   if (usuario === "usuarioB") {
-  //     localStorage.setItem("usuario", usuario);
-  //     navigate("/home");
-  //     setErrorStatus(true);
-  //     setErrorMensaje("");
-  //   } else if (usuario === "") {
-  //     setErrorStatus(false);
-  //     setErrorMensaje("");
-  //   } else {
-  //     setErrorMensaje("usuario no registrado");
-  //     setErrorStatus(true);
-  //   }
-  // }, [handleFunctionIngresarUsuario]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -176,13 +113,6 @@ export const Usuario = () => {
             <Typography variant="body1">Ingresar</Typography>
           </Button>
         </Box>
-        {errorStatus ? (
-          <Box>
-            <Typography color="error">{errorMensaje}</Typography>
-          </Box>
-        ) : (
-          <></>
-        )}
       </Box>
       <Toast />
     </form>

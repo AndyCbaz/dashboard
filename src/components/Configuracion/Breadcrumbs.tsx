@@ -13,8 +13,8 @@ interface LinkRouterProps extends LinkProps {
   replace?: boolean;
 }
 const breadcrumbNameMap: { [key: string]: string } = {
-  "/zonas": "Zonas",
-  "/zonas/dispositivos": "Dispositivos",
+  
+  "/usuarios": "Usuarios",
 };
 
 function LinkRouter(props: LinkRouterProps) {
@@ -24,12 +24,12 @@ export const RouterBreadcrumbs = () => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
   const pathnames2 = pathnames.slice(2,pathnames.length+1)
-  
+
   return (
     // <MemoryRouter initialEntries={['/home/areas']} initialIndex={0}>
       <Breadcrumbs aria-label="breadcrumb">
-        <LinkRouter underline="hover" color="inherit" to="/home/areas">
-          Áreas
+        <LinkRouter underline="hover" color="inherit" to="/home/settings">
+          Configuración
         </LinkRouter>
         {pathnames2.map((value, index) => {
         const last = index === pathnames2.length - 1;
@@ -40,7 +40,7 @@ export const RouterBreadcrumbs = () => {
             {breadcrumbNameMap[to]}
           </Typography>
         ) : (
-          <LinkRouter underline="hover" color="inherit" to={`/home/areas${to}`} key={to}>
+          <LinkRouter underline="hover" color="inherit" to={`/home/settings${to}`} key={to}>
             {breadcrumbNameMap[to]}
           </LinkRouter>
         );

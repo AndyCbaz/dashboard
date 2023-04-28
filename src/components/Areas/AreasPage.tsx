@@ -17,7 +17,7 @@ export const AreasPage = () => {
   const handleClose = () => setOpenModal(false);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width:'100%' }}>
       {/* Indicador de Ubicacion */}
       <Box><RouterBreadcrumbs/></Box>
       {/* Childrens */}

@@ -1,5 +1,10 @@
 import axios from "axios";
 import { HOST, PORT } from "../../helpers/Apis/HostPort";
+import { toast } from "react-toastify";
+
+const handleShowServerToast = () => {
+  toast.error("Credenciales Incorrectas");
+};
 
 export const getDataLoginClient = async (cedula: string, clave: string) => {
   try {
@@ -9,6 +14,6 @@ export const getDataLoginClient = async (cedula: string, clave: string) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    handleShowServerToast();
   }
 };

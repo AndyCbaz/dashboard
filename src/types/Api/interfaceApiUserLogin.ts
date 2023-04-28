@@ -4,6 +4,10 @@ export interface IDispositivos {
   idmacgateway: number;
   macgateway: string;
   online: number;
+  maxTemperatura: null | number;
+  minTemperatura: null | number;
+  maxHumedad: null | number;
+  minHumedad: null | number;
 }
 export interface IZonas {
   idzona: number;
@@ -30,14 +34,14 @@ export interface IDataUserLogin {
 }
 
 export interface IDataApiDevice {
-  "bateria": number|null;
-  "nivelSenial": number|null;
-  "actualTemp": number|null;
-  "maximoTemp": number|null;
-  "minimoTemp": number|null;
-  "avgTemp": number|null;
-  "actualHum": number|null;
-  "maximoHum": number|null;
-  "minimoHum": number|null;
-  "avgHum": number|null;
+  bateria: number | null;
+  nivelSenial: number | null;
+  actualTemp: number | null;
+  maximoTemp: number | null;
+  minimoTemp: number | null;
+  avgTemp: number | null;
+  actualHum: number | null;
+  maximoHum: number | null;
+  minimoHum: number | null;
+  avgHum: number | null;
 }

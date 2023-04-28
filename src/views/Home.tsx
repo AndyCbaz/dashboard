@@ -57,15 +57,15 @@ export default function Home(props: HomeProps) {
   const usuarioLocal = localStorage.getItem("usuario");
   const clienteLocal = localStorage.getItem("cliente");
   //redux
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const cliente = useAppSelector(selectClientCI);
   const usuario = useAppSelector(selectUsuario);
-  const clave = useAppSelector(selectClave);
+  // const clave = useAppSelector(selectClave);
   const dataCliente = useAppSelector(selectDataCliente);
-  const dataUsuario = useAppSelector(selectDataUsuario);
+  // const dataUsuario = useAppSelector(selectDataUsuario);
   const searchDisplayState = useAppSelector(selectSearchDisplayState);
-  const dataUserGlobal = useAppSelector(selectUserDataGlobal);
-  const dataDevicesResumen = useAppSelector(selectDevicesResumen);
+  // const dataUserGlobal = useAppSelector(selectUserDataGlobal);
+  // const dataDevicesResumen = useAppSelector(selectDevicesResumen);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -73,66 +73,16 @@ export default function Home(props: HomeProps) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  
+
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  // useEffect(() => {
-
-  // }, []);
-
-  const handleShowServerToast = () => {
-    toast.warning("Servidor sin Conexión");
-  };
+  // const handleShowServerToast = () => {
+  //   toast.warning("Servidor sin Conexión");
+  // };
 
   useEffect(() => {
-    if (dataUserGlobal.length === 0 || dataDevicesResumen.length === 0) {
-      // handleShowServerToast();
-    } else {
-      if (cliente !== "") {
-        if (
-          dataCliente.idcliente === "" &&
-          dataCliente.empresa === "" &&
-          dataCliente.nombre === ""
-        ) {
-          getDataLoginClient(cliente, clave).then((data) => {
-            dispatch(setDataCliente(data));
-          }).catch(()=>{handleShowServerToast()});
-        }
-      } else if (usuario !== "") {
-        if (
-          dataUsuario.idcliente === "" &&
-          dataUsuario.idusuario === "" &&
-          dataUsuario.nombre === ""
-        ) {
-          getDataLoginUser(usuario)
-          .then((data) => {
-            dispatch(setDataUsuario(data));
-            getDataUser(data.idusuario, data.idcliente).then((data) => {
-              dispatch(setUserDataGlobal(data));
-              let devices: any = [];
-              for (let i = 0; i < data.areas.length; i++) {
-                for (let j = 0; j < data.areas[i].zonas.length; j++) {
-                  for (
-                    let k = 0;
-                    k < data.areas[i].zonas[j].dispositivos.length;
-                    k++
-                  ) {
-                    getDataDevicesResumen(
-                      data.areas[i].zonas[j].dispositivos[k].idmacgateway,
-                      data.areas[i].zonas[j].dispositivos[k].iddispositivo
-                    ).then((data) => {
-                      devices.push(data);
-                      dispatch(setDevicesResumen(devices));
-                    }).catch(()=>{handleShowServerToast()});
-                  }
-                }
-              }
-            }).catch(()=>{handleShowServerToast()});
-          }).catch(()=>{handleShowServerToast()});
-        }
-      }
-    }
+
   }, []);
 
   return (
@@ -207,7 +157,7 @@ export default function Home(props: HomeProps) {
                     component="div"
                     color={themeColors.BLUE1}
                   >
-                    {dataCliente.nombre}
+                    {dataCliente.length===0?cliente:dataCliente.nombre}
                   </Typography>
                 </Box>
               ) : (

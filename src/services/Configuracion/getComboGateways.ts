@@ -6,9 +6,12 @@ const handleShowServerToast = () => {
   toast.warning("Servidor sin Conexión");
 };
 
-export const getDataLoginUser = async (usuario: string) => {
+export const getComboGateways = async (idcliente: number) => {
   try {
-    const res = await axios.post(`http://${HOST}:${PORT}/api/user/ingresoUsuario`,{'nombreusuario':usuario});
+    const res = await axios.post(
+      `http://${HOST}:${PORT}/api/user/comboGateway`,
+      { "idcliente": idcliente }
+    );
     return res.data;
   } catch (error) {
     handleShowServerToast();

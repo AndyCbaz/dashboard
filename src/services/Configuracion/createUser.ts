@@ -6,9 +6,12 @@ const handleShowServerToast = () => {
   toast.warning("Servidor sin Conexión");
 };
 
-export const getDataLoginUser = async (usuario: string) => {
+export const createUser = async (idcliente: number, nombreusuario:string, idmacgateway:number | string) => {
   try {
-    const res = await axios.post(`http://${HOST}:${PORT}/api/user/ingresoUsuario`,{'nombreusuario':usuario});
+    const res = await axios.post(
+      `http://${HOST}:${PORT}/api/user/crearUsuario`,
+      { "idcliente": idcliente, "nombreusuario":nombreusuario,"idmacgateway":idmacgateway }
+    );
     return res.data;
   } catch (error) {
     handleShowServerToast();

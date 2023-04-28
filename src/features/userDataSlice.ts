@@ -5,11 +5,13 @@ import { IData } from "../types/Api/interfaceApiUserLogin";
 interface IUserDatGlobal {
   data: any;
   devicesresumen: any;
+
 }
 
 const initialState: IUserDatGlobal = {
   data: [],
   devicesresumen: [],
+
 };
 
 export const userDataSlice = createSlice({
@@ -22,15 +24,22 @@ export const userDataSlice = createSlice({
     setDevicesResumen: (state, action: PayloadAction<any>) => {
       state.devicesresumen = action.payload;
     },
+
   },
 });
 
-export const { setUserDataGlobal, setDevicesResumen } = userDataSlice.actions;
+export const {
+  
+  setUserDataGlobal,
+  setDevicesResumen,
+  
+} = userDataSlice.actions;
 
 export const selectUserDataGlobal = (state: RootState) =>
   state.userDataGlobal.data;
 
 export const selectDevicesResumen = (state: RootState) =>
   state.userDataGlobal.devicesresumen;
+
 
 export default userDataSlice.reducer;

@@ -11,10 +11,10 @@ import { Link } from "react-router-dom";
 
 interface CardProp {
   index: number;
-  state: boolean;
+  nombre: string;
 }
 
-export const CardZonas: React.FC<CardProp> = ({ index, state }) => {
+export const CardZonas: React.FC<CardProp> = ({ index, nombre }) => {
   return (
     <Card
       key={index}
@@ -27,25 +27,16 @@ export const CardZonas: React.FC<CardProp> = ({ index, state }) => {
       }}
     >
       <CardActionArea component={Link} to='/home/areas/zonas/dispositivos' sx={{ pt:1,pb:1.5,px:2}}>
-        <Box>
-          <CircleIcon
-            sx={{
-              color: state ? themeColors.RED3 : themeColors.GREEN,
-              borderRadius: 4,
-            }}
-          />
-        </Box>
+
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <DomainIcon
             sx={{ width: "50px", height: "50px", color: themeColors.BLUE1 }}
           />
         </Box>
         <Box>
-          <Typography>Nombre: Bodega</Typography>
+          <Typography> {nombre}</Typography>
         </Box>
-        <Box>
-          <Typography>Id: 1</Typography>
-        </Box>
+  
       </CardActionArea>
     </Card>
   );

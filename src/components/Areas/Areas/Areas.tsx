@@ -1,22 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 //MUI
 import { Box } from "@mui/system";
 import { Button, Modal, Paper } from "@mui/material";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { CardAreas } from "../CardAreas";
 import { NewArea } from "../NewArea";
+//redux
+// import {
+//   selectAreasByClient,
+//   setAreasByClient,
+//   setUsersByClient,
+// } from "../../../features/userDataSlice";
+import { selectDataCliente, setDataCliente } from "../../../features/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+//servicios
+import { getDataLoginClient } from "../../../services/DevicePage/getDataLoginClient";
+import { getAreas } from "../../../services/DevicePage/cliente/getAreas";
+import { getUsersByClient } from "../../../services/DevicePage/cliente/getUsersByClient";
+import { Loader } from "../../Loader/Loader";
+import { selectAreasByClient, setAreasByClient, setUsersByClient } from "../../../features/cliente/clientComboMacgateways";
 
 export const Areas = () => {
-      //Modal
-  const [openModal, setOpenModal] = React.useState(false);
+  //redux
+  const dispatch = useAppDispatch();
+  const usuario = String(localStorage.getItem("usuario"));
+  const cliente = String(localStorage.getItem("cliente"));
+  
+  const dataCliente = useAppSelector(selectDataCliente);
+  const areaByClient = useAppSelector(selectAreasByClient);
+  //Modal
+  const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
-  return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-      {/* Indicador de Ubicacion */}
 
+  useEffect(() => {
+
+  }, []);
+  return (
+    <Box
+      sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}
+    >
       {/* Boton Agregar Area */}
-      <Box sx={{ display: "flex" }}>
+      {/* <Box sx={{ display: "flex" }}>
         <Button
           onClick={handleOpen}
           variant="outlined"
@@ -24,10 +49,23 @@ export const Areas = () => {
         >
           Agregar Área
         </Button>
-      </Box>
+      </Box> */}
+
       {/* Card de Areas */}
-      <Box sx={{ display: "flex", gap: 2 }}>
-        <CardAreas index={1} state={true} />
+      <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+        {dataCliente.length === 0 ? (
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Loader />
+          </Box>
+        ) : (
+          areaByClient.map((area: any) => (
+            <CardAreas
+              index={area.nombrearea}
+              key={area.nombrearea}
+              nombre={area.nombrearea}
+            />
+          ))
+        )}
       </Box>
       {/* Modal para agregar areas */}
       <Modal

@@ -2,18 +2,18 @@ import { useState } from "react";
 import { Props } from "../helpers/Login/formProps";
 
 
-const useForm = (initialValues: Props, onValidate: any) => {
+const useForm = (initialValues: Props ) => {
   const [form, setForm] = useState(initialValues);
   const [errors, setErrors] = useState({user:''});
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    const err = onValidate(form);
-    if(err === null){
-        console.log('enviando formulario')
-    }else{
-        setErrors(err);
-    }
+    // const err = onValidate(form);
+    // if(err === null){
+    //     console.log('enviando formulario')
+    // }else{
+    //     setErrors(err);
+    // }
   };
   
   const handleChange = (event: any) => {
@@ -21,7 +21,7 @@ const useForm = (initialValues: Props, onValidate: any) => {
     setForm({...form, [name]: value})
   }
 
-  return { form, handleSubmit, handleChange };
+  return { form, handleChange, handleSubmit };
 };
 
 export default useForm;

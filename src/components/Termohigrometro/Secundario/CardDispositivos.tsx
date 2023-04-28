@@ -15,7 +15,11 @@ import { RadialIndicadorHumedad } from "./IndicadoresRadiales/RadialIndicadorHum
 import { getDataDevicesDetalle } from "../../../services/Results/getDataDeviceDetalle";
 // Redux
 import { useAppDispatch } from "../../../app/hooks";
-import { setDataResultDevice } from "../../../features/userResultsSlice";
+import {
+  setDataResultConsulta,
+  setDataResultDevice,
+  setDataMaxMinGraf,
+} from "../../../features/userResultsSlice";
 //time
 import date from "date-and-time";
 
@@ -37,6 +41,10 @@ interface CardProp {
   hmax: number | null;
   hmin: number | null;
   hprom: number | null;
+  tmaxgraf: number | null;
+  tmingraf: number | null;
+  hmaxgraf: number | null;
+  hmingraf: number | null;
 }
 
 export const CardDispositivos: React.FC<CardProp> = ({
@@ -57,8 +65,13 @@ export const CardDispositivos: React.FC<CardProp> = ({
   hmax,
   hmin,
   hprom,
+  tmaxgraf,
+  tmingraf,
+  hmaxgraf,
+  hmingraf,
 }) => {
   const dispatch = useAppDispatch();
+
   const handleClickAPIResult = () => {
     // Formato de fechas y horas sin modificacion de hora ===>>>
     let fechautc = date.format(new Date(), "YYYY/MM/DD", true);
@@ -67,6 +80,19 @@ export const CardDispositivos: React.FC<CardProp> = ({
     let year = date.format(fechaEcuador, "YYYY");
     let month = date.format(fechaEcuador, "MM");
     let day = date.format(fechaEcuador, "DD");
+    dispatch(
+      setDataResultConsulta({ idgateway: idmac, iddispositivo: iddispositivo })
+    );
+    dispatch(
+      setDataMaxMinGraf({
+        tmax: tmaxgraf,
+        tmin: tmingraf,
+        hmax: hmaxgraf,
+        hmin: hmingraf,
+        actualTemp: actualTemp,
+        actualHum: actualHum,
+      })
+    );
 
     getDataDevicesDetalle(
       idmac,
@@ -74,12 +100,20 @@ export const CardDispositivos: React.FC<CardProp> = ({
       `${year}-${month}-${day} 08:00:00`,
       `${year}-${month}-${day} 17:00:00`
     ).then((data) => {
-      console.log(data)
-      // if (data !== undefined) {
-      //   dispatch(setDataResultDevice(data));
-      // }
+      console.log(data);
+      // dispatch(setDataResultDevice(data))
     });
   };
+
+  let senial_format = Number(senial);
+  if (senial !== null) {
+    senial_format = Number((senial * 1.4286 + 142.86).toFixed(0));
+  }
+
+  let bateria_format = Number(bateria)
+  if(bateria===null){
+    bateria_format = 0
+  }
 
   return (
     <Card
@@ -88,6 +122,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
         boxShadow: 10,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
+        
       }}
     >
       <CardActionArea
@@ -114,7 +149,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
             <Box
               sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
             >
-              <BatteryLevel value={bateria} />
+              <BatteryLevel value={bateria_format} />
             </Box>
             {/* Indicador de Señal */}
             <Box
@@ -126,9 +161,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                 alignItems: "center",
               }}
             >
-              <RatingCustom
-                value={Number((senial * 1.4286 + 142.86).toFixed(0))}
-              />
+              <RatingCustom value={senial_format} />
             </Box>
           </Box>
         </Box>
@@ -138,6 +171,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
             display: "flex",
             flexDirection: "column",
             // border: "solid",
+            height:'180px'
           }}
         >
           {/* Label */}
@@ -374,7 +408,9 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     alignItems: "center",
                     flexDirection: "column",
                     justifyContent: "center",
-                    height: "100%",
+                    height: "110px",
+                    // border:'solid',
+                    
                   }}
                 >
                   <Typography sx={{ display: "flex" }}>Información</Typography>

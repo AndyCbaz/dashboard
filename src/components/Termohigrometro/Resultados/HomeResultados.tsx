@@ -26,6 +26,7 @@ import {
   selectDataResultDevice,
   selectDatosResultConsulta,
   setDataResultDevice,
+  selectDatosMaxMinGraf
 } from "../../../features/userResultsSlice";
 import {
   selectSearchDisplayState,
@@ -34,17 +35,25 @@ import {
 //time
 import date from "date-and-time";
 import { getDataDevicesDetalle } from "../../../services/Results/getDataDeviceDetalle";
+import { setDataUsuario } from "../../../features/userSlice";
+import { setDevicesResumen, setUserDataGlobal } from "../../../features/userDataSlice";
 
 export const HomeResultados = () => {
   //redux
   const dispatch = useAppDispatch();
   const dataResult = useAppSelector(selectDataResultDevice);
   const dataConsulta = useAppSelector(selectDatosResultConsulta);
+  const datagrapinfo = useAppSelector(selectDatosMaxMinGraf);
   const searchDisplayState = useAppSelector(selectSearchDisplayState);
 
   //react router dom
   const navigate = useNavigate();
-  const hancleClick = () => navigate("/home");
+  const hancleClick = () => {
+    navigate("/home");
+    dispatch(setDataUsuario([]));
+    dispatch(setUserDataGlobal([]));
+    dispatch(setDevicesResumen([]));
+  };
 
   //formato fecha datos recibidos
   // Formato de fechas y horas sin modificacion de hora ===>>>
@@ -247,7 +256,7 @@ let ff;
   };
 
 
-
+//** handles de botones para consulta de periodos /////////////////*/
   const handleTresMesesSearch = () => {
     //dia inicial
     let fechaEcuador = date.addDays(formatUTC, -90);
@@ -372,6 +381,7 @@ let ff;
         handleShowServerToast();
       });
   };
+  ///////////////////////////////////////////////////////////////////
 
   //useefect
   useEffect(() => {
@@ -677,7 +687,7 @@ let ff;
               >
                 <Box>
                   <RadialIndicadorTemperatura
-                    valor={25}
+                    valor={datagrapinfo.actualTemp}
                     circleWidth={105}
                     unidad="°C"
                   />
@@ -695,7 +705,7 @@ let ff;
                 >
                   {/* MAXIMO */}
                   <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    22°C <br />{" "}
+                    {datagrapinfo.tmax}°C <br />{" "}
                     <span
                       style={{
                         fontSize: "12px",
@@ -708,7 +718,7 @@ let ff;
                   </Typography>
                   {/* MINIMO */}
                   <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    48°C <br />
+                    {datagrapinfo.tmin}°C <br />
                     <span
                       style={{
                         fontSize: "12px",
@@ -720,7 +730,7 @@ let ff;
                     </span>
                   </Typography>
                   {/* PROMEDIO */}
-                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                  {/* <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
                     50°C <br />{" "}
                     <span
                       style={{
@@ -731,7 +741,7 @@ let ff;
                       {" "}
                       PROMEDIO
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </Box>
               </Box>
               <Divider sx={{ display: { xs: "none", sm: "block" } }} />
@@ -751,7 +761,7 @@ let ff;
               >
                 <Box>
                   <RadialIndicadorHumedad
-                    valor={30}
+                    valor={datagrapinfo.actualHum}
                     circleWidth={105}
                     unidad="%"
                   />
@@ -769,7 +779,7 @@ let ff;
                 >
                   {/* MAXIMO */}
                   <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    40% <br />{" "}
+                    {datagrapinfo.hmax}% <br />{" "}
                     <span
                       style={{
                         fontSize: "12px",
@@ -782,7 +792,7 @@ let ff;
                   </Typography>
                   {/* MINIMO */}
                   <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    35% <br />
+                    {datagrapinfo.hmin}% <br />
                     <span
                       style={{
                         fontSize: "12px",
@@ -794,7 +804,7 @@ let ff;
                     </span>
                   </Typography>
                   {/* PROMEDIO */}
-                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                  {/* <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
                     38% <br />{" "}
                     <span
                       style={{
@@ -805,7 +815,7 @@ let ff;
                       {" "}
                       PROMEDIO
                     </span>
-                  </Typography>
+                  </Typography> */}
                 </Box>
               </Box>
             </Box>

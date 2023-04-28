@@ -19,7 +19,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   setDataCliente,
   setClientCI,
-  setClave,
   setUsuario,
 } from "../../features/userSlice";
 //React Router Dom
@@ -49,48 +48,30 @@ export const Cliente = () => {
     }
     return isError ? errors : "";
   };
-  const [errorMensaje, setErrorMensaje] = useState("");
-  const [errorStatus, setErrorStatus] = useState(false);
 
-  const { form, handleSubmit, handleChange } = useForm(
-    initialValues,
-    onValidate
-  );
-
-  const handleShowLoginClientToast = () => {
-    toast.error("Cliente no Valido");
+  const handleCamposVacios = () => {
+    toast.error("Campos de Texto Vacios");
   };
-  const handleShowLoginClientCredencialesToast = () => {
-    toast.error("Credenciales no Validas");
-  };
-  const handleShowLoginClientContraseñaToast = () => {
-    toast.error("Contraseña no Valida");
-  };
+  const { form, handleSubmit, handleChange } = useForm(initialValues);
 
   //Ingresar Funcion
-  const handleFunctionIngresarCliente = () => {
-    if (form.client === "0000000000" && form.password === "12345") {
-      setErrorMensaje("");
-      setErrorStatus(false);
-      localStorage.setItem("cliente", form.client);
-      localStorage.setItem("clave", form.password);
+  const handleButtonIngresar = () => {
+    if (form.client !== "" && form.password !== "") {
       dispatch(setClientCI(form.client));
-      dispatch(setClave(form.password));
       dispatch(setUsuario(""));
-      getDataLoginClient(form.client, form.password)
-        .then((data) => {
+      getDataLoginClient(form.client, form.password).then((data) => {
+        if (data !== undefined) {
+          localStorage.setItem("cliente", data.nombre);
+          localStorage.setItem("idcliente", data.idcliente);
+          localStorage.setItem("empresa", data.empresa);
           dispatch(setDataCliente(data));
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-      navigate("/home");
-    } else if (form.client !== "0000000000" && form.password !== "12345") {
-      handleShowLoginClientCredencialesToast();
-    } else if (form.client !== "0000000000" && form.password === "12345") {
-      handleShowLoginClientToast();
-    } else if (form.client === "0000000000" && form.password !== "12345") {
-      handleShowLoginClientContraseñaToast();
+          navigate("/home");
+        }
+      });
+
+      
+    } else {
+      handleCamposVacios();
     }
   };
 
@@ -151,16 +132,12 @@ export const Cliente = () => {
           />
         </Box>
       </Box>
-      {errorStatus && (
-        <Box>
-          <Typography color="error">{errorMensaje}</Typography>
-        </Box>
-      )}
+
       {/* Boton Ingresar */}
       <Box sx={{ display: "flex", pt: 2 }}>
         <Button
           onClick={() => {
-            handleFunctionIngresarCliente();
+            handleButtonIngresar();
           }}
           sx={{ width: "100%", background: themeColors.BLUE1 }}
         >
@@ -170,6 +147,11 @@ export const Cliente = () => {
       <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
         <Button component={Link} to={"/loguser"}>
           Entrar como Usuario
+        </Button>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
+        <Button component={Link} to={"/register"}>
+          Registro
         </Button>
       </Box>
       <Toast />

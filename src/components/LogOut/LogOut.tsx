@@ -8,12 +8,19 @@ import Card from "@mui/material/Card";
 import { themeColors } from "../../helpers/theme/theme.colors";
 //REDUX
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setClientCI, setUsuario, setClave } from "../../features/userSlice";
-import { setDevicesResumen, setUserDataGlobal } from "../../features/userDataSlice";
+import {
+  setClientCI,
+  setUsuario,
+  setDataUsuario,
+  setDataCliente,
+} from "../../features/userSlice";
+import {
+  setDevicesResumen,
+  setUserDataGlobal,
+} from "../../features/userDataSlice";
 //React Router Dom
 import { useNavigate } from "react-router-dom";
 import { setDataResultDevice } from "../../features/userResultsSlice";
-
 
 export const LogOut = () => {
   //reac-router-dom
@@ -24,12 +31,14 @@ export const LogOut = () => {
   const handleLogout = () => {
     localStorage.setItem("cliente", "");
     localStorage.setItem("usuario", "");
-    localStorage.setItem("clave", "");
+    localStorage.setItem("idcliente", "");
+    localStorage.setItem("empresa", "");
     dispatch(setClientCI(""));
-    dispatch(setClave(""));
     dispatch(setUsuario(""));
     dispatch(setUserDataGlobal([]));
-    dispatch(setDevicesResumen([]))
+    dispatch(setDevicesResumen([]));
+    dispatch(setDataUsuario([]));
+    dispatch(setDataCliente([]));
     navigate("/");
   };
 

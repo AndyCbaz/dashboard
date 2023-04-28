@@ -15,32 +15,23 @@ interface IDataUsuario {
 export interface UserState {
   clienteCI: string;
   usuario: string;
-  clave: string;
-  datacliente: IDataCliente;
-  datausuario: IDataUsuario;
+  
+  datacliente: any;
+  datausuario: any;
 }
 
 let initialUser = localStorage.getItem("cliente");
 if (initialUser === null) initialUser = "";
 let initialClient = localStorage.getItem("usuario");
 if (initialClient === null) initialClient = "";
-let initialPassword = localStorage.getItem("clave");
-if (initialPassword === null) initialPassword = "";
+
 
 const initialState: UserState = {
   clienteCI: initialUser,
   usuario: initialClient,
-  clave: initialPassword,
-  datacliente: {
-    idcliente: "",
-    nombre: "",
-    empresa: "",
-  },
-  datausuario: {
-    idusuario: "",
-    idcliente: "",
-    nombre:"",
-  },
+  
+  datacliente: [],
+  datausuario: [],
 };
 
 export const userSlice = createSlice({
@@ -53,13 +44,11 @@ export const userSlice = createSlice({
     setUsuario: (state, action: PayloadAction<string>) => {
       state.usuario = action.payload;
     },
-    setClave: (state, action: PayloadAction<string>) => {
-      state.clave = action.payload;
-    },
-    setDataCliente: (state, action: PayloadAction<IDataCliente>) => {
+
+    setDataCliente: (state, action: PayloadAction<any>) => {
       state.datacliente = action.payload;
     },
-    setDataUsuario: (state, action: PayloadAction<IDataUsuario>) => {
+    setDataUsuario: (state, action: PayloadAction<any>) => {
       state.datausuario = action.payload;
     },
   },
@@ -68,14 +57,14 @@ export const userSlice = createSlice({
 export const {
   setUsuario,
   setClientCI,
-  setClave,
+  
   setDataCliente,
   setDataUsuario,
 } = userSlice.actions;
 
 export const selectClientCI = (state: RootState) => state.login.clienteCI;
 export const selectUsuario = (state: RootState) => state.login.usuario;
-export const selectClave = (state: RootState) => state.login.clave;
+
 export const selectDataCliente = (state: RootState) => state.login.datacliente;
 export const selectDataUsuario = (state: RootState) => state.login.datausuario;
 

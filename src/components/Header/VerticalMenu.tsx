@@ -93,32 +93,9 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
     }
   };
   const handleUpdateRedux = () => {
-    if (usuario !== "") {
-      getDataLoginUser(usuario).then((data) => {
-        dispatch(setDataUsuario(data));
-        getDataUser(data.idusuario, data.idcliente).then((data) => {
-          dispatch(setUserDataGlobal(data));
-          let devices: any = [];
-          for (let i = 0; i < data.areas.length; i++) {
-            for (let j = 0; j < data.areas[i].zonas.length; j++) {
-              for (
-                let k = 0;
-                k < data.areas[i].zonas[j].dispositivos.length;
-                k++
-              ) {
-                getDataDevicesResumen(
-                  data.areas[i].zonas[j].dispositivos[k].idmacgateway,
-                  data.areas[i].zonas[j].dispositivos[k].iddispositivo
-                ).then((data) => {
-                  devices.push(data);
-                  dispatch(setDevicesResumen(devices));
-                });
-              }
-            }
-          }
-        });
-      });
-    }
+    dispatch(setDataUsuario([]));
+    dispatch(setUserDataGlobal([]));
+    dispatch(setDevicesResumen([]));
   };
 
   return (
@@ -228,7 +205,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                   />
                 </ListItemButton>
                 {/* Boton Peso */}
-                <ListItemButton
+                {/* <ListItemButton
                   onClick={() => {
                     handleSubMenuOptionSelected("b");
                     navigate("/home/peso");
@@ -261,7 +238,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                       textAlign: "center",
                     }}
                   />
-                </ListItemButton>
+                </ListItemButton> */}
               </List>
             </Collapse>
           </ListItem>

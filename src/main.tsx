@@ -10,7 +10,7 @@ import {
   RouterProvider,
   Route,
   redirect,
-  BrowserRouter
+  BrowserRouter,
 } from "react-router-dom";
 import Home from "./views/Home";
 
@@ -31,8 +31,9 @@ import { ProtectedRoutes } from "./routes/RutaProtegida";
 import { ProtectedRoutesLogin } from "./routes/RutaProtegidaLogin";
 import { Areas } from "./components/Areas/Areas/Areas";
 import { Dispositivos } from "./components/Areas/Dispositivos/DispositivosPage";
-import { dataLoader } from "./helpers/Apis/loader";
-
+import { UsuariosPage } from "./components/Configuracion/Usuarios/UsuariosPage";
+import { SettingsOptions } from "./components/Configuracion/SettingsOptions";
+import { NewClient } from "./components/Login/NewClient";
 
 const RoutesTSX = (
   <>
@@ -46,6 +47,7 @@ const RoutesTSX = (
     >
       <Route index={true} element={<Cliente />} />
       <Route path="loguser" element={<Usuario />} />
+      <Route path='register' element={<NewClient/>}/>
     </Route>
     <Route
       path="home/*"
@@ -54,14 +56,15 @@ const RoutesTSX = (
           <Home />
         </ProtectedRoutes>
       }
-      
     >
       <Route element={<DevicePage />} index={true} />
       <Route element={<Pesopage />} path="peso" />
       <Route element={<LogOut />} path="logout" />
-      <Route element={<Configuracion />} path="settings" />
-      <Route element={<HomeResultados />} path="resultados"/>
-      <Route element={<Zonas />} path="zonas" />
+      <Route element={<Configuracion />} path="settings/*">
+        <Route element={<SettingsOptions/>} index={true}/>
+        <Route element={<UsuariosPage />} path="usuarios/" />
+      </Route>
+      <Route element={<HomeResultados />} path="resultados" />
       <Route element={<AreasPage />} path="areas/*">
         <Route element={<Areas />} index={true} />
         <Route element={<Zonas />} path="zonas/" />
@@ -70,7 +73,6 @@ const RoutesTSX = (
     </Route>
 
     <Route path="*" element={<NotFound />} />
-    
   </>
 );
 

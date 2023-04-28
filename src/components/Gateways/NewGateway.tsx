@@ -9,27 +9,25 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import CellTowerIcon from "@mui/icons-material/CellTower";
 import { Button } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
-import { themeColors } from "../../../helpers/theme/theme.colors";
-import useForm from "../../../hooks/useForm";
-import { initialValues } from "../../../helpers/Login/formProps";
-import { createZona } from "../../../services/Areas/createZona";
+import { themeColors } from "../../helpers/theme/theme.colors";
+import useForm from "../../hooks/useForm";
+import { initialValues } from "../../helpers/Login/formProps";
+import { createNewMacGateway } from "../../services/Gateways/createNewGateway";
 
-export const NewZone = () => {
-  const { form, handleChange, handleSubmit } = useForm(initialValues);
-  const idcliente = Number(localStorage.getItem("idcliente"));
-  const idarea = Number(localStorage.getItem("idarea"));
-
-  const handleCreateZona = async () => {
-    const data = await createZona(form.nombrezonacreate, idarea, idcliente);
+export const NewGateway = () => {
+  const idcliente = localStorage.getItem("idcliente");
+  const { form, handleSubmit, handleChange } = useForm(initialValues);
+  const handlecreateGateway = async () => {
+    console.log(form.nombregateway);
+    console.log(idcliente);
+    const data = await createNewMacGateway(
+      form.nombregateway,
+      Number(idcliente)
+    );
     if (data !== undefined) {
       console.log(data);
     }
-    console.log(form.nombrezonacreate)
-    console.log(idarea)
-    console.log(idcliente)
-  
   };
-
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>
@@ -43,7 +41,7 @@ export const NewZone = () => {
           }}
         >
           <Typography variant="h4" sx={{ textAlign: "center" }}>
-            Agregar Zona
+            Agregar Gateway
           </Typography>
           <Divider />
           {/* INPUT NOMBRE */}
@@ -55,13 +53,11 @@ export const NewZone = () => {
               px: 1,
               background: themeColors.GRAY2,
               borderRadius: 4,
-              // border: "solid",
-              // borderColor: themeColors.DARKGRAY,
             }}
-            id="nombrezonacreate"
+            id="nombregateway"
+            value={form.nombregateway}
             type="text"
-            name="nombrezonacreate"
-            value={form.nombrezonacreate}
+            name="nombregateway"
             onChange={handleChange}
             disableUnderline
             startAdornment={
@@ -78,7 +74,7 @@ export const NewZone = () => {
             sx={{ width: "50%" }}
             variant="outlined"
             startIcon={<SaveIcon />}
-            onClick={handleCreateZona}
+            onClick={handlecreateGateway}
           >
             Guardar
           </Button>

@@ -11,6 +11,10 @@ interface IComboData {
   areasbyclient: any;
   alldevices: any;
   resumenalldevices: any;
+  zonasbyareas: any;
+  idarea: any;
+  devicesbyzonas:any;
+  idzona:any;
 }
 
 const initialState: IComboData = {
@@ -23,6 +27,10 @@ const initialState: IComboData = {
   areasbyclient: [],
   alldevices: [],
   resumenalldevices: [],
+  zonasbyareas: [],
+  idarea: [],
+  devicesbyzonas:[],
+  idzona:[],
 };
 
 export const comboMacSlice = createSlice({
@@ -56,6 +64,18 @@ export const comboMacSlice = createSlice({
     setResumenAllDevices: (state, action: PayloadAction<any>) => {
       state.resumenalldevices = action.payload;
     },
+    setZonasByAreas: (state, action: PayloadAction<any>) => {
+      state.zonasbyareas = action.payload;
+    },
+    setIdArea: (state, action: PayloadAction<any>) => {
+      state.idarea = action.payload;
+    },
+    setDevicesByZonas: (state, action: PayloadAction<any>) => {
+      state.devicesbyzonas = action.payload;
+    },
+    setIdZona: (state, action: PayloadAction<any>) => {
+      state.devicesbyzonas = action.payload;
+    },
   },
 });
 
@@ -69,6 +89,10 @@ export const {
   setDevicessByClient,
   setAllDevices,
   setResumenAllDevices,
+  setZonasByAreas,
+  setIdArea,
+  setDevicesByZonas,
+  setIdZona
 } = comboMacSlice.actions;
 
 export const selectComboGateways = (state: RootState) =>
@@ -87,7 +111,15 @@ export const selectAreasByClient = (state: RootState) =>
   state.clientPetitions.areasbyclient;
 export const selectAllDevices = (state: RootState) =>
   state.clientPetitions.alldevices;
+export const selectZonasByAreas = (state: RootState) =>
+  state.clientPetitions.zonasbyareas;
+export const selectIdArea = (state: RootState) =>
+  state.clientPetitions.idarea;
 export const selectResumenAllDevices = (state: RootState) =>
   state.clientPetitions.resumenalldevices;
+  export const selectDevicesByZonas = (state: RootState) =>
+  state.clientPetitions.devicesbyzonas;
+  export const selectIdZona = (state: RootState) =>
+  state.clientPetitions.idzona
 
 export default comboMacSlice.reducer;

@@ -16,12 +16,7 @@ import useForm from "../../hooks/useForm";
 import { themeColors } from "../../helpers/theme/theme.colors";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  setDataCliente,
-  setClientCI,
-  setClave,
-  setUsuario,
-} from "../../features/userSlice";
+
 //React Router Dom
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";

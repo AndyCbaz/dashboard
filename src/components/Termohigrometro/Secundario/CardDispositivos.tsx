@@ -33,18 +33,18 @@ interface CardProp {
   dataH: boolean;
   zona: string;
   bateria: number;
-  actualTemp: number;
-  actualHum: number;
-  tmax: number | null;
-  tmin: number | null;
-  tprom: number | null;
-  hmax: number | null;
-  hmin: number | null;
-  hprom: number | null;
-  tmaxgraf: number | null;
-  tmingraf: number | null;
-  hmaxgraf: number | null;
-  hmingraf: number | null;
+  actualTemp: string;
+  actualHum: string;
+  tmax: string ;
+  tmin: string ;
+  tprom: string ;
+  hmax: string ;
+  hmin: string ;
+  hprom: string ;
+  tmaxgraf: number ;
+  tmingraf: number ;
+  hmaxgraf: number ;
+  hmingraf: number ;
 }
 
 export const CardDispositivos: React.FC<CardProp> = ({
@@ -71,6 +71,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
   hmingraf,
 }) => {
   const dispatch = useAppDispatch();
+
 
   const handleClickAPIResult = () => {
     // Formato de fechas y horas sin modificacion de hora ===>>>
@@ -107,7 +108,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
 
   let senial_format = Number(senial);
   if (senial !== null) {
-    senial_format = Number((senial * 1.4286 + 142.86).toFixed(0));
+    senial_format = Number((senial  + 100).toFixed(0));
   }
 
   let bateria_format = Number(bateria)
@@ -235,7 +236,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   >
                     {/* MAXIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {tmax}°C <br />{" "}
+                      {parseInt(tmax).toFixed(1)}°C <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -248,7 +249,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* MINIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {tmin}°C <br />
+                      {parseInt(tmin).toFixed(1)}°C <br />
                       <span
                         style={{
                           fontSize: "10px",
@@ -261,7 +262,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* PROMEDIO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {tprom?.toFixed(1)}°C <br />{" "}
+                      {parseInt(tprom).toFixed(1)}°C <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -276,7 +277,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   {/* Indicador Circular  Resumen*/}
                   <Box sx={{ display: "flex", alignItems: " center" }}>
                     <RadialIndicadorTemperatura
-                      valor={actualTemp}
+                      valor={Number(parseFloat(actualTemp).toFixed(0))}
                       circleWidth={70}
                       unidad="°C"
                     />
@@ -346,7 +347,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   >
                     {/* MAXIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {hmax}% <br />{" "}
+                      {parseInt(hmax).toFixed(1)}% <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -359,7 +360,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* MINIMO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {hmin}% <br />
+                      {parseInt(hmin).toFixed(1)}% <br />
                       <span
                         style={{
                           fontSize: "10px",
@@ -372,7 +373,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     </Typography>
                     {/* PROMEDIO */}
                     <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                      {hprom?.toFixed(1)}% <br />{" "}
+                      {Number(hprom).toFixed(1)}% <br />{" "}
                       <span
                         style={{
                           fontSize: "10px",
@@ -394,7 +395,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     }}
                   >
                     <RadialIndicadorHumedad
-                      valor={actualHum}
+                      valor={Number(parseInt(actualHum).toFixed(0))}
                       circleWidth={70}
                       unidad="%"
                     />

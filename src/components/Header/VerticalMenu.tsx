@@ -12,7 +12,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-
+import StorageIcon from '@mui/icons-material/Storage';
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
@@ -250,12 +250,14 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
         ) : (
           <>
             {" "}
-            {/* Menu de Aréas */}
-            <ListItem key={"Areas"} disablePadding sx={{ display: "block" }}>
+            {/* Menu Dos */}
+            <ListItem key={"Areas y Gateways"} disablePadding sx={{ display: "block" }}>
               {/* Item Areas Header*/}
               <Box
                 sx={{
+                  display:'flex',justifyContent:'center',flexDirection:'column',
                   borderRadius: 1,
+                  gap:1,
 
                   background:
                     pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
@@ -289,6 +291,46 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
                   />
                 </ListItemButton>
+                
+           
+              </Box>
+              <Divider />
+              <Box sx={{
+                  display:'flex',justifyContent:'center',flexDirection:'column',
+                  borderRadius: 1,
+                  gap:1,
+
+                  background:
+                    pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
+                  // themeColors.BLUE1
+                }}>
+              <ListItemButton
+                  onClick={() => {
+                    handleMenuOptionSelected(3);
+                    navigate("/home/gateways");
+                  }}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: props.open ? "start" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <Box>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        justifyContent: "center",
+                      }}
+                    >
+                      <StorageIcon />
+                    </ListItemIcon>
+                  </Box>
+
+                  <ListItemText
+                    primary={"GATEWAYS"}
+                    sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
+                  />
+                </ListItemButton>
               </Box>
             </ListItem>
             {/* Separador */}
@@ -306,7 +348,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           <Box
             sx={{
               background:
-                pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
+                pageActivated === 4 ? themeColors.BLUE1 : themeColors.GRAY,
               borderRadius: 2,
               mx: 1,
               my: 0.5,
@@ -320,7 +362,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
               <Box>
                 <ListItemButton
                   onClick={() => {
-                    handleMenuOptionSelected(3);
+                    handleMenuOptionSelected(4);
                     navigate("/home/settings");
                   }}
                   sx={{
@@ -359,13 +401,13 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           my: 0.5,
           mb: 4,
           background:
-            pageActivated === 4 ? themeColors.BLUE1 : themeColors.GRAY,
+            pageActivated === 5 ? themeColors.BLUE1 : themeColors.GRAY,
         }}
       >
         <ListItem key={"LogOut"} disablePadding sx={{ display: "block" }}>
           <ListItemButton
             onClick={() => {
-              handleMenuOptionSelected(4);
+              handleMenuOptionSelected(5);
               handleOpen();
             }}
             sx={{

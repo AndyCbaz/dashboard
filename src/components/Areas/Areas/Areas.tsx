@@ -18,14 +18,17 @@ import { getDataLoginClient } from "../../../services/DevicePage/getDataLoginCli
 import { getAreas } from "../../../services/DevicePage/cliente/getAreas";
 import { getUsersByClient } from "../../../services/DevicePage/cliente/getUsersByClient";
 import { Loader } from "../../Loader/Loader";
-import { selectAreasByClient, setAreasByClient, setUsersByClient } from "../../../features/cliente/clientComboMacgateways";
+import {
+  selectAreasByClient,
+  setAreasByClient,
+  setUsersByClient,
+} from "../../../features/cliente/clientComboMacgateways";
 
 export const Areas = () => {
   //redux
   const dispatch = useAppDispatch();
-  const usuario = String(localStorage.getItem("usuario"));
-  const cliente = String(localStorage.getItem("cliente"));
-  
+  const idcliente = Number(localStorage.getItem('idcliente'));
+
   const dataCliente = useAppSelector(selectDataCliente);
   const areaByClient = useAppSelector(selectAreasByClient);
   //Modal
@@ -34,14 +37,18 @@ export const Areas = () => {
   const handleClose = () => setOpenModal(false);
 
   useEffect(() => {
-
+    getAreas(idcliente).then((data)=>{
+      if(data!==undefined){
+        dispatch(setAreasByClient(data))
+      }
+    })
   }, []);
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}
     >
       {/* Boton Agregar Area */}
-      {/* <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex" }}>
         <Button
           onClick={handleOpen}
           variant="outlined"
@@ -49,11 +56,11 @@ export const Areas = () => {
         >
           Agregar Área
         </Button>
-      </Box> */}
+      </Box>
 
       {/* Card de Areas */}
-      <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-        {dataCliente.length === 0 ? (
+      <Box sx={{ display: "flex", flexDirection: "row", width: "100%", gap:2 }}>
+        {areaByClient.length === 0 ? (
           <Box sx={{ display: "flex", width: "100%" }}>
             <Loader />
           </Box>
@@ -63,6 +70,7 @@ export const Areas = () => {
               index={area.nombrearea}
               key={area.nombrearea}
               nombre={area.nombrearea}
+              idarea={area.idarea}
             />
           ))
         )}

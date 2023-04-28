@@ -1,0 +1,39 @@
+import axios from "axios";
+import { HOST, PORT } from "../../helpers/Apis/HostPort";
+import { toast } from "react-toastify";
+
+const handleShowServerToast = () => {
+  toast.warning("Servidor sin Conexión");
+};
+
+export const createDevice = async (
+  nombre: string,
+  idusuario: number,
+  idmacgateway: number,
+  idarea: number,
+  idzona: number,
+  maxT: number,
+  minT: number,
+  hmax: number,
+  hmin: number
+) => {
+  try {
+    const res = await axios.post(
+      `http://${HOST}:${PORT}/api/user/crearDispositivo`, //cambiar api
+      {
+        macdispositivo: nombre,
+        idusuario: idusuario,
+        idmacgateway: idmacgateway,
+        idarea: idarea,
+        idzona: idzona,
+        maxTemperatura: maxT,
+        minTemperatura: minT,
+        maxHumedad: hmax,
+        minHumedad: hmin,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    handleShowServerToast();
+  }
+};

@@ -6,11 +6,14 @@ import { NewZone } from "./NewZone";
 import { CardZonas } from "./CardZonas";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectDataCliente, setDataCliente } from "../../../features/userSlice";
-import { selectAreasByClient } from "../../../features/userDataSlice";
-import { getDataLoginClient } from "../../../services/DevicePage/getDataLoginClient";
-import { selectZonasByClient, setZonasByClient } from "../../../features/cliente/clientComboMacgateways";
-import { getZonas } from "../../../services/DevicePage/cliente/getZonas";
+import {
+  selectIdArea,
+  selectZonasByAreas,
+  setZonasByAreas,
+} from "../../../features/cliente/clientComboMacgateways";
+
 import { Loader } from "../../Loader/Loader";
+import { getZonas } from "../../../services/Areas/getZonas";
 
 export const Zonas = () => {
   //Modal
@@ -24,29 +27,24 @@ export const Zonas = () => {
   const cliente = String(localStorage.getItem("cliente"));
   const clave = String(localStorage.getItem("clave"));
   const dataCliente = useAppSelector(selectDataCliente);
-  const zonasbyclient = useAppSelector(selectZonasByClient);
+  const zonasbyareas = useAppSelector(selectZonasByAreas);
+  const idareaLocal = Number(localStorage.getItem("idarea"));
+  const idarea = useAppSelector(selectIdArea);
 
   useEffect(() => {
-    if (dataCliente.length === 0) {
-      getDataLoginClient(cliente, clave).then((data) => {
-        if (data !== undefined) {
-          dispatch(setDataCliente(data));
-          getZonas(data.idcliente).then((data) => {
-            dispatch(setZonasByClient(data))
-            console.log(data);
-          });
+    if(zonasbyareas.length===0){
+      getZonas(idareaLocal).then((data)=>{
+        if(data!==undefined){
+          dispatch(setZonasByAreas(data))
         }
-      });
-    } else {
-      getZonas(dataCliente.idcliente).then((data) => {
-        dispatch(setZonasByClient(data))
-        // console.log(data);
-      });
+      })
     }
   }, []);
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-      {/* <Box sx={{ display: "flex" }}>
+      {/* Boton Agregar Zona */}
+      <Box sx={{ display: "flex" }}>
         <Button
           onClick={handleOpen}
           variant="outlined"
@@ -54,19 +52,25 @@ export const Zonas = () => {
         >
           Agregar Zona
         </Button>
-      </Box> */}
+      </Box>
+      
       <Box sx={{ display: "flex", gap: 2 }}>
-        {zonasbyclient.length === 0?
-        (<Loader/>)
-        :
-        zonasbyclient.map((zona:any)=>
-        <CardZonas key={zona.idzona} index={zona.idzona} nombre={zona.nombrezona} />
-        )
-        }
-        {/* <CardZonas index={1} nombre={zonasbyclient.nombrezona} /> */}
+        {zonasbyareas.length === 0 ? (
+          <Loader />
+        ) : (
+          zonasbyareas.map((zona: any) => (
+            <CardZonas
+              key={zona.idzona}
+              index={zona.idzona}
+              idzona={zona.idzona}
+              nombre={zona.nombrezona}
+            />
+          ))
+        )}
         
       </Box>
-      {/* <Modal
+
+      <Modal
         open={openModal}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -85,7 +89,7 @@ export const Zonas = () => {
           <NewZone />
         </Paper>
         
-      </Modal> */}
+      </Modal>
     </Box>
   );
 };

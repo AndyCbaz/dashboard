@@ -25,7 +25,7 @@ import {
   selectUsuario,
   selectDataCliente,
   selectDataUsuario,
-  selectClave,
+
   setDataCliente,
   setDataUsuario,
 } from "../features/userSlice";

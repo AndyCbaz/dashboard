@@ -40,7 +40,7 @@ import {
   setDevicessByClient,
   setResumenAllDevices,
   setUsersByClient,
-  setZonasByClient,
+  setZonasByAreas,
 } from "../../../features/cliente/clientComboMacgateways";
 
 export const DevicePage = () => {
@@ -79,8 +79,7 @@ export const DevicePage = () => {
       //1. LISTA DE USUARIOS POR CLIENTE Y ALMACENO LISTA EN
 
       getUsersByClient(idcliente).then(async (data) => {
-        if(data!==undefined){
-
+        if (data !== undefined) {
           dispatch(setUsersByClient(data));
           //2. LISTA DE DISPOSITIVOS POR USUARIO
           let devicesbyclient: any = [];
@@ -123,7 +122,7 @@ export const DevicePage = () => {
                             devicesbyclient[i].areas[j].zonas[k].nombrezona
                           );
                         }
-                        dispatch(setZonasByClient(zonas));
+                        dispatch(setZonasByAreas(zonas));
                       }
                     }
                   }
@@ -159,7 +158,7 @@ export const DevicePage = () => {
                 resumenbydevice.push(dataError);
               }
               // console.log(res);
-  
+
               // console.log(dataforresumenbyuser[i].idmacgateway);
               // console.log(dataforresumenbyuser[i].iddispositivo);
             }
@@ -173,8 +172,7 @@ export const DevicePage = () => {
       ////////USUARIO///////////////
       let devicesbyclient: any = [];
       getDataUser(idusuario, idcliente).then(async (data) => {
-        if(data!==undefined){
-
+        if (data !== undefined) {
           devicesbyclient.push(data);
           dispatch(setDevicessByClient(devicesbyclient));
           let dataforresumenbyuser = [];
@@ -210,7 +208,7 @@ export const DevicePage = () => {
                             devicesbyclient[i].areas[j].zonas[k].nombrezona
                           );
                         }
-                        dispatch(setZonasByClient(zonas));
+                        dispatch(setZonasByAreas(zonas));
                       }
                     }
                   }
@@ -233,20 +231,20 @@ export const DevicePage = () => {
                 let dataError = {
                   bateria: null,
                   nivelSenial: null,
-                  actualTemp: null,
-                  maximoTemp: null,
-                  minimoTemp: null,
-                  avgTemp: null,
-                  actualHum: null,
-                  maximoHum: null,
-                  minimoHum: null,
-                  avgHum: null,
+                  actualTemp: 0,
+                  maximoTemp: 0,
+                  minimoTemp: 0,
+                  avgTemp: 0,
+                  actualHum: 0,
+                  maximoHum: 0,
+                  minimoHum: 0,
+                  avgHum: 0,
                   infoset: false,
                 };
                 resumenbydevice.push(dataError);
               }
               // console.log(res);
-  
+
               // console.log(dataforresumenbyuser[i].idmacgateway);
               // console.log(dataforresumenbyuser[i].iddispositivo);
             }

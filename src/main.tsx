@@ -34,6 +34,7 @@ import { Dispositivos } from "./components/Areas/Dispositivos/DispositivosPage";
 import { UsuariosPage } from "./components/Configuracion/Usuarios/UsuariosPage";
 import { SettingsOptions } from "./components/Configuracion/SettingsOptions";
 import { NewClient } from "./components/Login/NewClient";
+import { GatewaysPage } from "./components/Gateways/GatewaysPage";
 
 const RoutesTSX = (
   <>
@@ -59,6 +60,7 @@ const RoutesTSX = (
     >
       <Route element={<DevicePage />} index={true} />
       <Route element={<Pesopage />} path="peso" />
+      <Route element={<GatewaysPage/> } path="gateways"/>
       <Route element={<LogOut />} path="logout" />
       <Route element={<Configuracion />} path="settings/*">
         <Route element={<SettingsOptions/>} index={true}/>

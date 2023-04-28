@@ -13,9 +13,10 @@ import { themeColors } from "../../../helpers/theme/theme.colors";
 interface CardProp {
   index: number;
   state: boolean;
+  nombre: string;
 }
 
-export const CardDispositivosZona: React.FC<CardProp> = ({ index, state }) => {
+export const CardDispositivosZona: React.FC<CardProp> = ({ index, state, nombre }) => {
   return (
     <Card
     key={index}
@@ -23,6 +24,7 @@ export const CardDispositivosZona: React.FC<CardProp> = ({ index, state }) => {
       display: "flex",
       boxShadow: 10,
       borderRadius: 4,
+      width:'140px',
       "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
 
     }}
@@ -41,12 +43,10 @@ export const CardDispositivosZona: React.FC<CardProp> = ({ index, state }) => {
           sx={{ width: "50px", height: "50px", color: themeColors.BLUE1 }}
         />
       </Box>
-      <Box>
-        <Typography>MAC Dispositivo: PB</Typography>
+      <Box sx={{textAlign:'center'}}>
+        <Typography>{nombre}</Typography>
       </Box>
-      <Box>
-        <Typography>MAC Gateway : 1</Typography>
-      </Box>
+    
     </CardActionArea>
   </Card>
   );

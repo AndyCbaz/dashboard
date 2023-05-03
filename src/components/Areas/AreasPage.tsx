@@ -19,7 +19,7 @@ export const AreasPage = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width:'100%' }}>
       {/* Indicador de Ubicacion */}
-      <Box><RouterBreadcrumbs/></Box>
+      <Box sx={{display:{xs:'block', sm:'none'}}}><RouterBreadcrumbs/></Box>
       {/* Childrens */}
       <Outlet />
     </Box>

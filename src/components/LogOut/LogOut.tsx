@@ -21,6 +21,7 @@ import {
 //React Router Dom
 import { useNavigate } from "react-router-dom";
 import { setDataResultDevice } from "../../features/userResultsSlice";
+import { setAllDevices, setResumenAllDevices } from "../../features/cliente/clientComboMacgateways";
 
 export const LogOut = () => {
   //reac-router-dom
@@ -33,12 +34,17 @@ export const LogOut = () => {
     localStorage.setItem("usuario", "");
     localStorage.setItem("idcliente", "");
     localStorage.setItem("empresa", "");
+    localStorage.setItem("idarea", "");
+    localStorage.setItem("idzona", "");
+    localStorage.setItem("idusuario", "");
     dispatch(setClientCI(""));
     dispatch(setUsuario(""));
     dispatch(setUserDataGlobal([]));
     dispatch(setDevicesResumen([]));
     dispatch(setDataUsuario([]));
     dispatch(setDataCliente([]));
+    dispatch(setAllDevices([]))
+    dispatch(setResumenAllDevices([]))
     navigate("/");
   };
 
@@ -56,7 +62,14 @@ export const LogOut = () => {
           <Typography variant="h5">Esta seguro que desea salir?</Typography>
         </Box>
         <Box>
-          <Button onClick={handleLogout} sx={{ background: themeColors.BLUE1 }}>
+          <Button
+            onClick={handleLogout}
+            sx={{
+              background: themeColors.BLUE1,
+              color:'white',
+              "&:hover": { background: themeColors.BLUE2 },
+            }}
+          >
             <Typography>Cerrar Sesión</Typography>
           </Button>
         </Box>

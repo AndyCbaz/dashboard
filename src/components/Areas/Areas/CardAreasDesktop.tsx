@@ -1,27 +1,31 @@
-import React from "react";
+import React, {useState} from "react";
 
 import { Box } from "@mui/system";
 import Card from "@mui/material/Card";
 import { Typography } from "@mui/material";
 import { CardActionArea } from "@mui/material";
-import CircleIcon from "@mui/icons-material/Circle";
-import { themeColors } from "../../helpers/theme/theme.colors";
+
+import { themeColors } from "../../../helpers/theme/theme.colors";
 
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
-import { setIdArea, setZonasByAreas } from "../../features/cliente/clientComboMacgateways";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { selectIdArea, setIdArea, setZonasByAreas } from "../../../features/cliente/clientComboMacgateways";
 
-import { getZonas } from "../../services/Areas/getZonas";
+import { getZonas } from "../../../services/Areas/getZonas";
 
 interface CardProp {
   index: number;
   nombre: string;
   idarea: string;
+  
 }
 
-export const CardAreas: React.FC<CardProp> = ({ index, nombre, idarea }) => {
+export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) => {
+
+  
   const dispatch = useAppDispatch();
+  const idarearedux = useAppSelector(selectIdArea);
   const handleSaveIdArea = async() => {
     localStorage.setItem("idarea", idarea);
     dispatch(setIdArea(idarea));
@@ -36,24 +40,16 @@ export const CardAreas: React.FC<CardProp> = ({ index, nombre, idarea }) => {
       sx={{
         display: "flex",
         boxShadow: 10,
+        background: idarea === idarearedux ? themeColors.GRAY3: themeColors.GRAY,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
       }}
     >
       <CardActionArea
-        component={Link}
-        to="/home/areas/zonas"
         sx={{ pt: 1, pb: 1.5, px: 2 }}
         onClick={handleSaveIdArea}
       >
-        {/* <Box>
-          <CircleIcon
-            sx={{
-              color: state ? themeColors.RED3 : themeColors.GREEN,
-              borderRadius: 4,
-            }}
-          />
-        </Box> */}
+
         <Box sx={{ display: "flex", flexDirection:'column',width: "70px" }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <FmdGoodIcon

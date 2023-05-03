@@ -32,7 +32,9 @@ import { getDataLoginClient } from "../../../services/DevicePage/getDataLoginCli
 import { getUsersByClient } from "../../../services/DevicePage/cliente/getUsersByClient";
 import {
   selectAllDevices,
+  selectDevicesSelected,
   selectResumenAllDevices,
+  selectResumenAllDevicesSelected,
   selectUsersByClient,
   selectZonasByClient,
   setAllDevices,
@@ -42,6 +44,7 @@ import {
   setUsersByClient,
   setZonasByAreas,
 } from "../../../features/cliente/clientComboMacgateways";
+import { CardDispositivosSelected } from "./CardDispositivosSelected";
 
 export const DevicePage = () => {
   //redux
@@ -58,6 +61,10 @@ export const DevicePage = () => {
   const dataUsuario = useAppSelector(selectDataUsuario);
   const resumenalldevices = useAppSelector(selectResumenAllDevices);
   const alldevices = useAppSelector(selectAllDevices);
+  const resumenalldevicesselected = useAppSelector(
+    selectResumenAllDevicesSelected
+  );
+  const devicesselected = useAppSelector(selectDevicesSelected);
   //redux usuario y cliente
   const dataUserGlobal = useAppSelector(selectUserDataGlobal);
   //redux resultado
@@ -67,6 +74,8 @@ export const DevicePage = () => {
     toast.warning("Servidor sin Conexión");
   };
 
+  const devicesSelected = useAppSelector(selectDevicesSelected);
+
   useEffect(() => {
     dispatch(setSearchDisplayState(true));
     //////////////////////////////////////////////
@@ -74,6 +83,7 @@ export const DevicePage = () => {
     // console.log(usuario);
     // console.log(dataUserGlobal);
     // console.log(dataDevicesResumen);
+
     /////////////////////cliente//////////////////////////
     if (cliente !== "") {
       //1. LISTA DE USUARIOS POR CLIENTE Y ALMACENO LISTA EN
@@ -122,7 +132,7 @@ export const DevicePage = () => {
                             devicesbyclient[i].areas[j].zonas[k].nombrezona
                           );
                         }
-                        dispatch(setZonasByAreas(zonas));
+                        // dispatch(setZonasByAreas(zonas));
                       }
                     }
                   }
@@ -169,6 +179,7 @@ export const DevicePage = () => {
 
       //////////////////////////////
     } else if (usuario !== "") {
+      
       ////////USUARIO///////////////
       let devicesbyclient: any = [];
       getDataUser(idusuario, idcliente).then(async (data) => {
@@ -207,9 +218,12 @@ export const DevicePage = () => {
                           zonas.push(
                             devicesbyclient[i].areas[j].zonas[k].nombrezona
                           );
+                          console.log(
+                            devicesbyclient[i].areas[j].zonas[k].nombrezona
+                          );
                         }
-                        dispatch(setZonasByAreas(zonas));
                       }
+                      // dispatch(setZonasByAreas(zonas));
                     }
                   }
                 }
@@ -243,10 +257,6 @@ export const DevicePage = () => {
                 };
                 resumenbydevice.push(dataError);
               }
-              // console.log(res);
-
-              // console.log(dataforresumenbyuser[i].idmacgateway);
-              // console.log(dataforresumenbyuser[i].iddispositivo);
             }
             dispatch(setResumenAllDevices(resumenbydevice));
           }
@@ -259,50 +269,88 @@ export const DevicePage = () => {
     <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
       {/* LISTA DE DISPOSITIVOS */}
       {cliente !== "" ? (
-        //device page del cliente
-        resumenalldevices.length === 0 || alldevices.length === 0 ? (
-          <Loader />
+        //Si no se ha seleecionado un dispositivo
+        devicesSelected.length === 0 ||
+        resumenalldevicesselected.length === 0 ? (
+          //device page del cliente
+          resumenalldevices.length === 0 || alldevices.length === 0 ? (
+            <Loader />
+          ) : (
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+                gap: 5,
+                flexWrap: "wrap",
+                justifyContent: "start",
+              }}
+            >
+              {/* <CardByDevice/> */}
+              {resumenalldevices.map((resumen: any, index: any) => (
+                <CardDispositivos
+                  //para consulta
+                  idmac={alldevices[index].idmacgateway}
+                  iddispositivo={alldevices[index].iddispositivo}
+                  //redux
+                  tmaxgraf={alldevices[index].maxTemperatura}
+                  tmingraf={alldevices[index].minTemperatura}
+                  hmaxgraf={alldevices[index].maxHumedad}
+                  hmingraf={alldevices[index].minHumedad}
+                  //renderizado
+                  bateria={resumen.bateria}
+                  senial={resumen.nivelSenial}
+                  actualTemp={resumen.actualTemp}
+                  actualHum={resumen.actualHum}
+                  nombre={alldevices[index].macdispositivo}
+                  zona={zonas[index]}
+                  key={alldevices[index].iddispositivo}
+                  state={alldevices[index].online}
+                  tmax={resumen.maximoTemp}
+                  tmin={resumen.minimoTemp}
+                  tprom={resumen.avgTemp}
+                  hmax={resumen.maximoHum}
+                  hmin={resumen.minimoHum}
+                  hprom={resumen.avgHum}
+                  dataT={resumen.infoset === false ? false : true}
+                  dataH={resumen.infoset === false ? false : true}
+                />
+              ))}
+            </Box>
+          )
         ) : (
-          <Box
-            sx={{
-              mt: 1,
-              display: "flex",
-              gap: 5,
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            {/* <CardByDevice/> */}
-            {resumenalldevices.map((resumen: any, index: any) => (
-              <CardDispositivos
-                //para consulta
-                idmac={alldevices[index].idmacgateway}
-                iddispositivo={alldevices[index].iddispositivo}
-                //redux
-                tmaxgraf={resumen.maxTemperatura}
-                tmingraf={resumen.minTemperatura}
-                hmaxgraf={resumen.maxHumedad}
-                hmingraf={resumen.minHumedad}
-                //renderizado
-                bateria={resumen.bateria}
-                senial={resumen.nivelSenial}
-                actualTemp={resumen.actualTemp}
-                actualHum={resumen.actualHum}
-                nombre={alldevices[index].macdispositivo}
-                zona={zonas[index]}
-                key={alldevices[index].iddispositivo}
-                state={alldevices[index].online}
-                tmax={resumen.maximoTemp}
-                tmin={resumen.minimoTemp}
-                tprom={resumen.avgTemp}
-                hmax={resumen.maximoHum}
-                hmin={resumen.minimoHum}
-                hprom={resumen.avgHum}
-                dataT={resumen.infoset === false ? false : true}
-                dataH={resumen.infoset === false ? false : true}
-              />
-            ))}
-          </Box>
+          //si se se ha seleccionado un dispositivo
+          // <Loader/>
+          resumenalldevicesselected.map((device: any, index:any) => (
+            <Box sx={{display:"flex",mt:1}}>
+            <CardDispositivosSelected
+              //para consulta
+              idmac={devicesSelected[index].idmacgateway}
+              iddispositivo={devicesSelected[index].iddispositivo}
+              //redux
+              tmaxgraf={devicesSelected[index].maxTemperatura}
+              tmingraf={devicesSelected[index].minTemperatura}
+              hmaxgraf={devicesSelected[index].maxHumedad}
+              hmingraf={devicesSelected[index].minHumedad}
+              //renderizado
+              bateria={device.bateria}
+              senial={device.nivelSenial}
+              actualTemp={device.actualTemp}
+              actualHum={device.actualHum}
+              nombre={devicesSelected[index].macdispositivo}
+              zona={zonas[index]}
+              key={devicesSelected[index].iddispositivo}
+              state={devicesSelected[index].online}
+              tmax={device.maximoTemp}
+              tmin={device.minimoTemp}
+              tprom={device.avgTemp}
+              hmax={device.maximoHum}
+              hmin={device.minimoHum}
+              hprom={device.avgHum}
+              dataT={device.infoset === false ? false : true}
+              dataH={device.infoset === false ? false : true}
+            />
+            </Box>
+          ))
         )
       ) : //device page del usuario
       resumenalldevices.length === 0 || alldevices.length === 0 ? (

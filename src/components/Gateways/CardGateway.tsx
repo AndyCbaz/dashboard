@@ -39,8 +39,8 @@ const handleSaveNewGateway = () => {
       }}
     >
       <CardActionArea
-        component={Link}
-        to="/home/areas/zonas"
+        // component={Link}
+        // to="/home/areas/zonas"
         sx={{ pt: 1, pb: 1.5, px: 2 }}
         onClick={handleSaveNewGateway}
       >

@@ -19,6 +19,7 @@ import {
   setDevicesByZonas,
 } from "../../../features/cliente/clientComboMacgateways";
 import { getDevicesByZonas } from "../../../services/Areas/getDevicesByZonas";
+import { Loader } from "../../Loader/Loader";
 
 export const Dispositivos = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -59,11 +60,19 @@ export const Dispositivos = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", gap: 2 }}>
-        {devicesByZonas.map((device:any)=>
-        <CardDispositivosZona key={device.iddispositivo} index={device.iddispositivo} state={device.online} nombre={device.macdispositivo}/>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+        {devicesByZonas.length === 0 ? (
+          <Loader />
+        ) : (
+          devicesByZonas.map((device: any) => (
+            <CardDispositivosZona
+              key={device.iddispositivo}
+              index={device.iddispositivo}
+              state={device.online}
+              nombre={device.macdispositivo}
+            />
+          ))
         )}
-        
       </Box>
       <Modal
         open={openModal}
@@ -76,8 +85,8 @@ export const Dispositivos = () => {
           sx={{
             borderRadius: 8,
             // my: 8,
-            width: "400px",
-            ml: { xs: "8%", sm: "35%" },
+            width: { sm: "400px", xs: "310px" },
+            ml: { xs: "10%", sm: "35%" },
             mt: 4,
           }}
         >

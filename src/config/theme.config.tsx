@@ -40,7 +40,7 @@ const theme = createTheme({
     MuiButton: {
       defaultProps: {
         style: {
-          color: themeColors.BLACK,
+          // color: themeColors.BLACK,
           borderRadius: 8,
           border:'solid',
           borderWidth: 1,

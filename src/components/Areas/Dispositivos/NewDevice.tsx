@@ -169,20 +169,24 @@ console.log(gatewayid)
                 display: "flex",
                 flexDirection: "column",
                 gap: 1,
-                width: "80px",
+                width: "100%",
                 textAlign: "center",
+                // border:'solid'
               }}
             >
               <Box>
-                <Typography>USUARIO</Typography>
+                <Typography sx={{textAlign:'start'}}>USUARIO</Typography>
               </Box>
               <Box sx={{ display: "flex" }}>
-                <FormControl fullWidth variant="filled">
+                <FormControl fullWidth variant="filled" size="small" >
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={userid}
                     disableUnderline
+                    
+                    sx={{height:'30px', pb:2}}
+
                     label="Age"
                     onChange={handleChangeSelectUser}
                   >

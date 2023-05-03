@@ -68,8 +68,6 @@ export const Cliente = () => {
           navigate("/home");
         }
       });
-
-      
     } else {
       handleCamposVacios();
     }
@@ -135,13 +133,26 @@ export const Cliente = () => {
 
       {/* Boton Ingresar */}
       <Box sx={{ display: "flex", pt: 2 }}>
-        <Button
+        {/* <Button
           onClick={() => {
             handleButtonIngresar();
           }}
-          sx={{ width: "100%", background: themeColors.BLUE1 }}
+          sx={{ width: "100%", background: themeColors.BLUE1, color:'white' }}
         >
           <Typography variant="body1">Ingresar</Typography>
+        </Button> */}
+        <Button
+          sx={{
+            width: "100%",
+            background: themeColors.BLUE1,
+            color: "white",
+            "&:hover": { color: "black", background:themeColors.BLUE2 },
+          }}
+          onClick={() => {
+            handleButtonIngresar();
+          }}
+        >
+          Ingresar
         </Button>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>

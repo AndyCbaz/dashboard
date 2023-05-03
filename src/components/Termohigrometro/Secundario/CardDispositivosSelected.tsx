@@ -47,7 +47,7 @@ interface CardProp {
   hmingraf: number;
 }
 
-export const CardDispositivos: React.FC<CardProp> = ({
+export const CardDispositivosSelected: React.FC<CardProp> = ({
   iddispositivo,
   idmac,
   nombre,
@@ -92,7 +92,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
     localStorage.setItem("hmin", String(hmingraf));
     localStorage.setItem("actualTemp", String(actualTemp));
     localStorage.setItem("actualHum", String(actualHum));
-    localStorage.setItem("nombredevice", String(nombre));
+    localStorage.setItem("nombredevice",String(nombre))
     ///
     dispatch(
       setDataMaxMinGraf({
@@ -133,8 +133,8 @@ export const CardDispositivos: React.FC<CardProp> = ({
         <Card
           sx={{
             display: "flex",
-            boxShadow: 10,
             
+            boxShadow: 10,
             borderRadius: 4,
             "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
           }}
@@ -143,9 +143,9 @@ export const CardDispositivos: React.FC<CardProp> = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              pt: 2,
-              pb: 2,
-              px: 2,
+              // pt: 1,
+              // pb: 1.5,
+              // px: 2,
             }}
             onClick={handleClickAPIResult}
             component={Link}
@@ -461,332 +461,310 @@ export const CardDispositivos: React.FC<CardProp> = ({
         </Card>
       ) : (
         <Card
-          sx={{
-            display: "flex",
-            // p: 1,
-            boxShadow: 10,
-            borderRadius: 4,
-            "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
-          }}
+        sx={{
+          display: "flex",
+          boxShadow: 10,
+          borderRadius: 4,
+          "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
+          
+        }}
+      >
+        <CardActionArea
+          sx={{ display: "flex", flexDirection: "column", pt: 1, pb: 1.5, px: 2 }}
+          onClick={handleClickAPIResult}
         >
-          <CardActionArea
+          {/* Area de Indicadores Visuales */}
+          <Box
+            sx={{ display: "flex", width: "100%", alignItems: "center", m: 0.5 }}
+          >
+            {/* Indicador de dipositivo conectado o desconectado */}
+            <Box sx={{ flexGrow: 1, pl: 2, display: "flex" }}>
+              <CircleIcon
+                sx={{
+                  color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
+                  borderRadius: 4,
+                }}
+              />
+            </Box>
+            <Box sx={{ display: "flex" }}>
+              {/* Indicador de Bateria */}
+              <Box
+                sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              >
+                <BatteryLevel value={bateria_format} />
+              </Box>
+              {/* Indicador de Señal */}
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  pr: 2,
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "center",
+                }}
+              >
+                <RatingCustom value={senial_format} />
+              </Box>
+            </Box>
+          </Box>
+          {/* Contenido de Card */}
+          <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              pt: 2,
-              pb: 2,
-              px: 2,
+              // border: "solid",
+              height:'180px'
             }}
-            onClick={handleClickAPIResult}
           >
-            {/* Area de Indicadores Visuales */}
+            {/* Label */}
             <Box
               sx={{
                 display: "flex",
-                width: "100%",
                 alignItems: "center",
-                m: 0.5,
+                justifyContent: "start",
+                p: 0.8,
               }}
             >
-              {/* Indicador de dipositivo conectado o desconectado */}
-              <Box sx={{ flexGrow: 1, pl: 2, display: "flex" }}>
-                <CircleIcon
-                  sx={{
-                    color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
-                    borderRadius: 4,
-                  }}
-                />
+              <Box sx={{ display: "flex", flexGrow: 1, pl: 1 }}>
+                <Typography variant="body1" sx={{ textAlign: "center" }}>
+                  {nombre}
+                </Typography>
               </Box>
-              <Box sx={{ display: "flex" }}>
-                {/* Indicador de Bateria */}
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <BatteryLevel value={bateria_format} />
-                </Box>
-                {/* Indicador de Señal */}
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    pr: 2,
-                    display: "flex",
-                    justifyContent: "end",
-                    alignItems: "center",
-                  }}
-                >
-                  <RatingCustom value={senial_format} />
-                </Box>
+              <Box sx={{ display: "flex", flexGrow: 2 }}>
+                <Typography variant="body1" sx={{ textAlign: "center" }}>
+                  {zona}
+                </Typography>
               </Box>
             </Box>
-            {/* Contenido de Card */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                // border: "solid",
-                height: "180px",
-              }}
-            >
-              {/* Label */}
+            <Divider />
+            {/* Contenedor de Variables */}
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 0.5 }}>
+              {/* Variable Temperatura */}
               <Box
                 sx={{
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "start",
-                  p: 0.8,
+                  flexDirection: " column",
+                  // border: "solid",
+                  gap: 1,
+                  p: 0.5,
                 }}
               >
-                <Box sx={{ display: "flex", flexGrow: 1, pl: 1 }}>
-                  <Typography variant="body1" sx={{ textAlign: "center" }}>
-                    {nombre}
-                  </Typography>
+                {/* Variable Label */}
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <Typography>Temperatura </Typography>
+                  <DeviceThermostatIcon />
                 </Box>
-                <Box sx={{ display: "flex", flexGrow: 2 }}>
-                  <Typography variant="body1" sx={{ textAlign: "center" }}>
-                    {zona}
-                  </Typography>
-                </Box>
-              </Box>
-              <Divider />
-              {/* Contenedor de Variables */}
-              <Box sx={{ display: "flex", justifyContent: "center", gap: 0.5 }}>
-                {/* Variable Temperatura */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: " column",
-                    // border: "solid",
-                    gap: 1,
-                    p: 0.5,
-                  }}
-                >
-                  {/* Variable Label */}
-                  <Box sx={{ display: "flex", justifyContent: "center" }}>
-                    <Typography>Temperatura </Typography>
-                    <DeviceThermostatIcon />
-                  </Box>
-                  {/* Resumen de Variable */}
-                  {dataT ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 0.4,
-                        // border: "solid",
-                        width: "135px",
-                      }}
-                    >
-                      {/* Texto Resumen Card */}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          textAlign: "center",
-                          alignItems: "center",
-                          gap: 2,
-                          // border: "solid",
-                        }}
-                      >
-                        {/* MAXIMO */}
-                        <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(tmax).toFixed(2)}°C <br />{" "}
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: themeColors.DARKGRAY,
-                            }}
-                          >
-                            {" "}
-                            MÁXIMO
-                          </span>
-                        </Typography>
-                        {/* MINIMO */}
-                        <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(tmin).toFixed(2)}°C <br />
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: themeColors.DARKGRAY,
-                            }}
-                          >
-                            {" "}
-                            MÍNIMO
-                          </span>
-                        </Typography>
-                        {/* PROMEDIO */}
-                        <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(tprom).toFixed(2)}°C <br />{" "}
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: themeColors.DARKGRAY,
-                            }}
-                          >
-                            {" "}
-                            PROMEDIO
-                          </span>
-                        </Typography>
-                      </Box>
-                      {/* Indicador Circular  Resumen*/}
-                      <Box sx={{ display: "flex", alignItems: " center" }}>
-                        <RadialIndicadorTemperatura
-                          valor={Number(parseFloat(actualTemp).toFixed(0))}
-                          circleWidth={70}
-                          unidad="°C"
-                        />
-                      </Box>
-                    </Box>
-                  ) : (
-                    <Box
-                      sx={{
-                        width: "135px",
-                        display: "flex",
-                        alignItems: "center",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        height: "100%",
-                      }}
-                    >
-                      <Typography sx={{ display: "flex" }}>
-                        Información
-                      </Typography>
-                      <Typography sx={{ display: "flex" }}>no</Typography>
-                      <Typography sx={{ display: "flex" }}>
-                        Disponible
-                      </Typography>
-                    </Box>
-                  )}
-                </Box>
-                {/* Linea divisora vertical*/}
-                <Divider orientation="vertical" />
-                {/* Variable Humedad */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: " column",
-                    // border: "solid",
-                    gap: 1,
-                    p: 0.5,
-                  }}
-                >
-                  {/* Variable Label */}
+                {/* Resumen de Variable */}
+                {dataT ? (
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "center",
+                      gap: 0.4,
                       // border: "solid",
-                      // height: "100%",
+                      width: "135px",
                     }}
                   >
-                    <Typography>Humedad </Typography>
-                    <ShowerIcon />
-                  </Box>
-                  {/* Resumen de Variable */}
-                  {dataH ? (
+                    {/* Texto Resumen Card */}
                     <Box
                       sx={{
                         display: "flex",
-                        gap: 0.4,
-                        width: "135px",
+                        flexDirection: "column",
+                        textAlign: "center",
+                        alignItems: "center",
+                        gap: 2,
                         // border: "solid",
                       }}
                     >
-                      {/* Texto Resumen Card */}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          textAlign: "center",
-                          alignItems: "center",
-                          gap: 2,
-                          // border: "solid",
-                        }}
-                      >
-                        {/* MAXIMO */}
-                        <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(hmax).toFixed(2)}% <br />{" "}
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: themeColors.DARKGRAY,
-                            }}
-                          >
-                            {" "}
-                            MÁXIMO
-                          </span>
-                        </Typography>
-                        {/* MINIMO */}
-                        <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(hmin).toFixed(2)}% <br />
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: themeColors.DARKGRAY,
-                            }}
-                          >
-                            {" "}
-                            MÍNIMO
-                          </span>
-                        </Typography>
-                        {/* PROMEDIO */}
-                        <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {Number(hprom).toFixed(2)}% <br />{" "}
-                          <span
-                            style={{
-                              fontSize: "10px",
-                              color: themeColors.DARKGRAY,
-                            }}
-                          >
-                            {" "}
-                            PROMEDIO
-                          </span>
-                        </Typography>
-                      </Box>
-                      {/* Indicador Circular  Resumen*/}
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: " center",
-                          justifyContent: "center",
-                          width: "100%",
-                        }}
-                      >
-                        <RadialIndicadorHumedad
-                          valor={Number(parseInt(actualHum).toFixed(0))}
-                          circleWidth={70}
-                          unidad="%"
-                        />
-                      </Box>
+                      {/* MAXIMO */}
+                      <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
+                        {parseInt(tmax).toFixed(2)}°C <br />{" "}
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            color: themeColors.DARKGRAY,
+                          }}
+                        >
+                          {" "}
+                          MÁXIMO
+                        </span>
+                      </Typography>
+                      {/* MINIMO */}
+                      <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
+                        {parseInt(tmin).toFixed(2)}°C <br />
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            color: themeColors.DARKGRAY,
+                          }}
+                        >
+                          {" "}
+                          MÍNIMO
+                        </span>
+                      </Typography>
+                      {/* PROMEDIO */}
+                      <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
+                        {parseInt(tprom).toFixed(2)}°C <br />{" "}
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            color: themeColors.DARKGRAY,
+                          }}
+                        >
+                          {" "}
+                          PROMEDIO
+                        </span>
+                      </Typography>
                     </Box>
-                  ) : (
+                    {/* Indicador Circular  Resumen*/}
+                    <Box sx={{ display: "flex", alignItems: " center" }}>
+                      <RadialIndicadorTemperatura
+                        valor={Number(parseFloat(actualTemp).toFixed(0))}
+                        circleWidth={70}
+                        unidad="°C"
+                      />
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      width: "135px",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <Typography sx={{ display: "flex" }}>Información</Typography>
+                    <Typography sx={{ display: "flex" }}>no</Typography>
+                    <Typography sx={{ display: "flex" }}>Disponible</Typography>
+                  </Box>
+                )}
+              </Box>
+              {/* Linea divisora vertical*/}
+              <Divider orientation="vertical" />
+              {/* Variable Humedad */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: " column",
+                  // border: "solid",
+                  gap: 1,
+                  p: 0.5,
+                }}
+              >
+                {/* Variable Label */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    // border: "solid",
+                    // height: "100%",
+                  }}
+                >
+                  <Typography>Humedad </Typography>
+                  <ShowerIcon />
+                </Box>
+                {/* Resumen de Variable */}
+                {dataH ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 0.4,
+                      width: "135px",
+                      // border: "solid",
+                    }}
+                  >
+                    {/* Texto Resumen Card */}
                     <Box
                       sx={{
-                        width: "135px",
                         display: "flex",
-                        alignItems: "center",
                         flexDirection: "column",
-                        justifyContent: "center",
-                        height: "110px",
-                        // border:'solid',
+                        textAlign: "center",
+                        alignItems: "center",
+                        gap: 2,
+                        // border: "solid",
                       }}
                     >
-                      <Typography sx={{ display: "flex" }}>
-                        Información
+                      {/* MAXIMO */}
+                      <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
+                        {parseInt(hmax).toFixed(2)}% <br />{" "}
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            color: themeColors.DARKGRAY,
+                          }}
+                        >
+                          {" "}
+                          MÁXIMO
+                        </span>
                       </Typography>
-                      <Typography sx={{ display: "flex" }}>no</Typography>
-                      <Typography sx={{ display: "flex" }}>
-                        Disponible
+                      {/* MINIMO */}
+                      <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
+                        {parseInt(hmin).toFixed(2)}% <br />
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            color: themeColors.DARKGRAY,
+                          }}
+                        >
+                          {" "}
+                          MÍNIMO
+                        </span>
+                      </Typography>
+                      {/* PROMEDIO */}
+                      <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
+                        {Number(hprom).toFixed(2)}% <br />{" "}
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            color: themeColors.DARKGRAY,
+                          }}
+                        >
+                          {" "}
+                          PROMEDIO
+                        </span>
                       </Typography>
                     </Box>
-                  )}
-                </Box>
+                    {/* Indicador Circular  Resumen*/}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: " center",
+                        justifyContent: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <RadialIndicadorHumedad
+                        valor={Number(parseInt(actualHum).toFixed(0))}
+                        circleWidth={70}
+                        unidad="%"
+                      />
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      width: "135px",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      height: "110px",
+                      // border:'solid',
+                      
+                    }}
+                  >
+                    <Typography sx={{ display: "flex" }}>Información</Typography>
+                    <Typography sx={{ display: "flex" }}>no</Typography>
+                    <Typography sx={{ display: "flex" }}>Disponible</Typography>
+                  </Box>
+                )}
               </Box>
             </Box>
-          </CardActionArea>
-        </Card>
+          </Box>
+        </CardActionArea>
+      </Card>
       )}
     </>
   );

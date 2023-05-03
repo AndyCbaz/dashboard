@@ -67,12 +67,12 @@ export const Usuario = () => {
     if (form.user !== "") {
       const data = await getDataLoginUser(form.user);
       if (data !== undefined) {
-        localStorage.setItem('usuario',data.nombreusuario)
-        localStorage.setItem('idcliente',data.idcliente)
-        localStorage.setItem('idusuario',data.idusuario)
+        localStorage.setItem("usuario", data.nombreusuario);
+        localStorage.setItem("idcliente", data.idcliente);
+        localStorage.setItem("idusuario", data.idusuario);
         dispatch(setClientCI(""));
         dispatch(setUsuario(form.user));
-        dispatch(setDataUsuario(data))
+        dispatch(setDataUsuario(data));
         navigate("/home");
       }
     } else {
@@ -108,7 +108,12 @@ export const Usuario = () => {
         <Box sx={{ display: "flex", pt: 2 }}>
           <Button
             onClick={handleFunctionIngresarUsuario}
-            sx={{ width: "100%", background: themeColors.BLUE1 }}
+            sx={{
+              width: "100%",
+              background: themeColors.BLUE1,
+              color: "white",
+              "&:hover": { color: "black", background: themeColors.BLUE2 },
+            }}
           >
             <Typography variant="body1">Ingresar</Typography>
           </Button>

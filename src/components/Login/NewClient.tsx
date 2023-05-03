@@ -60,13 +60,20 @@ export const NewClient = () => {
 
   //Ingresar Funcion
   const handleCreateNewClient = () => {
-    createClient(form.clientregister,form.claveregister,form.nombreregister,form.empresaregister,form.directionregister,form.ciudadregister,form.telefonoregister,form.celularregister,form.emailregister)
-    .then((data)=>{console.log(data)})
-
+    createClient(
+      form.clientregister,
+      form.claveregister,
+      form.nombreregister,
+      form.empresaregister,
+      form.directionregister,
+      form.ciudadregister,
+      form.telefonoregister,
+      form.celularregister,
+      form.emailregister
+    ).then((data) => {
+      console.log(data);
+    });
   };
-
-
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -351,7 +358,12 @@ export const NewClient = () => {
           onClick={() => {
             handleCreateNewClient();
           }}
-          sx={{ width: "100%", background: themeColors.BLUE1 }}
+          sx={{
+            width: "100%",
+            background: themeColors.BLUE1,
+            color: "white",
+            "&:hover": { color: "black", background: themeColors.BLUE2 },
+          }}
         >
           <Typography variant="body1">Registrar</Typography>
         </Button>

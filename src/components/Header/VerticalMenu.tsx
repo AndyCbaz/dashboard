@@ -42,6 +42,7 @@ import {
 import { getDataLoginUser } from "../../services/DevicePage/getDataLoginUser";
 import { getDataUser } from "../../services/DevicePage/getDataUser";
 import { getDataDevicesResumen } from "../../services/DevicePage/getDataDevicesResumen";
+import { setDevicesSelected, setResumenAllDevicesSelected } from "../../features/cliente/clientComboMacgateways";
 
 interface VerticalMenuProp {
   open: boolean;
@@ -96,6 +97,8 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
     dispatch(setDataUsuario([]));
     dispatch(setUserDataGlobal([]));
     dispatch(setDevicesResumen([]));
+    dispatch(setResumenAllDevicesSelected([]))
+    dispatch(setDevicesSelected([]))
   };
 
   return (
@@ -108,7 +111,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       }}
     >
       {/* Seccion del Logo */}
-      <Box sx={{ display: "flex", height: "50px", justifyContent: "center" }}>
+      <Box sx={{ display: "flex", height: "50px", justifyContent: "center", mt:1 }}>
         <Box sx={{ ...(!props.open && { display: "none" }) }}>
           <LogoSection />
         </Box>
@@ -126,6 +129,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 borderRadius: 1,
                 // mx: 0.5,
                 my: 0.5,
+                color: pageActivated === 0 ? "white" : "black",
                 background:
                   pageActivated === 0 ? themeColors.BLUE1 : themeColors.GRAY,
               }}
@@ -147,7 +151,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                       minWidth: 0,
                     }}
                   >
-                    <GridViewIcon />
+                    <GridViewIcon sx={{color:pageActivated === 0 ? "white" : 'black'}} />
                   </ListItemIcon>
                 </Box>
 
@@ -185,6 +189,8 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     minHeight: 48,
 
                     "&:hover": { background: themeColors.BLUE2 },
+                    color: subpageActivated === "a"
+                    ? "white" : "black",
                     background:
                       subpageActivated === "a"
                         ? themeColors.BLUE2
@@ -195,6 +201,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     sx={{
                       display: props.open ? "none" : "flex",
                       justifyContent: "center",
+                      color: subpageActivated === "a" ? "white" : "black",
                     }}
                   >
                     <ThermostatIcon />
@@ -258,7 +265,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                   display:'flex',justifyContent:'center',flexDirection:'column',
                   borderRadius: 1,
                   gap:1,
-
+                  color: pageActivated === 2 ? "white" : "black",
                   background:
                     pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
                   // themeColors.BLUE1
@@ -280,6 +287,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                       sx={{
                         minWidth: 0,
                         justifyContent: "center",
+                        color: pageActivated === 2 ? "white" : "black",
                       }}
                     >
                       <GpsNotFixedIcon />
@@ -299,7 +307,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                   display:'flex',justifyContent:'center',flexDirection:'column',
                   borderRadius: 1,
                   gap:1,
-
+                  color: pageActivated === 3 ? "white" : "black",
                   background:
                     pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
                   // themeColors.BLUE1
@@ -320,6 +328,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                       sx={{
                         minWidth: 0,
                         justifyContent: "center",
+                        color: pageActivated === 3 ? "white" : "black",
                       }}
                     >
                       <StorageIcon />
@@ -350,6 +359,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
               background:
                 pageActivated === 4 ? themeColors.BLUE1 : themeColors.GRAY,
               borderRadius: 2,
+              color: pageActivated === 4 ? "white" : "black",
               mx: 1,
               my: 0.5,
             }}
@@ -378,6 +388,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                       minWidth: 0,
                       // mr: props.open ? 3 : "auto",
                       justifyContent: "center",
+                      color: pageActivated === 4 ? "white" : "black",
                     }}
                   >
                     <SettingsIcon />
@@ -400,6 +411,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           mx: 1,
           my: 0.5,
           mb: 4,
+          color: pageActivated === 5 ? "white" : "black",
           background:
             pageActivated === 5 ? themeColors.BLUE1 : themeColors.GRAY,
         }}
@@ -421,6 +433,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 minWidth: 0,
                 mr: props.open ? 3 : "auto",
                 justifyContent: "center",
+                color: pageActivated === 5 ? "white" : "black",
               }}
             >
               <LogoutIcon />

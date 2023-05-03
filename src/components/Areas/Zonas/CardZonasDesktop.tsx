@@ -10,7 +10,11 @@ import DomainIcon from "@mui/icons-material/Domain";
 import { Link } from "react-router-dom";
 import { getDevicesByZonas } from "../../../services/Areas/getDevicesByZonas";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectIdZona, setDevicesByZonas, setIdZona } from "../../../features/cliente/clientComboMacgateways";
+import {
+  selectIdZona,
+  setDevicesByZonas,
+  setIdZona,
+} from "../../../features/cliente/clientComboMacgateways";
 
 interface CardProp {
   index: number;
@@ -18,12 +22,16 @@ interface CardProp {
   idzona: string;
 }
 
-export const CardZonas: React.FC<CardProp> = ({ index, nombre, idzona }) => {
+export const CardZonasDesktop: React.FC<CardProp> = ({
+  index,
+  nombre,
+  idzona,
+}) => {
   const dispatch = useAppDispatch();
-  
+  const idzonaredux = useAppSelector(selectIdZona);
   const handledevicesbyzona = async () => {
     localStorage.setItem("idzona", idzona);
-    dispatch(setIdZona(4))
+    dispatch(setIdZona(idzona));
     const data = await getDevicesByZonas(Number(idzona));
     if (data !== undefined) {
       dispatch(setDevicesByZonas(data));
@@ -37,7 +45,8 @@ export const CardZonas: React.FC<CardProp> = ({ index, nombre, idzona }) => {
       sx={{
         display: "flex",
         width: "118px",
-        // background: idzona === idzonaredux ? themeColors.DARKGRAY : themeColors.GRAY,
+        background:
+          idzona === idzonaredux ? themeColors.GRAY3 : themeColors.GRAY,
         boxShadow: 10,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
@@ -45,8 +54,6 @@ export const CardZonas: React.FC<CardProp> = ({ index, nombre, idzona }) => {
     >
       <CardActionArea
         onClick={handledevicesbyzona}
-        component={Link}
-        to="/home/areas/zonas/dispositivos"
         sx={{ pt: 1, pb: 1.5, px: 2 }}
       >
         <Box sx={{ display: "flex", justifyContent: "center" }}>

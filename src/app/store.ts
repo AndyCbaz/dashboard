@@ -5,6 +5,7 @@ import userApiDataReducer from "../features/userResultsSlice";
 import userDataGlobalReducer from "../features/userDataSlice";
 import userSearchDisplayState from "../features/headerDisplay"
 import clientPetitionsReducer from "../features/cliente/clientComboMacgateways"
+import searchdevicesReducer from "../features/todos/search"
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     resultados: userApiDataReducer,
     headerDisplayState: userSearchDisplayState,
     clientPetitions: clientPetitionsReducer,
+    searchDevices: searchdevicesReducer,
   },
 });
 

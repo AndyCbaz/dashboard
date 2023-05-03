@@ -54,7 +54,7 @@ export const Zonas = () => {
         </Button>
       </Box>
       
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: 'wrap' }}>
         {zonasbyareas.length === 0 ? (
           <Loader />
         ) : (
@@ -81,8 +81,8 @@ export const Zonas = () => {
           sx={{
             borderRadius: 8,
             my: 8,
-            width: "350px",
-            ml: { xs: "15%", sm: "36%" },
+            width: {sm: "350px", xs:'300px'},
+            ml: { xs: "10%", sm: "36%" },
             mt: 4,
           }}
         >

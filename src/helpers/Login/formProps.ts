@@ -24,7 +24,8 @@ export interface Props {
   nombreareacreate: string;
   //formulario agregar zona
   nombrezonacreate: string;
-
+// input de search
+search: string;
 }
 
 export const initialValues = {
@@ -52,5 +53,8 @@ export const initialValues = {
   //formulario agregar area
   nombreareacreate: '',
   //formulario crear zona
-  nombrezonacreate:''
+  nombrezonacreate:'',
+  //input de searh
+  search:'',
+
 };

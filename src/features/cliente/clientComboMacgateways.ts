@@ -13,8 +13,10 @@ interface IComboData {
   resumenalldevices: any;
   zonasbyareas: any;
   idarea: any;
-  devicesbyzonas:any;
-  idzona:any;
+  devicesbyzonas: any;
+  idzona: any;
+  devicesSelected: any;
+  resumenAllDevicesSelected:any;
 }
 
 const initialState: IComboData = {
@@ -29,8 +31,10 @@ const initialState: IComboData = {
   resumenalldevices: [],
   zonasbyareas: [],
   idarea: [],
-  devicesbyzonas:[],
-  idzona:[],
+  devicesbyzonas: [],
+  idzona: [],
+  devicesSelected: [],
+  resumenAllDevicesSelected: [],
 };
 
 export const comboMacSlice = createSlice({
@@ -74,7 +78,13 @@ export const comboMacSlice = createSlice({
       state.devicesbyzonas = action.payload;
     },
     setIdZona: (state, action: PayloadAction<any>) => {
-      state.devicesbyzonas = action.payload;
+      state.idzona = action.payload;
+    },
+    setDevicesSelected: (state, action: PayloadAction<any>) => {
+      state.devicesSelected = action.payload;
+    },
+    setResumenAllDevicesSelected: (state, action: PayloadAction<any>) => {
+      state.resumenAllDevicesSelected = action.payload;
     },
   },
 });
@@ -92,7 +102,9 @@ export const {
   setZonasByAreas,
   setIdArea,
   setDevicesByZonas,
-  setIdZona
+  setIdZona,
+  setDevicesSelected,
+  setResumenAllDevicesSelected
 } = comboMacSlice.actions;
 
 export const selectComboGateways = (state: RootState) =>
@@ -113,13 +125,13 @@ export const selectAllDevices = (state: RootState) =>
   state.clientPetitions.alldevices;
 export const selectZonasByAreas = (state: RootState) =>
   state.clientPetitions.zonasbyareas;
-export const selectIdArea = (state: RootState) =>
-  state.clientPetitions.idarea;
+export const selectIdArea = (state: RootState) => state.clientPetitions.idarea;
 export const selectResumenAllDevices = (state: RootState) =>
   state.clientPetitions.resumenalldevices;
-  export const selectDevicesByZonas = (state: RootState) =>
+export const selectDevicesByZonas = (state: RootState) =>
   state.clientPetitions.devicesbyzonas;
-  export const selectIdZona = (state: RootState) =>
-  state.clientPetitions.idzona
+export const selectIdZona = (state: RootState) => state.clientPetitions.idzona;
+export const selectDevicesSelected = (state: RootState) => state.clientPetitions.devicesSelected;
+export const selectResumenAllDevicesSelected = (state: RootState) => state.clientPetitions.resumenAllDevicesSelected;
 
 export default comboMacSlice.reducer;

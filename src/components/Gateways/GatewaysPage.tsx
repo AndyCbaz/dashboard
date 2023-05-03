@@ -48,7 +48,7 @@ export const GatewaysPage = () => {
 
       {/* Card de Areas */}
       <Box
-        sx={{ display: "flex", flexDirection: "row", width: "100%", gap: 2 }}
+        sx={{ display: "flex", flexDirection: "row", width: "100%", gap: 2, flexWrap:'wrap', px:{sm:0, xs:2} }}
       >
         {gatewaysByClient.length === 0 ? (
           <Box sx={{ display: "flex", width: "100%" }}>

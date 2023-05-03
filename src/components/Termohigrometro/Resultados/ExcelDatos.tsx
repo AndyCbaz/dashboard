@@ -31,8 +31,20 @@ export const ExcelDatos: React.FC<Props> = ({ data }) => {
   };
 
   ////Accion del boton descargar Excel
+  let a:any = excelValores;
+    let b =a.map((e:{fecha:string})=>{
+      let c = (e.fecha.slice(0,19)).replace('T',' ')
+      
+      return c
+    })
+    let newExcelData:any = []
+    for(let i = 0; i < a.length; i++){
+      newExcelData.push({temperatura: a[i].temperatura, humedad:a[i].humedad, fecha: b[i]})
+    }
   const storeTemp = () => {
-    exportToCSV(excelValores, "Datos Exportados");
+    
+    exportToCSV(newExcelData, "Datos Exportados");
+    // console.log(newExcelData)
   };
   //excel
   const optionsExcel: any = {
@@ -80,7 +92,7 @@ export const ExcelDatos: React.FC<Props> = ({ data }) => {
       </Box>
       <MUIDataTable
         title={"Temperatura y Humedad"}
-        data={excelValores}
+        data={newExcelData}
         columns={columns}
         options={optionsExcel}
       />

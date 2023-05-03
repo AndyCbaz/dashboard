@@ -26,7 +26,8 @@ import {
   selectDataResultDevice,
   selectDatosResultConsulta,
   setDataResultDevice,
-  selectDatosMaxMinGraf
+  selectDatosMaxMinGraf,
+  setDataMaxMinGraf,
 } from "../../../features/userResultsSlice";
 import {
   selectSearchDisplayState,
@@ -36,7 +37,10 @@ import {
 import date from "date-and-time";
 import { getDataDevicesDetalle } from "../../../services/Results/getDataDeviceDetalle";
 import { setDataUsuario } from "../../../features/userSlice";
-import { setDevicesResumen, setUserDataGlobal } from "../../../features/userDataSlice";
+import {
+  setDevicesResumen,
+  setUserDataGlobal,
+} from "../../../features/userDataSlice";
 
 export const HomeResultados = () => {
   //redux
@@ -54,6 +58,10 @@ export const HomeResultados = () => {
     dispatch(setUserDataGlobal([]));
     dispatch(setDevicesResumen([]));
   };
+
+  //dispositivo y gateway de consulta de datos
+  const iddispositivo = Number(localStorage.getItem("iddispositivo"));
+  const idmacgateway = Number(localStorage.getItem("idgateway"));
 
   //formato fecha datos recibidos
   // Formato de fechas y horas sin modificacion de hora ===>>>
@@ -79,17 +87,17 @@ export const HomeResultados = () => {
     dayjs(fechaFinalEdit)
   );
   ////
-let fi;
-let ff;
+  let fi;
+  let ff;
   // const ff = new Date(fechaFinalEdit);
   if (dataResult.length === 0) {
-     fi = new Date(fechaInicialEdit);
-     ff = new Date(fechaFinalEdit);
-  }else{
-     fi = new Date(dataResult[0].fecha);
-     ff = new Date(dataResult[dataResult.length - 1].fecha);
+    fi = new Date(fechaInicialEdit);
+    ff = new Date(fechaFinalEdit);
+  } else {
+    fi = new Date(dataResult[0].fecha);
+    ff = new Date(dataResult[dataResult.length - 1].fecha);
   }
-  
+
   const fechaRecibidaFormato = dataResult
     .map((data: any) => data["fecha"])
     .map((data: any) => {
@@ -112,6 +120,24 @@ let ff;
   //Estados de las graficas
   const [tempGrap, setTempGraph] = useState(false);
   const [humGrap, setHumGraph] = useState(false);
+  const [HMm, setHMm] = useState(false);
+  const [TMm, setTMm] = useState(false);
+  //useefect de maximos y minimos de la grafica
+  useEffect(() => {
+    if (tempGrap === true && humGrap === true) {
+      setHMm(true);
+      setTMm(true);
+    } else if (tempGrap === true && humGrap === false) {
+      setTMm(true);
+      setHMm(false);
+    } else if (tempGrap === false && humGrap === true) {
+      setTMm(false);
+      setHMm(true);
+    } else if (tempGrap === false && humGrap === false) {
+      setTMm(true);
+      setHMm(true);
+    }
+  }, [tempGrap, humGrap, HMm, TMm]);
 
   //Configuracion Grafica
   const labels = dateGraficas;
@@ -120,7 +146,10 @@ let ff;
     datasets: [
       {
         label: "Temperatura",
-        data: dataResult.map((e: { temperatura: number }) => e.temperatura),
+        data: dataResult.map((e: { temperatura: string }) => {
+          const formatValue = e.temperatura.replace(",", ".");
+          return parseFloat(formatValue);
+        }),
         borderColor: themeColors.BLUE1,
         backgroundColor: themeColors.BLUE1,
         yAxisID: "y",
@@ -129,12 +158,67 @@ let ff;
       },
       {
         label: "Humedad",
-        data: dataResult.map((e: { humedad: number }) => e.humedad),
+        data: dataResult.map((e: { humedad: string }) => {
+          const formatValue = e.humedad.replace(",", ".");
+          return parseFloat(formatValue);
+        }),
         borderColor: themeColors.GREEN,
         backgroundColor: themeColors.GREEN,
         yAxisID: "y1",
         lineTension: 0.3,
         hidden: humGrap,
+      },
+      {
+        label: "minHum",
+        data: dataResult.map((e: { humedad: string }) => {
+          return datagrapinfo.hmin;
+        }),
+        borderColor: themeColors.ORANGEMIN,
+        backgroundColor: themeColors.ORANGEMIN,
+        yAxisID: "y1",
+        lineTension: 0.3,
+        hidden: HMm,
+        // fill:false,
+        borderDash: [5, 5],
+      },
+      {
+        label: "maxHum",
+        data: dataResult.map((e: { humedad: string }) => {
+          return datagrapinfo.hmax;
+        }),
+        borderColor: themeColors.GREENMAX,
+        backgroundColor: themeColors.GREENMAX,
+        yAxisID: "y1",
+        lineTension: 0.3,
+        hidden: HMm,
+        // fill:false,
+        borderDash: [5, 5],
+      },
+      {
+        label: "minTemp",
+        data: dataResult.map((e: { humedad: string }) => {
+          return datagrapinfo.tmin;
+        }),
+        borderColor: themeColors.ORANGEMIN,
+        backgroundColor: themeColors.ORANGEMIN,
+        yAxisID: "y",
+        lineTension: 0.3,
+        hidden: TMm,
+        // fill:false,
+        borderDash: [5, 5],
+      },
+      {
+        label: "maxTemp",
+        data: dataResult.map((e: { humedad: string }) => {
+          return datagrapinfo.tmax;
+        }),
+        borderColor: themeColors.GREENMAX,
+        backgroundColor: themeColors.GREENMAX,
+        yAxisID: "y",
+        lineTension: 0.3,
+        hidden: TMm,
+        // fill:false,
+        borderDash: [5, 5],
       },
     ],
   };
@@ -153,7 +237,7 @@ let ff;
         font: { size: 24 },
       },
       legend: {
-        display: true,
+        display: false,
         labels: {
           font: {
             size: 16,
@@ -253,10 +337,11 @@ let ff;
       .catch(() => {
         handleShowServerToast();
       });
+    console.log(dataConsulta.idgateway);
+    console.log(dataConsulta.iddispositivo);
   };
 
-
-//** handles de botones para consulta de periodos /////////////////*/
+  //** handles de botones para consulta de periodos /////////////////*/
   const handleTresMesesSearch = () => {
     //dia inicial
     let fechaEcuador = date.addDays(formatUTC, -90);
@@ -270,8 +355,8 @@ let ff;
     let monthf = date.format(fechaEcuadorfinal, "MM");
     let dayf = date.format(fechaEcuadorfinal, "DD");
     horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
-    console.log(horaI)
-    console.log(horaF)
+    console.log(horaI);
+    console.log(horaF);
     getDataDevicesDetalle(
       dataConsulta.idgateway,
       dataConsulta.iddispositivo,
@@ -301,8 +386,8 @@ let ff;
     let monthf = date.format(fechaEcuadorfinal, "MM");
     let dayf = date.format(fechaEcuadorfinal, "DD");
     horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
-    console.log(horaI)
-    console.log(horaF)
+    console.log(horaI);
+    console.log(horaF);
     getDataDevicesDetalle(
       dataConsulta.idgateway,
       dataConsulta.iddispositivo,
@@ -332,8 +417,8 @@ let ff;
     let monthf = date.format(fechaEcuadorfinal, "MM");
     let dayf = date.format(fechaEcuadorfinal, "DD");
     horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
-    console.log(horaI)
-    console.log(horaF)
+    console.log(horaI);
+    console.log(horaF);
     getDataDevicesDetalle(
       dataConsulta.idgateway,
       dataConsulta.iddispositivo,
@@ -363,8 +448,8 @@ let ff;
     let monthf = date.format(fechaEcuadorfinal, "MM");
     let dayf = date.format(fechaEcuadorfinal, "DD");
     horaF = `${yearf}-${monthf}-${dayf} 17:00:00`;
-    console.log(horaI)
-    console.log(horaF)
+    console.log(horaI);
+    console.log(horaF);
     getDataDevicesDetalle(
       dataConsulta.idgateway,
       dataConsulta.iddispositivo,
@@ -382,355 +467,389 @@ let ff;
       });
   };
   ///////////////////////////////////////////////////////////////////
-
+  //constantes de informacion en caso de refresh
+  const tmaxgraf = Number(localStorage.getItem("tmax"));
+  const tmingraf = Number(localStorage.getItem("tmin"));
+  const hmaxgraf = Number(localStorage.getItem("hmax"));
+  const hmingraf = Number(localStorage.getItem("hmin"));
+  const actualTemp = String(localStorage.getItem("actualTemp"));
+  const actualHum = String(localStorage.getItem("actualHum"));
+  const nombre = String(localStorage.getItem('nombredevice'))
   //useefect
   useEffect(() => {
-    getDataDevicesDetalle(
-      dataConsulta.idgateway,
-      dataConsulta.iddispositivo,
-      horaI,
-      horaF
-    )
-      .then((data) => {
-        if (data !== undefined) {
-          dispatch(setDataResultDevice(data));
-        }
-      })
-      .catch(() => {
-        handleShowServerToast();
-      });
+    if(dataResult.length === 0){
+      
+      getDataDevicesDetalle(idmacgateway, iddispositivo, horaI, horaF)
+        .then((data) => {
+          if (data !== undefined) {
+            dispatch(setDataResultDevice(data));
+          }
+        })
+        .catch(() => {
+          handleShowServerToast();
+        });
+    }
+    // console.log(idmacgateway)
+    // console.log(iddispositivo)
     if (location.href === "http://localhost:5173/home/resultados") {
       dispatch(setSearchDisplayState(false));
     }
-  }, []);
+    if (datagrapinfo.length === 0) {
+      dispatch(
+        setDataMaxMinGraf({
+          tmax: tmaxgraf,
+          tmin: tmingraf,
+          hmax: hmaxgraf,
+          hmin: hmingraf,
+          actualTemp: (actualTemp),
+          actualHum: actualHum,
+        })
+      );
+    }
+  }, [dataResult]);
 
   return (
     <>
-    <Toast />
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        // border: "solid",
-        width: "100%",
-      }}
-    >
-      
-      {/* GRAFICA */}
-      {/* Cuadro de Grafica */}
+      <Toast />
+      {}
       <Box
         sx={{
-          // border: "solid",
-          width: "100%",
           display: "flex",
-          flexGrow: 1,
           flexDirection: "column",
-          p: 2,
-          borderRadius: 2,
-          background: themeColors.WHITE,
-          boxShadow: 4,
+          
+          width: {sm: "100%", xs: '100%'},
         }}
       >
-        {/* Header */}
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          {/* Boton Atras */}
-          <Box sx={{ display: "flex", flexGrow: 1 }}>
-            <Button
-              onClick={() => {
-                hancleClick();
-              }}
-              variant="outlined"
-              startIcon={<ArrowBackIcon />}
-            >
-              Atras
-            </Button>
-          </Box>
-          <Box sx={{ display: "flex", flexGrow: 1 }}>
-            <Typography variant="h4">Registro de Datos</Typography>
-          </Box>
-        </Box>
-        {/* Control de Gráfica */}
+        {/* GRAFICA */}
+        {/* Cuadro de Grafica */}
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: { sm: "row", xs: "column" },
-            // flexGrow: 1,
-            m: 2,
-            gap: { xs: 0.5, sm: 8 },
             // border: "solid",
+            width: "100%",
+            display: "flex",
+            flexGrow: 1,
+            flexDirection: "column",
+            p: 2,
+            borderRadius: 2,
+            background: themeColors.WHITE,
+            boxShadow: 4,
           }}
         >
-          {/* Cotroles botones  */}
-          <Box sx={{ display: "flex", justifyContent: "center", flexGrow: 1 }}>
+          {/* Header */}
+          <Box sx={{ display: "flex", justifyContent: "center", p:0.5 }}>
+            {/* Boton Atras */}
+            <Box sx={{ display: "flex", flexGrow: 1 }}>
+              <Button
+                onClick={() => {
+                  hancleClick();
+                }}
+                variant="outlined"
+                startIcon={<ArrowBackIcon />}
+              >
+                Atras
+              </Button>
+            </Box>
+            <Box sx={{ display: "flex", flexGrow: 1, textAlign:{sm: 'start', xs: 'center'} }}>
+              <Typography variant="h4">Registro de Datos</Typography>
+            </Box>
+          </Box>
+          {/* Control de Gráfica */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: { sm: "row", xs: "column" },
+              // flexGrow: 1,
+              m: 2,
+              gap: { xs: 0.5, sm: 8 },
+              // border: "solid",
+            }}
+          >
+            {/* Cotroles botones  */}
+            <Box
+              sx={{ display: "flex", justifyContent: "center", flexGrow: 1 }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  "& > *": {
+                    m: 1,
+                  },
+                }}
+              >
+                <Typography>Seleccione un periodo</Typography>
+                <ButtonGroup
+                  variant="outlined"
+                  aria-label="opciones de grafica"
+                  sx={{ display: "flex", gap: 1 }}
+                >
+                  <Button
+                    onClick={handleTresMesesSearch}
+                    sx={{
+                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                    }}
+                  >
+                    3M
+                  </Button>
+                  <Button
+                    onClick={handleUnMesSearch}
+                    sx={{
+                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                    }}
+                  >
+                    1M
+                  </Button>
+                  <Button
+                    onClick={handleTwoWeeksSearch}
+                    sx={{
+                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                    }}
+                  >
+                    2S
+                  </Button>
+                  <Button
+                    onClick={handleOneWeekSearch}
+                    sx={{
+                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                    }}
+                  >
+                    7D
+                  </Button>
+                </ButtonGroup>
+              </Box>
+            </Box>
+            <Divider
+              orientation="vertical"
+              sx={{ display: { sm: "block", xs: "none" } }}
+            />
+            <Divider sx={{ display: { xs: "block", sm: "none" } }} />
+
+            {/* Controles fechas */}
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                "& > *": {
-                  m: 1,
-                },
+                gap: 0.5,
               }}
             >
-              <Typography>Seleccione un periodo</Typography>
-              <ButtonGroup
-                variant="outlined"
-                aria-label="opciones de grafica"
-                sx={{ display: "flex", gap: 1 }}
-              >
-                <Button
-                  onClick={handleTresMesesSearch}
-                  sx={{
-                    "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
-                  }}
-                >
-                  3M
-                </Button>
-                <Button
-                  onClick={handleUnMesSearch}
-                  sx={{
-                    "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
-                  }}
-                >
-                  1M
-                </Button>
-                <Button
-                  onClick={handleTwoWeeksSearch}
-                  sx={{
-                    "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
-                  }}
-                >
-                  2S
-                </Button>
-                <Button
-                  onClick={handleOneWeekSearch}
-                  sx={{
-                    "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
-                  }}
-                >
-                  7D
-                </Button>
-              </ButtonGroup>
-            </Box>
-          </Box>
-          <Divider
-            orientation="vertical"
-            sx={{ display: { sm: "block", xs: "none" } }}
-          />
-          <Divider sx={{ display: { xs: "block", sm: "none" } }} />
-
-          {/* Controles fechas */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 0.5,
-            }}
-          >
-            <Typography>Seleccione una Fecha</Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: { xs: 2, sm: 4 },
-                // flexDirection: { xs: "column", sm: "row" },
-                flexGrow: 2,
-                // border:'solid'
-              }}
-            >
-              <Box sx={{ display: "flex", height: "70%" }}>
-                <Button onClick={handleSearchNewDate}>Buscar</Button>
-              </Box>
+              <Typography>Seleccione una Fecha</Typography>
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: { sm: "row", xs: "column" },
-                  gap: 1,
-                }}
-              >
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer
-                    sx={{ display: "flex" }}
-                    components={["DateTimePicker"]}
-                  >
-                    <Box>
-                      <DateTimePicker
-                        label="Fecha Inicial"
-                        value={valueInicialDate}
-                        format="DD / MM / YYYY − HH:mm"
-                        onChange={(newValue) => {
-                          setValueInicialDate(newValue),
-                            setFechaInicialEdit(
-                              dayjs(newValue).format("YYYY-MM-DD HH:mm:ss")
-                            );
-                        }}
-                      />
-                    </Box>
-                  </DemoContainer>
-                  <DemoContainer
-                    sx={{ display: "flex" }}
-                    components={["DateTimePicker"]}
-                  >
-                    <Box>
-                      <DateTimePicker
-                        label="Fecha Final"
-                        value={valueFinalDate}
-                        onChange={(newValue) => {
-                          setValueFinalDate(newValue),
-                            setFechaFinalEdit(
-                              dayjs(newValue).format("YYYY-MM-DD HH:mm:ss")
-                            );
-                        }}
-                        format="DD / MM / YYYY − HH:mm"
-                      />
-                    </Box>
-                  </DemoContainer>
-                </LocalizationProvider>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-        {/* Grafica */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            justifyContent: "center",
-            // alignItems: "stretch",
-            // border:'solid',
-            // flexGrow: 1,
-            gap: 4,
-            width: "100%",
-          }}
-        >
-          {/* Informacion grafica */}
-          <Box
-            sx={{
-              display: "flex",
-              p: 2,
-              flexDirection: "column",
-              boxShadow: 2,
-              borderRadius: 2,
-
-              // border:'solid'
-            }}
-          >
-            <Box sx={{ textAlign: "center", pb: 1 }}>
-              <Typography variant="h5">Información</Typography>
-            </Box>
-            {/* Botones */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 3,
-                pb: 1,
-              }}
-            >
-              {/* Boton Temperatura */}
-              <Box>
-                <Button
-                  onClick={handleDisplayTemperature}
-                  sx={{
-                    background: !tempGrap
-                      ? themeColors.BLUE1
-                      : themeColors.GRAY,
-                    transform: !tempGrap ? "scale3d(1.05, 1.05, 1)" : "none",
-                    "&:hover": {
-                      transform: "scale3d(1.05, 1.05, 1)",
-                      background: themeColors.BLUE1,
-                    },
-                  }}
-                >
-                  Temperatura
-                </Button>
-              </Box>
-              {/* Boton Humedad */}
-              <Box>
-                <Button
-                  onClick={handleDisplayHumedad}
-                  sx={{
-                    background: !humGrap ? themeColors.GREEN : themeColors.GRAY,
-                    transform: !humGrap ? "scale3d(1.05, 1.05, 1)" : "none",
-                    "&:hover": {
-                      transform: "scale3d(1.05, 1.05, 1)",
-                      background: themeColors.GREEN,
-                    },
-                  }}
-                >
-                  Humedad
-                </Button>
-              </Box>
-            </Box>
-            <Box>
-              <Divider />
-            </Box>
-            <Box
-              sx={{
-                gap: 1,
-                display: "flex",
-                flexDirection: { sm: "column", xs: "row" },
-              }}
-            >
-              {/* Datos de Temperatura */}
-              <Box
-                sx={{
-                  display: "flex",
-                  py: 1,
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: 2,
+                  gap: { xs: 2, sm: 4 },
+                  // flexDirection: { xs: "column", sm: "row" },
+                  flexGrow: 2,
+                  // border:'solid'
                 }}
               >
-                <Box>
-                  <RadialIndicadorTemperatura
-                    valor={datagrapinfo.actualTemp}
-                    circleWidth={105}
-                    unidad="°C"
-                  />
+                <Box sx={{ display: "flex", height: "70%" }}>
+                  <Button onClick={handleSearchNewDate}>Buscar</Button>
                 </Box>
-                {/* Texto Resumen Card */}
                 <Box
                   sx={{
                     display: "flex",
-                    flexDirection: "column",
-                    textAlign: "center",
-                    alignItems: "center",
-                    gap: 1.5,
-                    // border: "solid",
+                    flexDirection: { sm: "row", xs: "column" },
+                    gap: 1,
                   }}
                 >
-                  {/* MAXIMO */}
-                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    {datagrapinfo.tmax}°C <br />{" "}
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: themeColors.DARKGRAY,
-                      }}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer
+                      sx={{ display: "flex" }}
+                      components={["DateTimePicker"]}
                     >
-                      {" "}
-                      MÁXIMO
-                    </span>
-                  </Typography>
-                  {/* MINIMO */}
-                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    {datagrapinfo.tmin}°C <br />
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: themeColors.DARKGRAY,
-                      }}
+                      <Box>
+                        <DateTimePicker
+                          label="Fecha Inicial"
+                          value={valueInicialDate}
+                          format="DD / MM / YYYY − HH:mm"
+                          onChange={(newValue) => {
+                            setValueInicialDate(newValue),
+                              setFechaInicialEdit(
+                                dayjs(newValue).format("YYYY-MM-DD HH:mm:ss")
+                              );
+                          }}
+                        />
+                      </Box>
+                    </DemoContainer>
+                    <DemoContainer
+                      sx={{ display: "flex" }}
+                      components={["DateTimePicker"]}
                     >
-                      {" "}
-                      MÍNIMO
-                    </span>
-                  </Typography>
-                  {/* PROMEDIO */}
-                  {/* <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                      <Box>
+                        <DateTimePicker
+                          label="Fecha Final"
+                          value={valueFinalDate}
+                          onChange={(newValue) => {
+                            setValueFinalDate(newValue),
+                              setFechaFinalEdit(
+                                dayjs(newValue).format("YYYY-MM-DD HH:mm:ss")
+                              );
+                          }}
+                          format="DD / MM / YYYY − HH:mm"
+                        />
+                      </Box>
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+          {/* Grafica */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: "center",
+              // alignItems: "stretch",
+              // border:'solid',
+              // flexGrow: 1,
+              
+              gap: 4,
+              width: "100%",
+            }}
+          >
+            {/* Informacion grafica */}
+            <Box
+              sx={{
+                display: "flex",
+                p: {sm:2, xs:0},
+                py:{sm:1, xs:2},
+                flexDirection: "column",
+                boxShadow: 2,
+                borderRadius: 2,
+              }}
+            >
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5">Información</Typography>
+              </Box>
+              {/* Nombre del Dispositivo */}
+              <Box sx={{py:0.5}}>
+                <Typography variant="h6" sx={{textAlign:'center'}}>{nombre}</Typography>
+              </Box>
+              {/* Botones */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 3,
+                  pb: 1,
+                }}
+              >
+                {/* Boton Temperatura */}
+                <Box>
+                  <Button
+                    onClick={handleDisplayTemperature}
+                    sx={{
+                      color:!tempGrap ? "white" : "black",
+                      background: !tempGrap
+                        ? themeColors.BLUE1
+                        : themeColors.GRAY,
+                        
+                      transform: !tempGrap ? "scale3d(1.05, 1.05, 1)" : "none",
+                      "&:hover": {
+                        transform: "scale3d(1.05, 1.05, 1)",
+                        // background: themeColors.BLUE1,
+                        color: "black",
+                      },
+                    }}
+                  >
+                    Temperatura
+                  </Button>
+                </Box>
+                {/* Boton Humedad */}
+                <Box>
+                  <Button
+                    onClick={handleDisplayHumedad}
+                    sx={{
+                      color:!humGrap ? "white" : "black",
+                      background: !humGrap
+                        ? themeColors.GREEN
+                        : themeColors.GRAY,
+                      transform: !humGrap ? "scale3d(1.05, 1.05, 1)" : "none",
+                      "&:hover": {
+                        transform: "scale3d(1.05, 1.05, 1)",
+                        // background: themeColors.GREEN,
+                        color: "black",
+                      },
+                    }}
+                  >
+                    Humedad
+                  </Button>
+                </Box>
+              </Box>
+              {/* divider */}
+              <Box>
+                <Divider />
+              </Box>
+              {/* datos T y H */}
+              <Box
+                sx={{
+                  gap: 1,
+                  display: "flex",
+                  flexDirection: { sm: "column", xs: "row" },
+                }}
+              >
+                {/* Datos de Temperatura */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    pt: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 2,
+                  }}
+                >
+                  <Box>
+                    <RadialIndicadorTemperatura
+                      valor={parseFloat(datagrapinfo.actualTemp)}
+                      circleWidth={105}
+                      unidad="°C"
+                    />
+                  </Box>
+                  {/* Texto Resumen Card */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      textAlign: "center",
+                      alignItems: "center",
+                      gap: 1.5,
+                      // border: "solid",
+                    }}
+                  >
+                    {/* MAXIMO */}
+                    <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                      {datagrapinfo.tmax}°C <br />{" "}
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: themeColors.DARKGRAY,
+                        }}
+                      >
+                        {" "}
+                        MÁXIMO
+                      </span>
+                    </Typography>
+                    {/* MINIMO */}
+                    <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                      {datagrapinfo.tmin}°C <br />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: themeColors.DARKGRAY,
+                        }}
+                      >
+                        {" "}
+                        MÍNIMO
+                      </span>
+                    </Typography>
+                    {/* PROMEDIO */}
+                    {/* <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
                     50°C <br />{" "}
                     <span
                       style={{
@@ -742,69 +861,69 @@ let ff;
                       PROMEDIO
                     </span>
                   </Typography> */}
+                  </Box>
                 </Box>
-              </Box>
-              <Divider sx={{ display: { xs: "none", sm: "block" } }} />
-              <Divider
-                orientation="vertical"
-                sx={{ display: { xs: "block", sm: "none" } }}
-              />
-              {/* Datos de Humedad */}
-              <Box
-                sx={{
-                  display: "flex",
-                  py: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <Box>
-                  <RadialIndicadorHumedad
-                    valor={datagrapinfo.actualHum}
-                    circleWidth={105}
-                    unidad="%"
-                  />
-                </Box>
-                {/* Texto Resumen Card */}
+                <Divider sx={{ display: { xs: "none", sm: "block" } }} />
+                <Divider
+                  orientation="vertical"
+                  sx={{ display: { xs: "block", sm: "none" } }}
+                />
+                {/* Datos de Humedad */}
                 <Box
                   sx={{
                     display: "flex",
-                    flexDirection: "column",
-                    textAlign: "center",
+                    py: 1,
+                    justifyContent: "center",
                     alignItems: "center",
-                    gap: 1.5,
-                    // border: "solid",
+                    gap: 2,
                   }}
                 >
-                  {/* MAXIMO */}
-                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    {datagrapinfo.hmax}% <br />{" "}
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: themeColors.DARKGRAY,
-                      }}
-                    >
-                      {" "}
-                      MÁXIMO
-                    </span>
-                  </Typography>
-                  {/* MINIMO */}
-                  <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
-                    {datagrapinfo.hmin}% <br />
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: themeColors.DARKGRAY,
-                      }}
-                    >
-                      {" "}
-                      MÍNIMO
-                    </span>
-                  </Typography>
-                  {/* PROMEDIO */}
-                  {/* <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                  <Box>
+                    <RadialIndicadorHumedad
+                      valor={parseFloat(datagrapinfo.actualHum)}
+                      circleWidth={105}
+                      unidad="%"
+                    />
+                  </Box>
+                  {/* Texto Resumen Card */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      textAlign: "center",
+                      alignItems: "center",
+                      gap: 1.5,
+                      // border: "solid",
+                    }}
+                  >
+                    {/* MAXIMO */}
+                    <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                      {datagrapinfo.hmax}% <br />{" "}
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: themeColors.DARKGRAY,
+                        }}
+                      >
+                        {" "}
+                        MÁXIMO
+                      </span>
+                    </Typography>
+                    {/* MINIMO */}
+                    <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
+                      {datagrapinfo.hmin}% <br />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: themeColors.DARKGRAY,
+                        }}
+                      >
+                        {" "}
+                        MÍNIMO
+                      </span>
+                    </Typography>
+                    {/* PROMEDIO */}
+                    {/* <Typography variant="h6" sx={{ lineHeight: 0.9 }}>
                     38% <br />{" "}
                     <span
                       style={{
@@ -816,60 +935,59 @@ let ff;
                       PROMEDIO
                     </span>
                   </Typography> */}
+                  </Box>
                 </Box>
               </Box>
+              <Divider />
+              {/* Boton de Ver Datos*/}
+              <Box sx={{ display: "flex", justifyContent: "center", py: 1 }}>
+                <Button
+                  onClick={() => {
+                    handleOpenModal();
+                  }}
+                >
+                  Ver Datos
+                </Button>
+              </Box>
             </Box>
-            <Divider />
-            {/* Boton de Ver Datos*/}
-            <Box sx={{ display: "flex", justifyContent: "center", pt: 1 }}>
-              <Button
-                onClick={() => {
-                  handleOpenModal();
-                }}
-              >
-                Ver Datos
-              </Button>
+            {/* Grafica  */}
+            <Box
+              sx={{
+                width: { sm: "60%", xs: "99%" },
+                height: { sm: "100%", xs: "300px" },
+                // border: "solid",
+                display: "flex",
+                justifyContent: "center",
+                boxShadow: 4,
+                // mx: 4,
+                borderRadius: 2,
+                p: 2,
+              }}
+            >
+              <Grafica data={data} options={optionsChart} />
             </Box>
-          </Box>
-          {/* Grafica  */}
-          <Box
-            sx={{
-              width: { sm: "60%", xs: "99%" },
-              height: { sm: "100%", xs: "300px" },
-              // border: "solid",
-              display: "flex",
-              justifyContent: "center",
-              boxShadow: 4,
-              // mx: 4,
-              borderRadius: 2,
-              p: 2,
-            }}
-          >
-            <Grafica data={data} options={optionsChart} />
           </Box>
         </Box>
-      </Box>
-      <Modal
-        open={openModalExcel}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Paper
-          variant="outlined"
-          sx={{
-            borderRadius: 8,
-            my: 4,
-            width: { xs: "95%", sm: "75%" },
-            ml: { xs: "2%", sm: "15%" },
-          }}
+        <Modal
+          open={openModalExcel}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
-          <ExcelDatos data={dataResult} />
-        </Paper>
-        {/* </Box> */}
-      </Modal>
-      
-    </Box>
+          <Paper
+            variant="outlined"
+            sx={{
+              borderRadius: 8,
+              my: 4,
+              width: { xs: "95%", sm: "75%" },
+              ml: { xs: "2%", sm: "15%" },
+            }}
+          >
+            <ExcelDatos data={dataResult} />
+          </Paper>
+          {/* </Box> */}
+        </Modal>
+      </Box>
     </>
   );
 };

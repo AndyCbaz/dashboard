@@ -301,7 +301,7 @@ export const DevicePage = () => {
                   senial={resumen.nivelSenial}
                   actualTemp={resumen.actualTemp}
                   actualHum={resumen.actualHum}
-                  nombre={alldevices[index].macdispositivo}
+                  nombre={alldevices[index].nombreDispositivo}
                   zona={zonas[index]}
                   key={alldevices[index].iddispositivo}
                   state={alldevices[index].online}
@@ -381,7 +381,7 @@ export const DevicePage = () => {
               senial={resumen.nivelSenial}
               actualTemp={resumen.actualTemp}
               actualHum={resumen.actualHum}
-              nombre={alldevices[index].macdispositivo}
+              nombre={alldevices[index].nombreDispositivo}
               zona={zonas[index]}
               key={alldevices[index].iddispositivo}
               state={alldevices[index].online}

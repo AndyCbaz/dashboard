@@ -7,8 +7,10 @@ type Props = {
 
 
 export const ProtectedRoutes = ({ children }: Props) => {
-  const cliente = localStorage.getItem('cliente')
-  const usuario = localStorage.getItem('usuario')
+  let cliente = localStorage.getItem('cliente')
+  let usuario = localStorage.getItem('usuario')
+
+
 
   if (usuario!=='' || cliente!=='') return <>{children}</>;
   else return <Navigate to="/" />;

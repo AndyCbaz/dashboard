@@ -32,8 +32,8 @@ const handleSaveNewGateway = () => {
       key={index}
       sx={{
         display: "flex",
-        
-        boxShadow: 10,
+        background:themeColors.GRAY,
+        boxShadow: 0,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
       }}

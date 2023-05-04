@@ -36,23 +36,30 @@ import { SettingsOptions } from "./components/Configuracion/SettingsOptions";
 import { NewClient } from "./components/Login/NewClient";
 import { GatewaysPage } from "./components/Gateways/GatewaysPage";
 
+if(localStorage.getItem('cliente')===null){
+  localStorage.setItem('cliente','')
+}
+if(localStorage.getItem('usuario')===null){
+  localStorage.setItem('usuario','')
+}
+
+
 const RoutesTSX = (
   <>
     <Route
-      path="/"
-      
+      path="/*"
       element={
         <ProtectedRoutesLogin>
           <LoginPage />
         </ProtectedRoutesLogin>
       }
     >
-      <Route index={true} element={<Cliente />} />
+      <Route  element={<Cliente />} index={true} />
       <Route path="loguser" element={<Usuario />} />
-      <Route path='register' element={<NewClient/>}/>
+      <Route path="register" element={<NewClient />} />
     </Route>
     <Route
-      path="home/*"
+      path="/home/*"
       element={
         <ProtectedRoutes>
           <Home />
@@ -61,10 +68,10 @@ const RoutesTSX = (
     >
       <Route element={<DevicePage />} index={true} />
       <Route element={<Pesopage />} path="peso" />
-      <Route element={<GatewaysPage/> } path="gateways"/>
+      <Route element={<GatewaysPage />} path="gateways" />
       <Route element={<LogOut />} path="logout" />
       <Route element={<Configuracion />} path="settings/*">
-        <Route element={<SettingsOptions/>} index={true}/>
+        <Route element={<SettingsOptions />} index={true} />
         <Route element={<UsuariosPage />} path="usuarios/" />
       </Route>
       <Route element={<HomeResultados />} path="resultados" />
@@ -75,7 +82,7 @@ const RoutesTSX = (
       </Route>
     </Route>
 
-    <Route path="*" element={<NotFound />} />
+    <Route path="/*" element={<NotFound />} />
   </>
 );
 

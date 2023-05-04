@@ -10,20 +10,10 @@ type Props = {
 
 export const ProtectedRoutesLogin = ({ children }: Props) => {
   
-  const cliente = localStorage.getItem('cliente');
-  const usuario = localStorage.getItem('usuario');
-  if(cliente ===undefined ){
-    return <>{children}</>
-  }
-  if(cliente ===null){
-    return <>{children}</>
-  }
-  if(usuario ===undefined ){
-    return <>{children}</>
-  }
-  if(usuario ===null){
-    return <>{children}</>
-  }
+  let cliente = localStorage.getItem('cliente');
+  let usuario = localStorage.getItem('usuario');
+
+
   
   if (cliente !=='' || usuario !== '') return <Navigate to="/home" replace />;
   else return <>{children}</>;

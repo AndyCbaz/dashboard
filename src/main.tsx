@@ -40,6 +40,7 @@ const RoutesTSX = (
   <>
     <Route
       path="/"
+      
       element={
         <ProtectedRoutesLogin>
           <LoginPage />

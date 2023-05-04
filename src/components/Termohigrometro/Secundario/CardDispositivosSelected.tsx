@@ -143,9 +143,9 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
             sx={{
               display: "flex",
               flexDirection: "column",
-              // pt: 1,
-              // pb: 1.5,
-              // px: 2,
+              pt: 1,
+              pb: 1.5,
+              px: 2,
             }}
             onClick={handleClickAPIResult}
             component={Link}

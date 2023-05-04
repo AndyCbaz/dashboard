@@ -880,7 +880,7 @@ export const HomeResultados = () => {
                 >
                   <Box>
                     <RadialIndicadorHumedad
-                      valor={parseFloat(datagrapinfo.actualHum)}
+                      valor={Number(Number(datagrapinfo.actualHum.replace(',','.')).toFixed(2))}
                       circleWidth={105}
                       unidad="%"
                     />

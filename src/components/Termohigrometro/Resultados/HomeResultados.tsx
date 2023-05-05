@@ -468,13 +468,13 @@ export const HomeResultados = () => {
   };
   ///////////////////////////////////////////////////////////////////
   //constantes de informacion en caso de refresh
-  const tmaxgraf = Number(localStorage.getItem("tmax"));
-  const tmingraf = Number(localStorage.getItem("tmin"));
-  const hmaxgraf = Number(localStorage.getItem("hmax"));
-  const hmingraf = Number(localStorage.getItem("hmin"));
+  const tmaxgraf = (localStorage.getItem("tmax"));
+  const tmingraf = (localStorage.getItem("tmin"));
+  const hmaxgraf = (localStorage.getItem("hmax"));
+  const hmingraf = (localStorage.getItem("hmin"));
   const actualTemp = String(localStorage.getItem("actualTemp"));
   const actualHum = String(localStorage.getItem("actualHum"));
-  const nombre = String(localStorage.getItem('nombredevice'))
+  const nombre = (localStorage.getItem('nombredevice'))
   //useefect
   useEffect(() => {
     if(dataResult.length === 0){
@@ -495,18 +495,22 @@ export const HomeResultados = () => {
       dispatch(setSearchDisplayState(false));
     }
     if (datagrapinfo.length === 0) {
+
       dispatch(
         setDataMaxMinGraf({
           tmax: tmaxgraf,
           tmin: tmingraf,
           hmax: hmaxgraf,
           hmin: hmingraf,
-          actualTemp: (actualTemp),
+          actualTemp: actualTemp,
           actualHum: actualHum,
         })
       );
     }
   }, [dataResult]);
+
+  // Number(Number(datagrapinfo.actualTemp.replace(',','.')).toFixed(1))
+  // Number(Number(datagrapinfo.actualHum.replace(',','.')).toFixed(1))
 
   return (
     <>
@@ -527,7 +531,7 @@ export const HomeResultados = () => {
             // border: "solid",
             width: "100%",
             display: "flex",
-            flexGrow: 1,
+            // flexGrow: 1,
             flexDirection: "column",
             p: 2,
             borderRadius: 2,
@@ -536,9 +540,9 @@ export const HomeResultados = () => {
           }}
         >
           {/* Header */}
-          <Box sx={{ display: "flex", justifyContent: "center", p:0.5 }}>
+          <Box sx={{ display: "flex", justifyContent: "start", p:0.5 }}>
             {/* Boton Atras */}
-            <Box sx={{ display: "flex", flexGrow: 1 }}>
+            <Box sx={{ display: "flex" }}>
               <Button
                 onClick={() => {
                   hancleClick();
@@ -549,7 +553,8 @@ export const HomeResultados = () => {
                 Atras
               </Button>
             </Box>
-            <Box sx={{ display: "flex", flexGrow: 1, textAlign:{sm: 'start', xs: 'center'} }}>
+            {/* Titulo  */}
+            <Box sx={{ display: "flex", flexGrow: 1, justifyContent:'center' }}>
               <Typography variant="h4">Registro de Datos</Typography>
             </Box>
           </Box>
@@ -557,26 +562,26 @@ export const HomeResultados = () => {
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
+              alignItems: {sm:'start', xs: "center"},
               flexDirection: { sm: "row", xs: "column" },
-              // flexGrow: 1,
-              m: 2,
-              gap: { xs: 0.5, sm: 8 },
+              justifyContent:'center',
+              flexGrow: 1,
+              m: 1,
+              gap: { xs: 0.5, sm: 3 },
               // border: "solid",
             }}
           >
             {/* Cotroles botones  */}
             <Box
-              sx={{ display: "flex", justifyContent: "center", flexGrow: 1 }}
+              sx={{ display: "flex", justifyContent: "center", alignItems:'start' }}
             >
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
+                  justifyContent:'start',
                   alignItems: "center",
-                  "& > *": {
-                    m: 1,
-                  },
+               gap:2
                 }}
               >
                 <Typography>Seleccione un periodo</Typography>
@@ -632,6 +637,7 @@ export const HomeResultados = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                // flexGrow:1,
                 gap: 0.5,
               }}
             >
@@ -705,10 +711,6 @@ export const HomeResultados = () => {
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
               justifyContent: "center",
-              // alignItems: "stretch",
-              // border:'solid',
-              // flexGrow: 1,
-              
               gap: 4,
               width: "100%",
             }}
@@ -728,7 +730,7 @@ export const HomeResultados = () => {
                 <Typography variant="h5">Información</Typography>
               </Box>
               {/* Nombre del Dispositivo */}
-              <Box sx={{py:0.5}}>
+              <Box sx={{pb:0.5}}>
                 <Typography variant="h6" sx={{textAlign:'center'}}>{nombre}</Typography>
               </Box>
               {/* Botones */}
@@ -806,7 +808,7 @@ export const HomeResultados = () => {
                 >
                   <Box>
                     <RadialIndicadorTemperatura
-                      valor={parseFloat(datagrapinfo.actualTemp)}
+                      valor={Number(Number(datagrapinfo.actualTemp).toFixed(1))}
                       circleWidth={105}
                       unidad="°C"
                     />
@@ -880,7 +882,7 @@ export const HomeResultados = () => {
                 >
                   <Box>
                     <RadialIndicadorHumedad
-                      valor={Number(Number(datagrapinfo.actualHum.replace(',','.')).toFixed(2))}
+                      valor={Number(Number(datagrapinfo.actualHum).toFixed(1))}
                       circleWidth={105}
                       unidad="%"
                     />
@@ -940,7 +942,7 @@ export const HomeResultados = () => {
               </Box>
               <Divider />
               {/* Boton de Ver Datos*/}
-              <Box sx={{ display: "flex", justifyContent: "center", py: 1 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", pt: 1 }}>
                 <Button
                   onClick={() => {
                     handleOpenModal();

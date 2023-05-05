@@ -3,7 +3,7 @@ import { HOST, PORT } from "../../helpers/Apis/HostPort";
 import { toast } from "react-toastify";
 
 const handleShowServerToast = () => {
-  toast.warning("Servidor sin Conexión");
+  toast.warning("Usuario ya Registrado");
 };
 
 export const createUser = async (idcliente: number, nombreusuario:string, idmacgateway:number | string) => {

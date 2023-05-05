@@ -337,7 +337,7 @@ export const DevicePage = () => {
               actualTemp={device.actualTemp}
               actualHum={device.actualHum}
               // nombre={devicesSelected[0].nombreDispositivo}
-              nombre={'cualquiera'}
+              nombre={devicesSelected[index].nombreDispositivo}
               zona={zonas[index]}
               key={devicesSelected[index].iddispositivo}
               index={devicesSelected[index].iddispositivo}

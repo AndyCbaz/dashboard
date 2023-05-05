@@ -86,14 +86,26 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
       setDataResultConsulta({ idgateway: idmac, iddispositivo: iddispositivo })
     );
     //Almacenar valores de ultimo dispositivo para refresh
+        let a = '';let b='';
+    if(actualTemp.includes(',')){
+       a = actualTemp.replace(',','.')
+    }else{
+       a = actualTemp
+    }
+    if(actualHum.includes(',')){
+      b = actualHum.replace(',','.')
+    }else {
+       b =actualHum
+    }
+
     localStorage.setItem("idgateway", String(idmac));
     localStorage.setItem("iddispositivo", String(iddispositivo));
     localStorage.setItem("tmax", String(tmaxgraf));
     localStorage.setItem("tmin", String(tmingraf));
     localStorage.setItem("hmax", String(hmaxgraf));
     localStorage.setItem("hmin", String(hmingraf));
-    localStorage.setItem("actualTemp", String(actualTemp));
-    localStorage.setItem("actualHum", String(actualHum));
+    localStorage.setItem("actualTemp", String(a));
+    localStorage.setItem("actualHum", String(b));
     localStorage.setItem("nombredevice", String(nombre));
     ///
     dispatch(
@@ -102,8 +114,8 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
         tmin: tmingraf,
         hmax: hmaxgraf,
         hmin: hmingraf,
-        actualTemp: actualTemp,
-        actualHum: actualHum,
+        actualTemp: a,
+        actualHum: b,
       })
     );
 
@@ -368,7 +380,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                     flexDirection: " column",
                     // border: "solid",
                     gap: 1.3,
-                    p: 1,
+                    pt: 1,
                   }}
                 >
                   {/* Variable Label */}

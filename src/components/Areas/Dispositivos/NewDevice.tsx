@@ -135,14 +135,14 @@ console.log(gatewayid)
             gap: 1,
           }}
         >
-          <Typography variant="h4" sx={{ textAlign: "center" }}>
+          <Typography variant="h6" sx={{ textAlign: "center" }}>
             Agregar Dispositivo
           </Typography>
           <Divider />
 
           {/* INPUT NOMBRE */}
           <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-            <Typography variant="body1">MAC </Typography>
+            <Typography variant="body1">Nombre </Typography>
           </Box>
           <Input
             sx={{
@@ -175,7 +175,7 @@ console.log(gatewayid)
               }}
             >
               <Box>
-                <Typography sx={{textAlign:'start'}}>USUARIO</Typography>
+                <Typography sx={{textAlign:'start'}}>Usuario</Typography>
               </Box>
               <Box sx={{ display: "flex" }}>
                 <FormControl fullWidth variant="filled" size="small" >
@@ -272,7 +272,7 @@ console.log(gatewayid)
           >
             <Box>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography variant="button">TEMPERATURA MÁXIMA </Typography>
+                <Typography variant="body2">Temperatura Máxima </Typography>
               </Box>
               <Input
                 sx={{
@@ -296,7 +296,7 @@ console.log(gatewayid)
             <Box>
               {/* INPUT TEMPERATURA MINIMA */}
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography variant="button">TEMPERATURA MÍNIMA </Typography>
+                <Typography variant="body2">Temperatura Mínima </Typography>
               </Box>
               <Input
                 sx={{
@@ -324,7 +324,7 @@ console.log(gatewayid)
           >
             <Box>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography variant="button">HUMEDAD MÁXIMA </Typography>
+                <Typography variant="body2">Humedad Máxima </Typography>
               </Box>
               <Input
                 sx={{
@@ -347,7 +347,7 @@ console.log(gatewayid)
 
             <Box>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography variant="button">HUMEDAD MÍNIMA </Typography>
+                <Typography variant="body2">Humedad Mínima </Typography>
               </Box>
               <Input
                 sx={{
@@ -372,7 +372,7 @@ console.log(gatewayid)
 
           {/* </FormControl> */}
         </Box>
-        <Box sx={{ my: 2, display: "flex", justifyContent: "center" }}>
+        <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
           <Button
             sx={{ width: "50%" }}
             variant="outlined"

@@ -75,7 +75,7 @@ const NewUser = () => {
           gap: 1,
         }}
       >
-        <Typography variant="h5" sx={{ textAlign: "center" }}>
+        <Typography variant="h6" sx={{ textAlign: "center" }}>
           Agregar Usuario
         </Typography>
         <Divider />
@@ -107,7 +107,7 @@ const NewUser = () => {
               {/* nombre */}
 
               <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography variant="body1">NOMBRE </Typography>
+                <Typography variant="body2">Nombre </Typography>
               </Box>
               {/* input */}
               <Box>
@@ -132,7 +132,7 @@ const NewUser = () => {
               </Box>
               {/* MAC */}
               <Box>
-                <Typography>MAC</Typography>
+                <Typography variant="body2">MAC</Typography>
               </Box>
               <Box sx={{ width: "100%" }}>
                 <FormControl variant="standard" fullWidth size="small">

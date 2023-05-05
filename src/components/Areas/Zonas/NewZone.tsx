@@ -42,13 +42,13 @@ export const NewZone = () => {
             gap: 1,
           }}
         >
-          <Typography variant="h4" sx={{ textAlign: "center" }}>
+          <Typography variant="h6" sx={{ textAlign: "center" }}>
             Agregar Zona
           </Typography>
           <Divider />
           {/* INPUT NOMBRE */}
           <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-            <Typography variant="body1">NOMBRE </Typography>
+            <Typography variant="body1">Nombre </Typography>
           </Box>
           <Input
             sx={{
@@ -73,7 +73,7 @@ export const NewZone = () => {
 
           {/* </FormControl> */}
         </Box>
-        <Box sx={{ my: 2, display: "flex", justifyContent: "center" }}>
+        <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
           <Button
             sx={{ width: "50%" }}
             variant="outlined"

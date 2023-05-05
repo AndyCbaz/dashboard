@@ -32,6 +32,7 @@ interface CardProp {
   dataT: boolean;
   dataH: boolean;
   zona: string;
+  
   index: string;
   bateria: number;
   actualTemp: string;

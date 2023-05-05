@@ -32,17 +32,20 @@ import { getDataLoginClient } from "../../../services/DevicePage/getDataLoginCli
 import { getUsersByClient } from "../../../services/DevicePage/cliente/getUsersByClient";
 import {
   selectAllDevices,
+  selectAreasByClient,
   selectDevicesSelected,
   selectResumenAllDevices,
   selectResumenAllDevicesSelected,
   selectUsersByClient,
   selectZonasByClient,
   setAllDevices,
+  setAreasByClient,
   setDataGlobalClient,
   setDevicessByClient,
   setResumenAllDevices,
   setUsersByClient,
   setZonasByAreas,
+  setZonasByClient,
 } from "../../../features/cliente/clientComboMacgateways";
 import { CardDispositivosSelected } from "./CardDispositivosSelected";
 
@@ -54,6 +57,8 @@ export const DevicePage = () => {
   const cliente = String(localStorage.getItem("cliente"));
   const idcliente = Number(localStorage.getItem("idcliente"));
   const zonas = useAppSelector(selectZonasByClient);
+  const areas = useAppSelector(selectAreasByClient);
+  // const zonaSelected = useAppSelector(selec)
 
   const dataCliente = useAppSelector(selectDataCliente);
   const usuariosporcliente = useAppSelector(selectUsersByClient);
@@ -100,6 +105,8 @@ export const DevicePage = () => {
           // console.log(devicesbyclient)
           dispatch(setDevicessByClient(devicesbyclient));
           let dataforresumenbyuser = [];
+          let zonas: any = [];
+          let areas: any = [];
           if (devicesbyclient.length !== 0) {
             for (let i = 0; i < devicesbyclient.length; i++) {
               if (devicesbyclient[i].areas.length !== 0) {
@@ -112,7 +119,7 @@ export const DevicePage = () => {
                       k++
                     ) {
                       // console.log(devicesbyclient[i].areas[j].zonas[k])
-                      let zonas: any = [];
+                      
                       if (
                         devicesbyclient[i].areas[j].zonas[k].dispositivos
                           .length !== 0
@@ -129,10 +136,11 @@ export const DevicePage = () => {
                             devicesbyclient[i].areas[j].zonas[k].dispositivos[l]
                           );
                           zonas.push(
-                            devicesbyclient[i].areas[j].zonas[k].nombrezona
+                            {nombrezona: devicesbyclient[i].areas[j].zonas[k].nombrezona}
                           );
+                          areas.push({nombrearea: devicesbyclient[i].areas[j].nombrearea})
                         }
-                        // dispatch(setZonasByAreas(zonas));
+                        
                       }
                     }
                   }
@@ -140,7 +148,9 @@ export const DevicePage = () => {
               }
             }
           }
-          // console.log(dataforresumenbyuser)
+          dispatch(setZonasByClient(zonas));
+          dispatch(setAreasByClient(areas));
+          console.log(zonas)
           dispatch(setAllDevices(dataforresumenbyuser));
           if (dataforresumenbyuser.length !== 0) {
             let resumenbydevice: any = [];
@@ -187,6 +197,8 @@ export const DevicePage = () => {
           devicesbyclient.push(data);
           dispatch(setDevicessByClient(devicesbyclient));
           let dataforresumenbyuser = [];
+          let zonas: any = [];
+          let areas: any = [];
           if (devicesbyclient.length !== 0) {
             for (let i = 0; i < devicesbyclient.length; i++) {
               if (devicesbyclient[i].areas.length !== 0) {
@@ -218,19 +230,19 @@ export const DevicePage = () => {
                           zonas.push(
                             devicesbyclient[i].areas[j].zonas[k].nombrezona
                           );
-                          console.log(
-                            devicesbyclient[i].areas[j].zonas[k].nombrezona
-                          );
+                          areas.push(devicesbyclient[i].areas[j].nombreareas)
                         }
                       }
-                      // dispatch(setZonasByAreas(zonas));
+                      
                     }
                   }
                 }
               }
             }
           }
-          // console.log(dataforresumenbyuser)
+          
+          dispatch(setZonasByClient(zonas));
+          dispatch(setAreasByClient(areas));
           dispatch(setAllDevices(dataforresumenbyuser));
           if (dataforresumenbyuser.length !== 0) {
             let resumenbydevice: any = [];
@@ -302,7 +314,8 @@ export const DevicePage = () => {
                   actualTemp={resumen.actualTemp}
                   actualHum={resumen.actualHum}
                   nombre={alldevices[index].nombreDispositivo}
-                  zona={zonas[index]}
+                  zona={zonas[index].nombrezona}
+                  area={areas[index].nombrearea}
                   key={alldevices[index].iddispositivo}
                   state={alldevices[index].online}
                   tmax={resumen.maximoTemp}
@@ -338,7 +351,8 @@ export const DevicePage = () => {
               actualHum={device.actualHum}
               // nombre={devicesSelected[0].nombreDispositivo}
               nombre={devicesSelected[index].nombreDispositivo}
-              zona={zonas[index]}
+              zona={zonas[index].nombrezona}
+              // area={areas[index].nombrearea}
               key={devicesSelected[index].iddispositivo}
               index={devicesSelected[index].iddispositivo}
               state={devicesSelected[index].online}
@@ -384,7 +398,8 @@ export const DevicePage = () => {
               actualTemp={resumen.actualTemp}
               actualHum={resumen.actualHum}
               nombre={alldevices[index].nombreDispositivo}
-              zona={zonas[index]}
+              zona={zonas[index].nombrezona}
+              area={areas[index].nombrearea}
               key={alldevices[index].iddispositivo}
               state={alldevices[index].online}
               tmax={resumen.maximoTemp}

@@ -10,7 +10,10 @@ import { Link } from "react-router-dom";
 import { themeColors } from "../../../helpers/theme/theme.colors";
 import { getDevicesSelectedInfo } from "../../../services/DevicePage/cliente/getDevicesSelectedInfo";
 import { useAppDispatch } from "../../../app/hooks";
-import { setDevicesSelected, setResumenAllDevicesSelected } from "../../../features/cliente/clientComboMacgateways";
+import {
+  setDevicesSelected,
+  setResumenAllDevicesSelected,
+} from "../../../features/cliente/clientComboMacgateways";
 import { getDataDevicesResumen } from "../../../services/DevicePage/getDataDevicesResumen";
 
 interface CardProp {
@@ -33,36 +36,36 @@ export const CardDispositivosZonaDesktop: React.FC<CardProp> = ({
     getDevicesSelectedInfo(Number(idgateway), Number(iddispositivo)).then(
       (data) => {
         // console.log(data)
-        dispatch(setDevicesSelected(data))
+        dispatch(setDevicesSelected(data));
       }
     );
-    getDataDevicesResumen(Number(idgateway), Number(iddispositivo))
-    .then((data)=>{
-      // console.log(data)
-      let a = []
-      if(data !== undefined){
-        
-        a.push(data)
-      }else{
-        let dataError = {
-          bateria: null,
-          nivelSenial: null,
-          actualTemp: null,
-          maximoTemp: null,
-          minimoTemp: null,
-          avgTemp: null,
-          actualHum: null,
-          maximoHum: null,
-          minimoHum: null,
-          avgHum: null,
-          infoset: false,
-        };
-        a.push(dataError)
+    getDataDevicesResumen(Number(idgateway), Number(iddispositivo)).then(
+      (data) => {
+        // console.log(data)
+        let a = [];
+        if (data !== undefined) {
+          a.push(data);
+        } else {
+          let dataError = {
+            bateria: null,
+            nivelSenial: null,
+            actualTemp: null,
+            maximoTemp: null,
+            minimoTemp: null,
+            avgTemp: null,
+            actualHum: null,
+            maximoHum: null,
+            minimoHum: null,
+            avgHum: null,
+            infoset: false,
+          };
+          a.push(dataError);
+        }
+
+        // dispatch(setResumenAllDevicesSelected(data))
+        dispatch(setResumenAllDevicesSelected(a));
       }
-  
-      // dispatch(setResumenAllDevicesSelected(data))
-      dispatch(setResumenAllDevicesSelected(a))
-    })
+    );
   };
 
   return (
@@ -71,7 +74,7 @@ export const CardDispositivosZonaDesktop: React.FC<CardProp> = ({
       sx={{
         display: "flex",
         // boxShadow: 10,
-        boxShadow:0,
+        boxShadow: 0,
         background: themeColors.GRAY,
         borderRadius: 4,
         width: "140px",
@@ -81,24 +84,26 @@ export const CardDispositivosZonaDesktop: React.FC<CardProp> = ({
       <CardActionArea
         component={Link}
         to="/home/"
-        sx={{ pt: 1, pb: 1.5, px: 2 }}
+        sx={{ py:1, px: 2 }}
         onClick={handleDevicesSelected}
       >
-        <Box>
-          <CircleIcon
-            sx={{
-              color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
-              borderRadius: 4,
-            }}
-          />
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <DevicesOtherIcon
-            sx={{ width: "50px", height: "50px", color: themeColors.BLUE1 }}
-          />
+        <Box sx={{ display: "flex",  }}>
+          <Box sx={{display:'flex', flexGrow:1, justifyContent: "center", alignItems:'center'}}>
+            <CircleIcon
+              sx={{
+                color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
+                borderRadius: 4,
+              }}
+            />
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center",flexGrow:1 }}>
+            <DevicesOtherIcon
+              sx={{ width: "50px", height: "50px", color: themeColors.BLUE1 }}
+            />
+          </Box>
         </Box>
         <Box sx={{ textAlign: "center" }}>
-          <Typography>{nombre}</Typography>
+          <Typography variant="body2">{nombre}</Typography>
         </Box>
       </CardActionArea>
     </Card>

@@ -150,7 +150,7 @@ export const Areas = () => {
           }}
         >
           <Box>
-            <Typography variant="h5">Áreas</Typography>
+            <Typography variant="h6">Áreas</Typography>
           </Box>
           {/* Boton Agregar Area */}
           <Box>
@@ -185,11 +185,11 @@ export const Areas = () => {
             flexDirection: "column",
             gap: 1,
             // border: "solid",
-            height:'200px'
+            // height:'200px'
           }}
         >
           <Box>
-            <Typography variant="h5">Zonas</Typography>
+            <Typography variant="h6">Zonas</Typography>
           </Box>
           <Box sx={{ display: "flex" }}>
             <Button
@@ -222,11 +222,11 @@ export const Areas = () => {
             flexDirection: "column",
             gap: 1,
             // border: "solid",
-            height:'230px'
+            // height:'230px'
           }}
         >
           <Box>
-            <Typography variant="h5">Dispositivos</Typography>
+            <Typography variant="h6">Dispositivos</Typography>
           </Box>
           {/* Boton Agregar dispositivos */}
           <Box>

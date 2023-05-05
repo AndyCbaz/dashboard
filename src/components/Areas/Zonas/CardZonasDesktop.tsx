@@ -45,7 +45,9 @@ export const CardZonasDesktop: React.FC<CardProp> = ({
       key={index}
       sx={{
         display: "flex",
-        width: "118px",
+        width: "115px",
+        height:'80px',
+        justifyContent:'center',
         background:
           idzona === idzonaredux ? themeColors.GRAY3 : themeColors.GRAY,
         // boxShadow: 10,
@@ -60,7 +62,7 @@ export const CardZonasDesktop: React.FC<CardProp> = ({
       >
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <DomainIcon
-            sx={{ width: "50px", height: "50px", color: themeColors.BLUE1 }}
+            sx={{ width: "30px", height: "30px", color: themeColors.BLUE1 }}
           />
         </Box>
         <Box sx={{ textAlign: "center" }}>

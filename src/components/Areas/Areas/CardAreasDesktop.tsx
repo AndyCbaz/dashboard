@@ -41,6 +41,9 @@ export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) 
       sx={{
         display: "flex",
         // boxShadow: 10,
+        justifyContent:'center',
+        width: "115px",
+        height:'80px',
         boxShadow:0,
         background: idarea === idarearedux ? themeColors.GRAY3: themeColors.GRAY,
         borderRadius: 4,
@@ -52,10 +55,10 @@ export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) 
         onClick={handleSaveIdArea}
       >
 
-        <Box sx={{ display: "flex", flexDirection:'column',width: "70px" }}>
+        <Box sx={{ display: "flex", flexDirection:'column', }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <FmdGoodIcon
-              sx={{ width: "40px", height: "40px", color: themeColors.BLUE1 }}
+              sx={{ width: "30px", height: "30px", color: themeColors.BLUE1 }}
             />
           </Box>
           <Box

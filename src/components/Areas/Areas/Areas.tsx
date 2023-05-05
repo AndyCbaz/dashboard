@@ -39,6 +39,7 @@ import { NewDevice } from "../Dispositivos/NewDevice";
 import { NewZone } from "../Zonas/NewZone";
 import { getZonas } from "../../../services/Areas/getZonas";
 import { getDevicesByZonas } from "../../../services/Areas/getDevicesByZonas";
+import { setNombreArea, setNombreZona } from "../../../features/todos/search";
 
 export const Areas = () => {
   //redux
@@ -71,11 +72,13 @@ export const Areas = () => {
       if (data !== undefined) {
         dispatch(setAreasByClient(data));
         dispatch(setIdArea(data[0].idarea))
+        dispatch(setNombreArea(data[0].nombrearea))
         getZonas(data[0].idarea)
         .then((data)=>{
           if(data !== undefined){
             dispatch(setZonasByAreas(data))
             dispatch(setIdZona(data[0].idzona))
+            dispatch(setNombreZona(data[0].nombrezona))
             getDevicesByZonas(data[0].idzona)
             .then((data)=>{
               if(data!==undefined){

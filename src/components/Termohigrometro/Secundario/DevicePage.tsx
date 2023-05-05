@@ -48,7 +48,7 @@ import {
   setZonasByClient,
 } from "../../../features/cliente/clientComboMacgateways";
 import { CardDispositivosSelected } from "./CardDispositivosSelected";
-import { selectAreasByDevices, setAreasByDevices } from "../../../features/todos/search";
+import { selectAreasByDevices, selectNombreArea, selectNombreZona, setAreasByDevices } from "../../../features/todos/search";
 
 export const DevicePage = () => {
   //redux
@@ -59,7 +59,8 @@ export const DevicePage = () => {
   const idcliente = Number(localStorage.getItem("idcliente"));
   const zonas = useAppSelector(selectZonasByClient);
   const areas = useAppSelector(selectAreasByDevices);
-  // const zonaSelected = useAppSelector(selec)
+  const zonaSelected = useAppSelector(selectNombreZona)
+  const areaSelected = useAppSelector(selectNombreArea)
 
   const dataCliente = useAppSelector(selectDataCliente);
   const usuariosporcliente = useAppSelector(selectUsersByClient);
@@ -352,7 +353,8 @@ export const DevicePage = () => {
               actualHum={device.actualHum}
               // nombre={devicesSelected[0].nombreDispositivo}
               nombre={devicesSelected[index].nombreDispositivo}
-              zona={zonas[index].nombrezona}
+              zona={zonaSelected}
+              area={areaSelected}
               // area={areas[index].nombrearea}
               key={devicesSelected[index].iddispositivo}
               index={devicesSelected[index].iddispositivo}

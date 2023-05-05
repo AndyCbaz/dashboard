@@ -32,7 +32,7 @@ interface CardProp {
   dataT: boolean;
   dataH: boolean;
   zona: string;
-  
+  area: string;
   index: string;
   bateria: number;
   actualTemp: string;
@@ -59,6 +59,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
   dataT,
   dataH,
   zona,
+  area,
   actualTemp,
   actualHum,
   tmax,
@@ -248,7 +249,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                   }}
                 >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    area
+                    {area}
                   </Typography>
                 </Box>
                 <Box
@@ -259,7 +260,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                   }}
                 >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    zona
+                    {zona}
                   </Typography>
                 </Box>
               </Box>
@@ -601,7 +602,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                   }}
                 >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    area
+                    {area}
                   </Typography>
                 </Box>
                 <Box
@@ -612,7 +613,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                   }}
                 >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    zona
+                    {zona}
                   </Typography>
                 </Box>
               </Box>

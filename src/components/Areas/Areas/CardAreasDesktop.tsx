@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectIdArea, setIdArea, setZonasByAreas } from "../../../features/cliente/clientComboMacgateways";
 
 import { getZonas } from "../../../services/Areas/getZonas";
+import { setNombreArea } from "../../../features/todos/search";
 
 interface CardProp {
   index: number;
@@ -29,6 +30,7 @@ export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) 
   const handleSaveIdArea = async() => {
     localStorage.setItem("idarea", idarea);
     localStorage.setItem("nombrearea", nombre )
+    dispatch(setNombreArea(nombre))
     dispatch(setIdArea(idarea));
     const data = await getZonas(Number(idarea));
     dispatch(setZonasByAreas(data))

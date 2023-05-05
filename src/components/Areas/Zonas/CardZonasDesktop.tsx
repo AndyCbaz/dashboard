@@ -15,6 +15,7 @@ import {
   setDevicesByZonas,
   setIdZona,
 } from "../../../features/cliente/clientComboMacgateways";
+import { setNombreZona } from "../../../features/todos/search";
 
 interface CardProp {
   index: number;
@@ -32,6 +33,7 @@ export const CardZonasDesktop: React.FC<CardProp> = ({
   const handledevicesbyzona = async () => {
     localStorage.setItem("idzona", idzona);
     localStorage.setItem("nombrezona",nombre)
+    dispatch(setNombreZona(nombre))
     dispatch(setIdZona(idzona));
     const data = await getDevicesByZonas(Number(idzona));
     if (data !== undefined) {

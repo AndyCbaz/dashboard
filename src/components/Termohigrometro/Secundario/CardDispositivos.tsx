@@ -131,10 +131,11 @@ export const CardDispositivos: React.FC<CardProp> = ({
       {/* Card si existe datos */}
       {dataH && dataT ? (
         <Card
+          
           sx={{
             display: "flex",
             boxShadow: 10,
-            
+
             borderRadius: 4,
             "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
           }}
@@ -144,8 +145,8 @@ export const CardDispositivos: React.FC<CardProp> = ({
               display: "flex",
               flexDirection: "column",
               pt: 2,
-              pb: 2,
-              px: 2,
+              pb: 3,
+              px: 3,
             }}
             onClick={handleClickAPIResult}
             component={Link}
@@ -212,17 +213,36 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   p: 0.8,
                 }}
               >
-                <Box sx={{ display: "flex", flexGrow: 1, pl: 1, justifyContent:'center' }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 1,
+                    pl: 1,
+                    justifyContent: "center",
+                  }}
+                >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     {nombre}
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexGrow: 2, justifyContent:'center' }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 2,
+                    justifyContent: "center",
+                  }}
+                >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     area
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexGrow: 2 , justifyContent:'center'}}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 2,
+                    justifyContent: "center",
+                  }}
+                >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     zona
                   </Typography>
@@ -230,15 +250,15 @@ export const CardDispositivos: React.FC<CardProp> = ({
               </Box>
               <Divider />
               {/* Contenedor de Variables */}
-              <Box sx={{ display: "flex", justifyContent: "center", gap: 0.5 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", gap: 1.2 }}>
                 {/* Variable Temperatura */}
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: " column",
                     // border: "solid",
-                    gap: 1,
-                    p: 0.5,
+                    gap: 1.3,
+                    pt: 1,
                   }}
                 >
                   {/* Variable Label */}
@@ -251,7 +271,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     <Box
                       sx={{
                         display: "flex",
-                        gap: 0.4,
+                        gap: 1.7,
                         // border: "solid",
                         width: "135px",
                       }}
@@ -345,8 +365,8 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     display: "flex",
                     flexDirection: " column",
                     // border: "solid",
-                    gap: 1,
-                    p: 0.5,
+                    gap: 1.3,
+                    pt: 1,
                   }}
                 >
                   {/* Variable Label */}
@@ -366,7 +386,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     <Box
                       sx={{
                         display: "flex",
-                        gap: 0.4,
+                        gap: 1.7,
                         width: "135px",
                         // border: "solid",
                       }}
@@ -469,7 +489,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
           sx={{
             display: "flex",
             // p: 1,
-            background:themeColors.GRAY2,
+            background: themeColors.GRAY2,
             boxShadow: 10,
             borderRadius: 4,
             "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
@@ -480,8 +500,8 @@ export const CardDispositivos: React.FC<CardProp> = ({
               display: "flex",
               flexDirection: "column",
               pt: 2,
-              pb: 2,
-              px: 2,
+              pb: 3,
+              px: 3,
             }}
             onClick={handleClickAPIResult}
           >
@@ -546,17 +566,36 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   p: 0.8,
                 }}
               >
-                <Box sx={{ display: "flex", flexGrow: 1, pl: 1, justifyContent:'center' }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 1,
+                    pl: 1,
+                    justifyContent: "center",
+                  }}
+                >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     {nombre}
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexGrow: 2, justifyContent:'center' }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 2,
+                    justifyContent: "center",
+                  }}
+                >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     area
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexGrow: 2, justifyContent:'center' }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 2,
+                    justifyContent: "center",
+                  }}
+                >
                   <Typography variant="body2" sx={{ textAlign: "center" }}>
                     zona
                   </Typography>
@@ -564,15 +603,15 @@ export const CardDispositivos: React.FC<CardProp> = ({
               </Box>
               <Divider />
               {/* Contenedor de Variables */}
-              <Box sx={{ display: "flex", justifyContent: "center", gap: 0.5 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", gap: 1.2 }}>
                 {/* Variable Temperatura */}
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: " column",
                     // border: "solid",
-                    gap: 1,
-                    p: 0.5,
+                    gap: 1.3,
+                    pt: 1,
                   }}
                 >
                   {/* Variable Label */}
@@ -585,7 +624,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     <Box
                       sx={{
                         display: "flex",
-                        gap: 0.4,
+                        gap: 1.7,
                         // border: "solid",
                         width: "135px",
                       }}
@@ -661,11 +700,13 @@ export const CardDispositivos: React.FC<CardProp> = ({
                         height: "100%",
                       }}
                     >
-                      <Typography sx={{ display: "flex" }}>
+                      <Typography variant="body2" sx={{ display: "flex" }}>
                         Información
                       </Typography>
-                      <Typography sx={{ display: "flex" }}>no</Typography>
-                      <Typography sx={{ display: "flex" }}>
+                      <Typography variant="body2" sx={{ display: "flex" }}>
+                        no
+                      </Typography>
+                      <Typography variant="body2" sx={{ display: "flex" }}>
                         Disponible
                       </Typography>
                     </Box>
@@ -679,8 +720,8 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     display: "flex",
                     flexDirection: " column",
                     // border: "solid",
-                    gap: 1,
-                    p: 0.5,
+                    gap: 1.3,
+                    pt: 1,
                   }}
                 >
                   {/* Variable Label */}
@@ -700,7 +741,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                     <Box
                       sx={{
                         display: "flex",
-                        gap: 0.4,
+                        gap: 1.7,
                         width: "135px",
                         // border: "solid",
                       }}
@@ -784,11 +825,13 @@ export const CardDispositivos: React.FC<CardProp> = ({
                         // border:'solid',
                       }}
                     >
-                      <Typography sx={{ display: "flex" }}>
+                      <Typography variant="body2" sx={{ display: "flex" }}>
                         Información
                       </Typography>
-                      <Typography sx={{ display: "flex" }}>no</Typography>
-                      <Typography sx={{ display: "flex" }}>
+                      <Typography variant="body2" sx={{ display: "flex" }}>
+                        no
+                      </Typography>
+                      <Typography variant="body2" sx={{ display: "flex" }}>
                         Disponible
                       </Typography>
                     </Box>

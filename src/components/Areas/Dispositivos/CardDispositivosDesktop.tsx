@@ -20,6 +20,7 @@ interface CardProp {
   index: number;
   state: number;
   nombre: string;
+  mac:string;
   idgateway: string;
   iddispositivo: string;
 }
@@ -28,6 +29,7 @@ export const CardDispositivosZonaDesktop: React.FC<CardProp> = ({
   index,
   state,
   nombre,
+  mac,
   idgateway,
   iddispositivo,
 }) => {
@@ -104,6 +106,9 @@ export const CardDispositivosZonaDesktop: React.FC<CardProp> = ({
         </Box>
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="body2">{nombre}</Typography>
+        </Box>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography variant="body2">{mac}</Typography>
         </Box>
       </CardActionArea>
     </Card>

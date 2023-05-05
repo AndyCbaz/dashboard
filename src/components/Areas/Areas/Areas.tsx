@@ -244,10 +244,11 @@ export const Areas = () => {
             ) : (
               devicesByZonas.map((device: any) => (
                 <CardDispositivosZonaDesktop
+                mac={device.macdispositivo}
                   key={device.iddispositivo}
                   index={device.iddispositivo}
                   state={device.online}
-                  nombre={device.macdispositivo}
+                  nombre={device.nombreDispositivo}
                   idgateway={device.idmacgateway}
                   iddispositivo={device.iddispositivo}
                 />

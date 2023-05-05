@@ -48,6 +48,7 @@ import {
   setZonasByClient,
 } from "../../../features/cliente/clientComboMacgateways";
 import { CardDispositivosSelected } from "./CardDispositivosSelected";
+import { selectAreasByDevices, setAreasByDevices } from "../../../features/todos/search";
 
 export const DevicePage = () => {
   //redux
@@ -57,7 +58,7 @@ export const DevicePage = () => {
   const cliente = String(localStorage.getItem("cliente"));
   const idcliente = Number(localStorage.getItem("idcliente"));
   const zonas = useAppSelector(selectZonasByClient);
-  const areas = useAppSelector(selectAreasByClient);
+  const areas = useAppSelector(selectAreasByDevices);
   // const zonaSelected = useAppSelector(selec)
 
   const dataCliente = useAppSelector(selectDataCliente);
@@ -149,7 +150,7 @@ export const DevicePage = () => {
             }
           }
           dispatch(setZonasByClient(zonas));
-          dispatch(setAreasByClient(areas));
+          dispatch(setAreasByDevices(areas));
           console.log(zonas)
           dispatch(setAllDevices(dataforresumenbyuser));
           if (dataforresumenbyuser.length !== 0) {
@@ -242,7 +243,7 @@ export const DevicePage = () => {
           }
           
           dispatch(setZonasByClient(zonas));
-          dispatch(setAreasByClient(areas));
+          dispatch(setAreasByDevices(areas));
           dispatch(setAllDevices(dataforresumenbyuser));
           if (dataforresumenbyuser.length !== 0) {
             let resumenbydevice: any = [];

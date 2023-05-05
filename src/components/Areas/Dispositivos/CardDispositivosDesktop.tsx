@@ -70,7 +70,9 @@ export const CardDispositivosZonaDesktop: React.FC<CardProp> = ({
       key={index}
       sx={{
         display: "flex",
-        boxShadow: 10,
+        // boxShadow: 10,
+        boxShadow:0,
+        background: themeColors.GRAY,
         borderRadius: 4,
         width: "140px",
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },

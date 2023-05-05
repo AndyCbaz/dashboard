@@ -212,14 +212,19 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   p: 0.8,
                 }}
               >
-                <Box sx={{ display: "flex", flexGrow: 1, pl: 1 }}>
-                  <Typography variant="body1" sx={{ textAlign: "center" }}>
+                <Box sx={{ display: "flex", flexGrow: 1, pl: 1, justifyContent:'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
                     {nombre}
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexGrow: 2 }}>
-                  <Typography variant="body1" sx={{ textAlign: "center" }}>
-                    {zona}
+                <Box sx={{ display: "flex", flexGrow: 2, justifyContent:'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    area
+                  </Typography>
+                </Box>
+                <Box sx={{ display: "flex", flexGrow: 2 , justifyContent:'center'}}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    zona
                   </Typography>
                 </Box>
               </Box>
@@ -264,7 +269,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                       >
                         {/* MAXIMO */}
                         <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(tmax).toFixed(2)}°C <br />{" "}
+                          {parseInt(tmax).toFixed(1)}°C <br />{" "}
                           <span
                             style={{
                               fontSize: "10px",
@@ -277,7 +282,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                         </Typography>
                         {/* MINIMO */}
                         <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(tmin).toFixed(2)}°C <br />
+                          {parseInt(tmin).toFixed(1)}°C <br />
                           <span
                             style={{
                               fontSize: "10px",
@@ -290,7 +295,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                         </Typography>
                         {/* PROMEDIO */}
                         <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(tprom).toFixed(2)}°C <br />{" "}
+                          {parseInt(tprom).toFixed(1)}°C <br />{" "}
                           <span
                             style={{
                               fontSize: "10px",
@@ -379,7 +384,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                       >
                         {/* MAXIMO */}
                         <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(hmax).toFixed(2)}% <br />{" "}
+                          {parseInt(hmax).toFixed(1)}% <br />{" "}
                           <span
                             style={{
                               fontSize: "10px",
@@ -392,7 +397,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                         </Typography>
                         {/* MINIMO */}
                         <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {parseInt(hmin).toFixed(2)}% <br />
+                          {parseInt(hmin).toFixed(1)}% <br />
                           <span
                             style={{
                               fontSize: "10px",
@@ -405,7 +410,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
                         </Typography>
                         {/* PROMEDIO */}
                         <Typography variant="body2" sx={{ lineHeight: 0.9 }}>
-                          {Number(hprom).toFixed(2)}% <br />{" "}
+                          {Number(hprom).toFixed(1)}% <br />{" "}
                           <span
                             style={{
                               fontSize: "10px",
@@ -464,6 +469,7 @@ export const CardDispositivos: React.FC<CardProp> = ({
           sx={{
             display: "flex",
             // p: 1,
+            background:themeColors.GRAY2,
             boxShadow: 10,
             borderRadius: 4,
             "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
@@ -540,14 +546,19 @@ export const CardDispositivos: React.FC<CardProp> = ({
                   p: 0.8,
                 }}
               >
-                <Box sx={{ display: "flex", flexGrow: 1, pl: 1 }}>
-                  <Typography variant="body1" sx={{ textAlign: "center" }}>
+                <Box sx={{ display: "flex", flexGrow: 1, pl: 1, justifyContent:'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
                     {nombre}
                   </Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexGrow: 2 }}>
-                  <Typography variant="body1" sx={{ textAlign: "center" }}>
-                    {zona}
+                <Box sx={{ display: "flex", flexGrow: 2, justifyContent:'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    area
+                  </Typography>
+                </Box>
+                <Box sx={{ display: "flex", flexGrow: 2, justifyContent:'center' }}>
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    zona
                   </Typography>
                 </Box>
               </Box>

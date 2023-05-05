@@ -28,6 +28,7 @@ export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) 
   const idarearedux = useAppSelector(selectIdArea);
   const handleSaveIdArea = async() => {
     localStorage.setItem("idarea", idarea);
+    localStorage.setItem("nombrearea", nombre )
     dispatch(setIdArea(idarea));
     const data = await getZonas(Number(idarea));
     dispatch(setZonasByAreas(data))
@@ -39,7 +40,8 @@ export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) 
       key={index}
       sx={{
         display: "flex",
-        boxShadow: 10,
+        // boxShadow: 10,
+        boxShadow:0,
         background: idarea === idarearedux ? themeColors.GRAY3: themeColors.GRAY,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
@@ -64,7 +66,7 @@ export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) 
               justifyContent: "center",
             }}
           >
-            <Typography variant="h5">{nombre}</Typography>
+            <Typography variant="body1">{nombre}</Typography>
           </Box>
         </Box>
       </CardActionArea>

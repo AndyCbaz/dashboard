@@ -17,7 +17,7 @@ export const SearchSection = () => {
   const dispatch = useAppDispatch()
   const handleClickSearch = () => {
     let a = alldevices.filter((element: any) => {
-      return element.macdispositivo === form.search;
+      return element.nombreDispositivo === form.search;
     });
     dispatch(setDevicesSelected(a))
 // console.log(a[0].iddispositivo)

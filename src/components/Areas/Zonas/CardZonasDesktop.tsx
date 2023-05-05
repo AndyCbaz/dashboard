@@ -31,6 +31,7 @@ export const CardZonasDesktop: React.FC<CardProp> = ({
   const idzonaredux = useAppSelector(selectIdZona);
   const handledevicesbyzona = async () => {
     localStorage.setItem("idzona", idzona);
+    localStorage.setItem("nombrezona",nombre)
     dispatch(setIdZona(idzona));
     const data = await getDevicesByZonas(Number(idzona));
     if (data !== undefined) {
@@ -47,7 +48,8 @@ export const CardZonasDesktop: React.FC<CardProp> = ({
         width: "118px",
         background:
           idzona === idzonaredux ? themeColors.GRAY3 : themeColors.GRAY,
-        boxShadow: 10,
+        // boxShadow: 10,
+        boxShadow:0,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
       }}

@@ -35,7 +35,8 @@ export const CardAreas: React.FC<CardProp> = ({ index, nombre, idarea }) => {
       key={index}
       sx={{
         display: "flex",
-        boxShadow: 10,
+        boxShadow: 10, 
+        // boxShadow:0,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
       }}
@@ -68,7 +69,7 @@ export const CardAreas: React.FC<CardProp> = ({ index, nombre, idarea }) => {
               justifyContent: "center",
             }}
           >
-            <Typography variant="h5">{nombre}</Typography>
+            <Typography variant="body2">{nombre}</Typography>
           </Box>
         </Box>
       </CardActionArea>

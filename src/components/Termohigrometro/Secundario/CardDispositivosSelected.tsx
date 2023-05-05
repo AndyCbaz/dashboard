@@ -32,6 +32,7 @@ interface CardProp {
   dataT: boolean;
   dataH: boolean;
   zona: string;
+  index:string;
   bateria: number;
   actualTemp: string;
   actualHum: string;
@@ -61,6 +62,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
   actualHum,
   tmax,
   tmin,
+  index,
   tprom,
   hmax,
   hmin,
@@ -131,6 +133,7 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
       {/* Card si existe datos */}
       {dataH && dataT ? (
         <Card
+        key={index}
           sx={{
             display: "flex",
             
@@ -461,9 +464,11 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
         </Card>
       ) : (
         <Card
+        key={index}
         sx={{
           display: "flex",
           boxShadow: 10,
+          background:themeColors.GRAY2,
           borderRadius: 4,
           "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },
           

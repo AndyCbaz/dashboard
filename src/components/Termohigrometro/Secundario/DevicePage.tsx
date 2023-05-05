@@ -321,7 +321,7 @@ export const DevicePage = () => {
           //si se se ha seleccionado un dispositivo
           // <Loader/>
           resumenalldevicesselected.map((device: any, index:any) => (
-            <Box sx={{display:"flex",mt:1}}>
+            <Box key={index} sx={{display:"flex",mt:1}}>
             <CardDispositivosSelected
               //para consulta
               idmac={devicesSelected[index].idmacgateway}
@@ -336,9 +336,11 @@ export const DevicePage = () => {
               senial={device.nivelSenial}
               actualTemp={device.actualTemp}
               actualHum={device.actualHum}
-              nombre={devicesSelected[index].macdispositivo}
+              // nombre={devicesSelected[0].nombreDispositivo}
+              nombre={'cualquiera'}
               zona={zonas[index]}
               key={devicesSelected[index].iddispositivo}
+              index={devicesSelected[index].iddispositivo}
               state={devicesSelected[index].online}
               tmax={device.maximoTemp}
               tmin={device.minimoTemp}

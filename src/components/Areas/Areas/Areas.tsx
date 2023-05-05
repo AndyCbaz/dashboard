@@ -22,9 +22,13 @@ import { Loader } from "../../Loader/Loader";
 import {
   selectAreasByClient,
   selectDevicesByZonas,
+  selectIdArea,
+  selectIdZona,
   selectZonasByAreas,
   setAreasByClient,
   setDevicesByZonas,
+  setIdArea,
+  setIdZona,
   setUsersByClient,
   setZonasByAreas,
 } from "../../../features/cliente/clientComboMacgateways";
@@ -59,14 +63,19 @@ export const Areas = () => {
   const handleOpenDevices = () => setOpenModalDevices(true);
   const handleCloseDevices = () => setOpenModalDevices(false);
 
+  const idareaRedux = useAppSelector(selectIdArea)
+  const idzonaRedux = useAppSelector(selectIdZona)
+
   useEffect(() => {
     getAreas(idcliente).then((data) => {
       if (data !== undefined) {
         dispatch(setAreasByClient(data));
+        dispatch(setIdArea(data[0].idarea))
         getZonas(data[0].idarea)
         .then((data)=>{
           if(data !== undefined){
             dispatch(setZonasByAreas(data))
+            dispatch(setIdZona(data[0].idzona))
             getDevicesByZonas(data[0].idzona)
             .then((data)=>{
               if(data!==undefined){

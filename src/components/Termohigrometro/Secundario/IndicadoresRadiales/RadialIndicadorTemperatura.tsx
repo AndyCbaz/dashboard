@@ -37,7 +37,9 @@ export const RadialIndicadorTemperatura: React.FC<Props> = ({
           className="circle-progress"
           style={{
             strokeDasharray: dashArray,
+            // strokeDasharray: 100,
             strokeDashoffset: dashOffset,
+            // strokeDashoffset: 188,
           }}
           transform={`rotate(-90 ${circleWidth / 2} ${circleWidth / 2})`}
         />

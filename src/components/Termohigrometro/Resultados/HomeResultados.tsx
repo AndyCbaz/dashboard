@@ -41,6 +41,7 @@ import {
   setDevicesResumen,
   setUserDataGlobal,
 } from "../../../features/userDataSlice";
+import { HOST, PORT, PORTPAGE } from "../../../helpers/Apis/HostPort";
 
 export const HomeResultados = () => {
   //redux
@@ -491,7 +492,7 @@ export const HomeResultados = () => {
     }
     // console.log(idmacgateway)
     // console.log(iddispositivo)
-    if (location.href === "http://localhost:5173/home/resultados") {
+    if (location.href === `http://${HOST}:${PORTPAGE}/home/resultados`) {
       dispatch(setSearchDisplayState(false));
     }
     if (datagrapinfo.length === 0) {
@@ -540,7 +541,7 @@ export const HomeResultados = () => {
           }}
         >
           {/* Header */}
-          <Box sx={{ display: "flex", justifyContent: "start", p:0.5 }}>
+          <Box sx={{ display: "flex", justifyContent: "start",  }}>
             {/* Boton Atras */}
             <Box sx={{ display: "flex" }}>
               <Button
@@ -555,7 +556,7 @@ export const HomeResultados = () => {
             </Box>
             {/* Titulo  */}
             <Box sx={{ display: "flex", flexGrow: 1, justifyContent:'center' }}>
-              <Typography variant="h4">Registro de Datos</Typography>
+              <Typography variant="h5">Registro de Datos</Typography>
             </Box>
           </Box>
           {/* Control de Gráfica */}
@@ -566,7 +567,7 @@ export const HomeResultados = () => {
               flexDirection: { sm: "row", xs: "column" },
               justifyContent:'center',
               flexGrow: 1,
-              m: 1,
+              pb:0.5,
               gap: { xs: 0.5, sm: 3 },
               // border: "solid",
             }}
@@ -727,11 +728,11 @@ export const HomeResultados = () => {
               }}
             >
               <Box sx={{ textAlign: "center" }}>
-                <Typography variant="h5">Información</Typography>
+                <Typography variant="h6">Información</Typography>
               </Box>
               {/* Nombre del Dispositivo */}
               <Box sx={{pb:0.5}}>
-                <Typography variant="h6" sx={{textAlign:'center'}}>{nombre}</Typography>
+                <Typography variant="body1" sx={{textAlign:'center'}}>{nombre}</Typography>
               </Box>
               {/* Botones */}
               <Box
@@ -800,13 +801,13 @@ export const HomeResultados = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    pt: 1,
+                    pt: 0.5,
                     justifyContent: "center",
                     alignItems: "center",
                     gap: 2,
                   }}
                 >
-                  <Box>
+                  <Box sx={{display:'flex', height:'110px'}}>
                     <RadialIndicadorTemperatura
                       valor={Number(Number(datagrapinfo.actualTemp).toFixed(1))}
                       circleWidth={105}
@@ -874,13 +875,13 @@ export const HomeResultados = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    py: 1,
+                    py: 0.5,
                     justifyContent: "center",
                     alignItems: "center",
                     gap: 2,
                   }}
                 >
-                  <Box>
+                  <Box sx={{ display:'flex', height:'110px'}}>
                     <RadialIndicadorHumedad
                       valor={Number(Number(datagrapinfo.actualHum).toFixed(1))}
                       circleWidth={105}

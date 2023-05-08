@@ -156,15 +156,20 @@ export const Cliente = () => {
         </Button>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
+        <Button component={Link} to={"/setpassword"} size="small">
+          Restablecer Contraseña
+        </Button>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
         <Button component={Link} to={"/loguser"}>
           Entrar como Usuario
         </Button>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
+      {/* <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
         <Button component={Link} to={"/register"}>
           Registro
         </Button>
-      </Box>
+      </Box> */}
       <Toast />
     </form>
   );

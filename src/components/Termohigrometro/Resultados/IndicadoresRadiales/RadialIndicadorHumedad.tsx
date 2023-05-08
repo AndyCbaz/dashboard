@@ -12,7 +12,7 @@ export const RadialIndicadorHumedad: React.FC<Props> = ({
   circleWidth,
   unidad,
 }) => {
-  const radio = 45;
+  const radio = 40;
   const dashArray = radio * Math.PI * 2;
   const dashOffset = dashArray - (dashArray * valor) / 100;
   return (
@@ -43,7 +43,7 @@ export const RadialIndicadorHumedad: React.FC<Props> = ({
         />
 
         <text
-          x="25%"
+          x="30%"
           y="50%"
           dy="0.3em"
           // textAnchor="sm"

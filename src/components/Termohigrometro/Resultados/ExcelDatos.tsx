@@ -50,8 +50,8 @@ export const ExcelDatos: React.FC<Props> = ({ data }) => {
   const optionsExcel: any = {
     filterType: "multiselect",
     download: false,
-    rowsPerPage: 8,
-    rowsPerPageOptions: [8],
+    rowsPerPage: 5,
+    rowsPerPageOptions: [5],
     responsive: "standard",
   };
   //Columns

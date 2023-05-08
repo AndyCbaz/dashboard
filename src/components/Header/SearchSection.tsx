@@ -8,46 +8,66 @@ import useForm from "../../hooks/useForm";
 import FormControl from "@mui/material/FormControl";
 import { themeColors } from "../../helpers/theme/theme.colors";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectAllDevices, setDevicesSelected, setResumenAllDevicesSelected } from "../../features/cliente/clientComboMacgateways";
+import {
+  selectAllDevices,
+  setDevicesSelected,
+  setResumenAllDevicesSelected,
+} from "../../features/cliente/clientComboMacgateways";
 import { getDataDevicesResumen } from "../../services/DevicePage/getDataDevicesResumen";
+import { getAreasByDevice } from "../../services/Areas/getAreaByDevice";
+import { setNombreArea, setNombreZona } from "../../features/todos/search";
+import { getZonas } from "../../services/Areas/getZonas";
+import { getZonaByDevice } from "../../services/Areas/getZonaByDevice";
 
 export const SearchSection = () => {
   const { form, handleSubmit, handleChange } = useForm(initialValues);
   const alldevices = useAppSelector(selectAllDevices);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const handleClickSearch = () => {
     let a = alldevices.filter((element: any) => {
       return element.nombreDispositivo === form.search;
     });
-    dispatch(setDevicesSelected(a))
-// console.log(a[0].iddispositivo)
-// console.log(a[0].idmacgateway)
-getDataDevicesResumen(a[0].idmacgateway,a[0].iddispositivo)
-.then((data)=>{
-  let b = [];
-  if(data!==undefined){
-    console.log(data)
-    b.push(data)
-    
-  }else{
-    let dataError = {
-      bateria: null,
-      nivelSenial: null,
-      actualTemp: null,
-      maximoTemp: null,
-      minimoTemp: null,
-      avgTemp: null,
-      actualHum: null,
-      maximoHum: null,
-      minimoHum: null,
-      avgHum: null,
-      infoset: false,
-    };
-    b.push(dataError)
-  }
-  dispatch(setResumenAllDevicesSelected(b))
-})
-
+    dispatch(setDevicesSelected(a));
+    // console.log(a[0].iddispositivo)
+    // console.log(a[0].idmacgateway)
+    getDataDevicesResumen(a[0].idmacgateway, a[0].iddispositivo).then(
+      (data) => {
+        let b = [];
+        if (data !== undefined) {
+          // console.log(data);
+          b.push(data);
+        } else {
+          let dataError = {
+            bateria: null,
+            nivelSenial: null,
+            actualTemp: null,
+            maximoTemp: null,
+            minimoTemp: null,
+            avgTemp: null,
+            actualHum: null,
+            maximoHum: null,
+            minimoHum: null,
+            avgHum: null,
+            infoset: false,
+          };
+          b.push(dataError);
+        }
+        dispatch(setResumenAllDevicesSelected(b));
+      }
+    );
+    getAreasByDevice(a[0].iddispositivo).then((data)=>{
+      if(data!==undefined){
+        dispatch(setNombreArea(data[0].nombrearea))
+        // console.log(data[0].nombrearea)
+        
+      }
+    })
+    getZonaByDevice(a[0].iddispositivo).then((data)=>{
+      if(data!==undefined){
+        // console.log(data[0].nombrezona)
+        dispatch(setNombreZona(data[0].nombrezona))
+      }
+    })
   };
 
   return (

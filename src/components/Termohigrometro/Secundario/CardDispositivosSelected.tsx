@@ -88,16 +88,17 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
       setDataResultConsulta({ idgateway: idmac, iddispositivo: iddispositivo })
     );
     //Almacenar valores de ultimo dispositivo para refresh
-        let a = '';let b='';
-    if(actualTemp.includes(',')){
-       a = actualTemp.replace(',','.')
-    }else{
-       a = actualTemp
+    let a = "";
+    let b = "";
+    if (actualTemp.includes(",")) {
+      a = actualTemp.replace(",", ".");
+    } else {
+      a = actualTemp;
     }
-    if(actualHum.includes(',')){
-      b = actualHum.replace(',','.')
-    }else {
-       b =actualHum
+    if (actualHum.includes(",")) {
+      b = actualHum.replace(",", ".");
+    } else {
+      b = actualHum;
     }
 
     localStorage.setItem("idgateway", String(idmac));
@@ -175,41 +176,42 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                 width: "100%",
                 alignItems: "center",
                 m: 0.5,
+                
               }}
             >
               {/* Indicador de dipositivo conectado o desconectado */}
-              <Box sx={{ flexGrow: 1, pl: 2, display: "flex" }}>
-                <CircleIcon
-                  sx={{
-                    color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
-                    borderRadius: 4,
-                  }}
-                />
-              </Box>
-              <Box sx={{ display: "flex" }}>
-                {/* Indicador de Bateria */}
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  alignItems: "center",
+                
+                }}
+              >
+                <Box sx={{ display: "flex", justifyContent:'start' }}>
+                  <CircleIcon
+                    sx={{
+                      color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
+                      borderRadius: 4,
+                      
+                    }}
+                  />
+                </Box>
+                {/* nombre del dispositivo */}
                 <Box
                   sx={{
-                    flexGrow: 1,
                     display: "flex",
-                    justifyContent: "center",
+                    flexGrow: 1,
+                    pl: 1,
+                    justifyContent: "start",
                   }}
                 >
-                  <BatteryLevel value={bateria_format} />
-                </Box>
-                {/* Indicador de Señal */}
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    pr: 2,
-                    display: "flex",
-                    justifyContent: "end",
-                    alignItems: "center",
-                  }}
-                >
-                  <RatingCustom value={senial_format} />
+                  <Typography variant="body2" sx={{ textAlign: "start" }}>
+                    {nombre}
+                  </Typography>
                 </Box>
               </Box>
+              <Box sx={{ display: "flex" }}></Box>
             </Box>
             {/* Contenido de Card */}
             <Box
@@ -233,35 +235,65 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                   sx={{
                     display: "flex",
                     flexGrow: 1,
-                    pl: 1,
-                    justifyContent: "center",
+                    justifyContent: "start",
                   }}
                 >
-                  <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    {nombre}
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>
+                      {area}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      px: 1,
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    {'>'}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>
+                      {zona}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexGrow: 2,
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    {area}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexGrow: 2,
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    {zona}
-                  </Typography>
+                <Box sx={{ display: "flex" }}>
+                  {/* Indicador de Bateria */}
+                  <Box
+                    sx={{
+                      // px: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <BatteryLevel value={bateria_format} />
+                  </Box>
+                  {/* Indicador de Señal */}
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      display: "flex",
+                      justifyContent: "end",
+                      alignItems: "center",
+                    }}
+                  >
+                    <RatingCustom value={senial_format} />
+                  </Box>
                 </Box>
               </Box>
               <Divider />
@@ -531,39 +563,31 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
               }}
             >
               {/* Indicador de dipositivo conectado o desconectado */}
-              <Box sx={{ flexGrow: 1, pl: 2, display: "flex" }}>
-                <CircleIcon
-                  sx={{
-                    color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
-                    borderRadius: 4,
-                  }}
-                />
-              </Box>
-              <Box sx={{ display: "flex" }}>
-                {/* Indicador de Bateria */}
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <BatteryLevel value={bateria_format} />
+              <Box sx={{ flexGrow: 1, display: "flex" }}>
+                <Box sx={{ display: "flex" }}>
+                  <CircleIcon
+                    sx={{
+                      color: state !== 1 ? themeColors.RED3 : themeColors.GREEN,
+                      borderRadius: 4,
+                    }}
+                  />
                 </Box>
-                {/* Indicador de Señal */}
+                {/* nombre del dispositivo */}
                 <Box
                   sx={{
-                    flexGrow: 1,
-                    pr: 2,
                     display: "flex",
-                    justifyContent: "end",
-                    alignItems: "center",
+                    flexGrow: 1,
+                    pl: 1,
+                    justifyContent: "start",
                   }}
                 >
-                  <RatingCustom value={senial_format} />
+                  <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    {nombre}
+                  </Typography>
                 </Box>
               </Box>
             </Box>
+
             {/* Contenido de Card */}
             <Box
               sx={{
@@ -586,35 +610,67 @@ export const CardDispositivosSelected: React.FC<CardProp> = ({
                   sx={{
                     display: "flex",
                     flexGrow: 1,
-                    pl: 1,
-                    justifyContent: "center",
+                    justifyContent: "start",
                   }}
                 >
-                  <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    {nombre}
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      // flexGrow: 2,
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>
+                      {area}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      px: 1,
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>
+                    {'>'}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      // flexGrow: 2,
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ textAlign: "center" }}>
+                      {zona}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexGrow: 2,
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    {area}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexGrow: 2,
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography variant="body2" sx={{ textAlign: "center" }}>
-                    {zona}
-                  </Typography>
+
+                <Box sx={{ display: "flex" }}>
+                  {/* Indicador de Bateria */}
+                  <Box
+                    sx={{
+                      // flexGrow: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <BatteryLevel value={bateria_format} />
+                  </Box>
+                  {/* Indicador de Señal */}
+                  <Box
+                    sx={{
+                      flexGrow: 1,
+                      // pr: 2,
+                      display: "flex",
+                      justifyContent: "end",
+                      alignItems: "center",
+                    }}
+                  >
+                    <RatingCustom value={senial_format} />
+                  </Box>
                 </Box>
               </Box>
               <Divider />

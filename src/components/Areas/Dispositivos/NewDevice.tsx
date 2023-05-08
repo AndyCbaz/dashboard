@@ -17,6 +17,8 @@ import useForm from "../../../hooks/useForm";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   selectAreasByClient,
+  selectIdArea,
+  selectIdZona,
   selectUsersByClient,
   selectZonasByClient,
   setAreasByClient,
@@ -40,8 +42,10 @@ export const NewDevice = () => {
   const zonasByClient = useAppSelector(selectZonasByClient);
   const idcliente = localStorage.getItem("idcliente");
 
-  const idarea = Number(localStorage.getItem("idarea"));
-  const idzona = Number(localStorage.getItem("idzona"));
+  // const idarea = Number(localStorage.getItem("idarea"));
+  const idarea = useAppSelector(selectIdArea)
+  // const idzona = Number(localStorage.getItem("idzona"));
+  const idzona = useAppSelector(selectIdZona)
 
   const handleChangeSelectUser = (event: SelectChangeEvent) => {
     setUserId(event.target.value);

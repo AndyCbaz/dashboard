@@ -373,52 +373,95 @@ export const DevicePage = () => {
           ))
         )
       ) : //device page del usuario
-      resumenalldevices.length === 0 || alldevices.length === 0 ? (
-        <Loader />
-      ) : (
-        <Box
-          sx={{
-            mt: 1,
-            display: "flex",
-            gap: 5,
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {/* <CardByDevice/> */}
-          {resumenalldevices.map((resumen: any, index: any) => (
-            <CardDispositivos
+      devicesSelected.length === 0 || resumenalldevicesselected.length === 0 ? (
+        resumenalldevices.length === 0 || alldevices.length === 0 ? (
+          <Loader />
+        ) : (
+          <Box
+            sx={{
+              mt: 1,
+              display: "flex",
+              gap: 5,
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
+            {/* <CardByDevice/> */}
+            {resumenalldevices.map((resumen: any, index: any) => (
+              <CardDispositivos
+                //para consulta
+                idmac={alldevices[index].idmacgateway}
+                iddispositivo={alldevices[index].iddispositivo}
+                //redux
+                tmaxgraf={alldevices[index].maxTemperatura}
+                tmingraf={alldevices[index].minTemperatura}
+                hmaxgraf={alldevices[index].maxHumedad}
+                hmingraf={alldevices[index].minHumedad}
+                //renderizado
+                bateria={resumen.bateria}
+                senial={resumen.nivelSenial}
+                actualTemp={resumen.actualTemp}
+                actualHum={resumen.actualHum}
+                nombre={alldevices[index].nombreDispositivo}
+                zona={zonas[index].nombrezona}
+                // zona={'da'}
+                area={areas[index].nombrearea}
+                key={alldevices[index].iddispositivo}
+                state={alldevices[index].online}
+                tmax={resumen.maximoTemp}
+                tmin={resumen.minimoTemp}
+                tprom={resumen.avgTemp}
+                hmax={resumen.maximoHum}
+                hmin={resumen.minimoHum}
+                hprom={resumen.avgHum}
+                dataT={resumen.infoset === false ? false : true}
+                dataH={resumen.infoset === false ? false : true}
+              />
+            ))}
+          </Box>
+        )
+      ):(
+        //si se se ha seleccionado un dispositivo
+          // <Loader/>
+          resumenalldevicesselected.map((device: any, index:any) => (
+            <Box key={index} sx={{display:"flex",mt:1}}>
+            <CardDispositivosSelected
               //para consulta
-              idmac={alldevices[index].idmacgateway}
-              iddispositivo={alldevices[index].iddispositivo}
+              idmac={devicesSelected[index].idmacgateway}
+              iddispositivo={devicesSelected[index].iddispositivo}
               //redux
-              tmaxgraf={alldevices[index].maxTemperatura}
-              tmingraf={alldevices[index].minTemperatura}
-              hmaxgraf={alldevices[index].maxHumedad}
-              hmingraf={alldevices[index].minHumedad}
+              tmaxgraf={devicesSelected[index].maxTemperatura}
+              tmingraf={devicesSelected[index].minTemperatura}
+              hmaxgraf={devicesSelected[index].maxHumedad}
+              hmingraf={devicesSelected[index].minHumedad}
               //renderizado
-              bateria={resumen.bateria}
-              senial={resumen.nivelSenial}
-              actualTemp={resumen.actualTemp}
-              actualHum={resumen.actualHum}
-              nombre={alldevices[index].nombreDispositivo}
-              zona={zonas[index].nombrezona}
-              // zona={'da'}
-              area={areas[index].nombrearea}
-              key={alldevices[index].iddispositivo}
-              state={alldevices[index].online}
-              tmax={resumen.maximoTemp}
-              tmin={resumen.minimoTemp}
-              tprom={resumen.avgTemp}
-              hmax={resumen.maximoHum}
-              hmin={resumen.minimoHum}
-              hprom={resumen.avgHum}
-              dataT={resumen.infoset === false ? false : true}
-              dataH={resumen.infoset === false ? false : true}
+              bateria={device.bateria}
+              senial={device.nivelSenial}
+              actualTemp={device.actualTemp}
+              actualHum={device.actualHum}
+              // nombre={devicesSelected[0].nombreDispositivo}
+              nombre={devicesSelected[index].nombreDispositivo}
+              zona={zonaSelected}
+              area={areaSelected}
+              // area={areas[index].nombrearea}
+              key={devicesSelected[index].iddispositivo}
+              index={devicesSelected[index].iddispositivo}
+              state={devicesSelected[index].online}
+              tmax={device.maximoTemp}
+              tmin={device.minimoTemp}
+              tprom={device.avgTemp}
+              hmax={device.maximoHum}
+              hmin={device.minimoHum}
+              hprom={device.avgHum}
+              dataT={device.infoset === false ? false : true}
+              dataH={device.infoset === false ? false : true}
             />
-          ))}
-        </Box>
-      )}
+            </Box>
+          ))
+      )
+      
+
+    }
     </Box>
   );
 };

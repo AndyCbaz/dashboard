@@ -152,7 +152,7 @@ export const DevicePage = () => {
           }
           dispatch(setZonasByClient(zonas));
           dispatch(setAreasByDevices(areas));
-          console.log(zonas)
+          // console.log(zonas)
           dispatch(setAllDevices(dataforresumenbyuser));
           if (dataforresumenbyuser.length !== 0) {
             let resumenbydevice: any = [];
@@ -213,7 +213,7 @@ export const DevicePage = () => {
                       k++
                     ) {
                       // console.log(devicesbyclient[i].areas[j].zonas[k])
-                      let zonas: any = [];
+                      
                       if (
                         devicesbyclient[i].areas[j].zonas[k].dispositivos
                           .length !== 0
@@ -230,9 +230,9 @@ export const DevicePage = () => {
                             devicesbyclient[i].areas[j].zonas[k].dispositivos[l]
                           );
                           zonas.push(
-                            devicesbyclient[i].areas[j].zonas[k].nombrezona
+                            {nombrezona: devicesbyclient[i].areas[j].zonas[k].nombrezona}
                           );
-                          areas.push(devicesbyclient[i].areas[j].nombreareas)
+                          areas.push({nombrearea: devicesbyclient[i].areas[j].nombrearea})
                         }
                       }
                       
@@ -316,7 +316,8 @@ export const DevicePage = () => {
                   actualTemp={resumen.actualTemp}
                   actualHum={resumen.actualHum}
                   nombre={alldevices[index].nombreDispositivo}
-                  zona={zonas[index].nombrezona}
+                  // zona={zonas[index].nombrezona}
+                  zona={'zona'}
                   area={areas[index].nombrearea}
                   key={alldevices[index].iddispositivo}
                   state={alldevices[index].online}
@@ -402,6 +403,7 @@ export const DevicePage = () => {
               actualHum={resumen.actualHum}
               nombre={alldevices[index].nombreDispositivo}
               zona={zonas[index].nombrezona}
+              // zona={'da'}
               area={areas[index].nombrearea}
               key={alldevices[index].iddispositivo}
               state={alldevices[index].online}

@@ -298,7 +298,7 @@ export const Areas = () => {
             mt: 4,
           }}
         >
-          <NewDevice />
+          <NewDevice close={handleCloseDevices}/>
         </Paper>
         {/* </Box> */}
       </Modal>

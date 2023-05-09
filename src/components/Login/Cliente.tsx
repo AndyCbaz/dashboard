@@ -155,11 +155,7 @@ export const Cliente = () => {
           Ingresar
         </Button>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
-        <Button component={Link} to={"/setpassword"} size="small">
-          Restablecer Contraseña
-        </Button>
-      </Box>
+
       <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
         <Button component={Link} to={"/loguser"}>
           Entrar como Usuario

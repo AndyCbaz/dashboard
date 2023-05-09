@@ -17,7 +17,8 @@ export enum themeColors {
   RED2 = "#F0467E",
   RED3 = "#E80900",
   GREENMAX = "#7ECF67",
-  ORANGEMIN = "#E37500"
+  ORANGEMIN = "#E37500",
+  WARNING="#DBD13B"
 }
 
 

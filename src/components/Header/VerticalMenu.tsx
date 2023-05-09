@@ -12,7 +12,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import StorageIcon from '@mui/icons-material/Storage';
+import StorageIcon from "@mui/icons-material/Storage";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
@@ -21,8 +21,12 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import MonitorWeightIcon from "@mui/icons-material/MonitorWeight";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { LogoSectionShort } from "./LogoSectionShort";
 import GpsNotFixedIcon from "@mui/icons-material/GpsNotFixed";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 import { themeColors } from "../../helpers/theme/theme.colors";
 //react router dom
@@ -32,7 +36,12 @@ import { LogOut } from "../LogOut/LogOut";
 import { LogoSection } from "./LogoSection";
 //Redux
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectUsuario, setDataUsuario } from "../../features/userSlice";
+import {
+  selectClientCI,
+  selectDataCliente,
+  selectUsuario,
+  setDataUsuario,
+} from "../../features/userSlice";
 
 import {
   setDevicesResumen,
@@ -42,7 +51,11 @@ import {
 import { getDataLoginUser } from "../../services/DevicePage/getDataLoginUser";
 import { getDataUser } from "../../services/DevicePage/getDataUser";
 import { getDataDevicesResumen } from "../../services/DevicePage/getDataDevicesResumen";
-import { setDevicesSelected, setResumenAllDevicesSelected } from "../../features/cliente/clientComboMacgateways";
+import {
+  setDevicesSelected,
+  setResumenAllDevicesSelected,
+} from "../../features/cliente/clientComboMacgateways";
+import { SetPassword } from "../Login/SetPassword";
 
 interface VerticalMenuProp {
   open: boolean;
@@ -58,12 +71,28 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
   const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
+    //Modal Change password
+    const [openModalSetPassword, setOpenModalSetPassword] = useState(false);
+    const handleOpenPassword = () => setOpenModalSetPassword(true);
+    const handleClosePassword = () => setOpenModalSetPassword(false);
   //React Router Dom
   const navigate = useNavigate();
   //REDUX
   const dispatch = useAppDispatch();
   // const usuario = localStorage.getItem('usuario');
   const usuario = useAppSelector(selectUsuario);
+  const cliente = useAppSelector(selectClientCI);
+  const dataCliente = useAppSelector(selectDataCliente);
+  //menu////////////////////////////////////////////////////////
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openMenu = Boolean(anchorEl);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+  ////////////////////////////////////////////////////
 
   const handleClick = () => {
     setOpen(!open);
@@ -97,8 +126,8 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
     dispatch(setDataUsuario([]));
     dispatch(setUserDataGlobal([]));
     dispatch(setDevicesResumen([]));
-    dispatch(setResumenAllDevicesSelected([]))
-    dispatch(setDevicesSelected([]))
+    dispatch(setResumenAllDevicesSelected([]));
+    dispatch(setDevicesSelected([]));
   };
 
   return (
@@ -111,7 +140,14 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       }}
     >
       {/* Seccion del Logo */}
-      <Box sx={{ display: "flex", height: "50px", justifyContent: "center", mt:1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          height: "50px",
+          justifyContent: "center",
+          mt: 1,
+        }}
+      >
         <Box sx={{ ...(!props.open && { display: "none" }) }}>
           <LogoSection />
         </Box>
@@ -151,7 +187,9 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                       minWidth: 0,
                     }}
                   >
-                    <GridViewIcon sx={{color:pageActivated === 0 ? "white" : 'black'}} />
+                    <GridViewIcon
+                      sx={{ color: pageActivated === 0 ? "white" : "black" }}
+                    />
                   </ListItemIcon>
                 </Box>
 
@@ -189,8 +227,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     minHeight: 48,
 
                     "&:hover": { background: themeColors.BLUE2 },
-                    color: subpageActivated === "a"
-                    ? "white" : "black",
+                    color: subpageActivated === "a" ? "white" : "black",
                     background:
                       subpageActivated === "a"
                         ? themeColors.BLUE2
@@ -258,13 +295,19 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           <>
             {" "}
             {/* Menu Dos */}
-            <ListItem key={"Areas y Gateways"} disablePadding sx={{ display: "block" }}>
+            <ListItem
+              key={"Areas y Gateways"}
+              disablePadding
+              sx={{ display: "block" }}
+            >
               {/* Item Areas Header*/}
               <Box
                 sx={{
-                  display:'flex',justifyContent:'center',flexDirection:'column',
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
                   borderRadius: 1,
-                  gap:1,
+                  gap: 1,
                   color: pageActivated === 2 ? "white" : "black",
                   background:
                     pageActivated === 2 ? themeColors.BLUE1 : themeColors.GRAY,
@@ -299,20 +342,22 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                     sx={{ opacity: props.open ? 1 : 0, textAlign: "center" }}
                   />
                 </ListItemButton>
-                
-           
               </Box>
               <Divider />
-              <Box sx={{
-                  display:'flex',justifyContent:'center',flexDirection:'column',
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
                   borderRadius: 1,
-                  gap:1,
+                  gap: 1,
                   color: pageActivated === 3 ? "white" : "black",
                   background:
                     pageActivated === 3 ? themeColors.BLUE1 : themeColors.GRAY,
                   // themeColors.BLUE1
-                }}>
-              <ListItemButton
+                }}
+              >
+                <ListItemButton
                   onClick={() => {
                     handleMenuOptionSelected(3);
                     navigate("/home/gateways");
@@ -418,10 +463,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
       >
         <ListItem key={"LogOut"} disablePadding sx={{ display: "block" }}>
           <ListItemButton
-            onClick={() => {
-              handleMenuOptionSelected(5);
-              handleOpen();
-            }}
+            onClick={handleMenu}
             sx={{
               minHeight: 48,
               justifyContent: props.open ? "initial" : "center",
@@ -436,16 +478,68 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 color: pageActivated === 5 ? "white" : "black",
               }}
             >
-              <LogoutIcon />
+              <AccountCircleIcon />
             </ListItemIcon>
 
             <ListItemText
-              primary={"Salir"}
+              primary={"Opciones"}
               sx={{ opacity: props.open ? 1 : 0 }}
             />
           </ListItemButton>
         </ListItem>
       </Box>
+      <Menu
+      
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openMenu}
+        onClose={handleCloseMenu}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <Box sx={{ display: "flex", p: 1, justifyContent: "center", gap: 1 }}>
+          <Box sx={{ display: "flex" }}>
+            <AccountCircleIcon
+              sx={{ height: "40px", width: "40px", color: themeColors.BLUE1 }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {cliente !== "" ? (
+              <Typography>
+                {dataCliente.length === 0 ? cliente : dataCliente.nombre}
+              </Typography>
+            ) : (
+              <Typography>{usuario}</Typography>
+            )}
+          </Box>
+        </Box>
+        <MenuItem
+          sx={{ display: cliente !== "" ? "block" : "none" }}
+          onClick={handleOpenPassword}
+        >
+          <Box sx={{display: "flex", gap: 1, justifyContent: "center"}}>
+            <Box>
+              <LockOpenIcon />
+            </Box>
+            <Box>Cambiar Contraseña</Box>
+          </Box>
+        </MenuItem>
+        <MenuItem onClick={handleOpen}>
+          <Box sx={{ display: "flex", gap: 1, justifyContent: "center", textAlign:'center', flexGrow:1 }}>
+            <Box sx={{display:'flex'}}>
+              <LogoutIcon />
+            </Box>
+            <Box sx={{ display:'flex', flexGrow:1, justifyContent:'center'}}> Cerrar Sesión</Box>
+          </Box>
+        </MenuItem>
+      </Menu>
       {/* Modal de Cerrar Sesion */}
       <Modal
         open={openModal}
@@ -464,6 +558,27 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           }}
         >
           <LogOut />
+        </Paper>
+        {/* </Box> */}
+      </Modal>
+      {/* Modal para cambiar de clave */}
+      <Modal
+        open={openModalSetPassword}
+        onClose={handleClosePassword}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Paper
+          variant="outlined"
+          sx={{
+            borderRadius: 8,
+            my: 8,
+            width: "350px",
+            ml: { xs: "15%", sm: "36%" },
+            mt: 4,
+          }}
+        >
+          <SetPassword/>
         </Paper>
         {/* </Box> */}
       </Modal>

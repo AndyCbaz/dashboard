@@ -40,13 +40,13 @@ export const NewGateway = () => {
             gap: 1,
           }}
         >
-          <Typography variant="h4" sx={{ textAlign: "center" }}>
+          <Typography variant="h6" sx={{ textAlign: "center" }}>
             Agregar Gateway
           </Typography>
           <Divider />
           {/* INPUT NOMBRE */}
           <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-            <Typography variant="body1">NOMBRE </Typography>
+            <Typography variant="body2">Nombre </Typography>
           </Box>
           <Input
             sx={{

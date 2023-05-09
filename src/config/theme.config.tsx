@@ -37,6 +37,13 @@ const theme = createTheme({
         }
       }
     },
+    MuiMenu:{
+      defaultProps:{
+        style:{
+          borderRadius: 20
+        }
+      }
+    },
     MuiButton: {
       defaultProps: {
         style: {

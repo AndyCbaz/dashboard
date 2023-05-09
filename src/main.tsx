@@ -35,7 +35,7 @@ import { UsuariosPage } from "./components/Configuracion/Usuarios/UsuariosPage";
 import { SettingsOptions } from "./components/Configuracion/SettingsOptions";
 import { NewClient } from "./components/Login/NewClient";
 import { GatewaysPage } from "./components/Gateways/GatewaysPage";
-import { SetPassword } from "./components/Login/SetPassword";
+
 
 if(localStorage.getItem('cliente')===null){
   localStorage.setItem('cliente','')
@@ -58,7 +58,7 @@ const RoutesTSX = (
       <Route  element={<Cliente />} index={true} />
       <Route path="loguser" element={<Usuario />} />
       <Route path="register" element={<NewClient />} />
-      <Route path="setpassword" element={<SetPassword />} />
+      
     </Route>
     <Route
       path="/home/*"

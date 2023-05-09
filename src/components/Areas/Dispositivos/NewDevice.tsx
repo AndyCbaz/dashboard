@@ -31,8 +31,9 @@ import { getZonas } from "../../../services/DevicePage/cliente/getZonas";
 import { initialValues } from "../../../helpers/Login/formProps";
 import { toast } from "react-toastify";
 import { createDevice } from "../../../services/Areas/crearDispositivo";
+import Toast from "../../Toast/Toast";
 
-export const NewDevice = () => {
+export const NewDevice = ({close}:any) => {
   const [userid, setUserId] = useState("");
   const [gatewayid, setGatewayId] = useState("");
 
@@ -46,6 +47,9 @@ export const NewDevice = () => {
   const idarea = useAppSelector(selectIdArea)
   // const idzona = Number(localStorage.getItem("idzona"));
   const idzona = useAppSelector(selectIdZona)
+  const handleShowUserCreatedToast = () => {
+    toast.done("Usuario Creado con Exito");
+  };
 
   const handleChangeSelectUser = (event: SelectChangeEvent) => {
     setUserId(event.target.value);
@@ -72,6 +76,7 @@ export const NewDevice = () => {
       handleShowServerToast();
     } else {
       createDevice(
+        form.macdevice,
         form.nombredevice,
         Number(userid),
         Number(gatewayid),
@@ -84,17 +89,11 @@ export const NewDevice = () => {
       ).then((data) => {
         if (data !== undefined) {
           console.log(data);
+          handleShowUserCreatedToast();
+          close();
         }
       });
-      // console.log(form.nombredevice)
-      // console.log(idusuario)
-      // console.log(Number(user))
-      // console.log(Number(idarea))
-      // console.log(Number(idzona))
-      // console.log(Number(form.tmaxdevice))
-      // console.log(Number(form.tmindevice))
-      // console.log(Number(form.hmaxdevice))
-      // console.log(Number(form.tmindevice))
+
     }
   };
   useEffect(() => {
@@ -143,7 +142,28 @@ console.log(gatewayid)
             Agregar Dispositivo
           </Typography>
           <Divider />
-
+          {/* INPUT MAC */}
+          <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
+            <Typography variant="body1">MAC</Typography>
+          </Box>
+          <Input
+            sx={{
+              px: 1,
+              background: themeColors.GRAY2,
+              borderRadius: 4,
+            }}
+            id="macnewdevice"
+            type="text"
+            name="macdevice"
+            value={form.macdevice}
+            onChange={handleChange}
+            disableUnderline
+            startAdornment={
+              <InputAdornment position="start">
+                <ConstructionIcon />
+              </InputAdornment>
+            }
+          />
           {/* INPUT NOMBRE */}
           <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
             <Typography variant="body1">Nombre </Typography>
@@ -387,6 +407,7 @@ console.log(gatewayid)
           </Button>
         </Box>
       </form>
+      <Toast/>
     </React.Fragment>
   );
 };

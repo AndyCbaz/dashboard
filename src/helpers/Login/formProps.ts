@@ -16,6 +16,7 @@ export interface Props {
   nombregateway: string;
   //formualrio agregar device
   nombredevice: string;
+  macdevice:string;
   tmaxdevice: number | string;
   tmindevice: number | string;
   hmaxdevice: number | string;
@@ -27,7 +28,7 @@ export interface Props {
   // input de search
   search: string;
   //formulario de setear clave
-  ciclientesetPassword: string;
+  passwordNewValidation:string
   passwordAntsetPassword: string;
   passwordNewsetPassword: string,
 }
@@ -50,6 +51,7 @@ export const initialValues = {
   nombregateway: "",
   //formulario agreagr dispositivo
   nombredevice: "",
+  macdevice:'',
   tmaxdevice: "",
   tmindevice: "",
   hmaxdevice: "",
@@ -60,7 +62,7 @@ export const initialValues = {
   nombrezonacreate: "",
   //input de searh
   search: "",
-  ciclientesetPassword: "",
+  passwordNewValidation: "",
   passwordAntsetPassword: "",
   passwordNewsetPassword: "",
 

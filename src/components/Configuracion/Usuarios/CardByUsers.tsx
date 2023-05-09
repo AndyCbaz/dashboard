@@ -48,7 +48,7 @@ export const CardByUser: React.FC<CardProp> = ({ state, usuario, index }) => {
               <Typography>{state == 1 ? "Activo" : "Desconectado"}</Typography>
             </Box>
             <Box sx={{ textAlign: "center" }}>
-              <Typography>{usuario.toUpperCase()}</Typography>
+              <Typography>{usuario}</Typography>
             </Box>
           </Box>
         </Box>

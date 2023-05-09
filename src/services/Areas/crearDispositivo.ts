@@ -6,7 +6,9 @@ const handleShowServerToast = () => {
   toast.warning("Servidor sin Conexión");
 };
 
+
 export const createDevice = async (
+  macdispositivo:string,
   nombre: string,
   idusuario: number,
   idmacgateway: number,
@@ -21,7 +23,8 @@ export const createDevice = async (
     const res = await axios.post(
       `http://${HOST}:${PORT}/api/user/crearDispositivo`, //cambiar api
       {
-        macdispositivo: nombre,
+        macdispositivo: macdispositivo,
+        nombreDispositivo: nombre,
         idusuario: idusuario,
         idmacgateway: idmacgateway,
         idarea: idarea,
@@ -32,6 +35,7 @@ export const createDevice = async (
         minHumedad: hmin,
       }
     );
+    
     return res.data;
   } catch (error) {
     handleShowServerToast();

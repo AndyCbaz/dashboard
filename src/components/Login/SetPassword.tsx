@@ -15,8 +15,9 @@ import { initialValues } from "../../helpers/Login/formProps";
 
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { toast } from "react-toastify";
+import { setPassword } from "../../services/DevicePage/cliente/setPassword";
 
-export const SetPassword = () => {
+export const SetPassword = ({close}:any) => {
   const { form, handleChange, handleSubmit } = useForm(initialValues);
   const idcliente = Number(localStorage.getItem("idcliente"));
   const idarea = Number(localStorage.getItem("idarea"));
@@ -24,6 +25,12 @@ export const SetPassword = () => {
   const handleShowWarning = () => {
     toast.warning("Campos de Texto Vacios");
   };
+  const handleErrorSamePasswordNewAnt = () => {
+    toast.warning("La Contraseña Anterior y la Nueva son las mismas");
+  }
+  const handleErrorSamePasswordNewNew = () => {
+    toast.warning("La Contraseña nueva no coincide con su validación");
+  }
 
   const handleSetPassword = async () => {
     if (
@@ -32,6 +39,20 @@ export const SetPassword = () => {
       form.passwordNewsetPassword === ""
     ) {
       handleShowWarning();
+    }else if(
+      form.passwordAntsetPassword === form.passwordNewsetPassword
+    ){
+      handleErrorSamePasswordNewAnt();
+    }else if(form.passwordNewsetPassword !== form.passwordNewValidation){
+      handleErrorSamePasswordNewNew();
+    }else{
+      setPassword(idcliente, form.passwordAntsetPassword, form.passwordNewValidation)
+      .then((data)=>{
+        if(data!==undefined){
+          console.log(data)
+          close();
+        }
+      })
     }
   };
 

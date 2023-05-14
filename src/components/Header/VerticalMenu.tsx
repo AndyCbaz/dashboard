@@ -578,7 +578,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
             mt: 4,
           }}
         >
-          <SetPassword/>
+          <SetPassword close={handleClosePassword}/>
         </Paper>
         {/* </Box> */}
       </Modal>

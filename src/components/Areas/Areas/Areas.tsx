@@ -277,7 +277,7 @@ export const Areas = () => {
             mt: 4,
           }}
         >
-          <NewArea />
+          <NewArea close={handleClose}/>
         </Paper>
         {/* </Box> */}
       </Modal>
@@ -319,7 +319,7 @@ export const Areas = () => {
             mt: 4,
           }}
         >
-          <NewZone />
+          <NewZone close={handleCloseZonas}/>
         </Paper>
         
       </Modal>

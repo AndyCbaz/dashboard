@@ -13,19 +13,28 @@ import { themeColors } from "../../helpers/theme/theme.colors";
 import useForm from "../../hooks/useForm";
 import { initialValues } from "../../helpers/Login/formProps";
 import { createNewMacGateway } from "../../services/Gateways/createNewGateway";
+import { toast } from "react-toastify";
 
-export const NewGateway = () => {
+export const NewGateway = ({close}:any) => {
   const idcliente = localStorage.getItem("idcliente");
+  const handleShowWarning = () => {
+    toast.warning("Campo de Texto Vacio");
+  };
   const { form, handleSubmit, handleChange } = useForm(initialValues);
   const handlecreateGateway = async () => {
-    console.log(form.nombregateway);
-    console.log(idcliente);
-    const data = await createNewMacGateway(
-      form.nombregateway,
-      Number(idcliente)
-    );
-    if (data !== undefined) {
-      console.log(data);
+    // console.log(form.nombregateway);
+    // console.log(idcliente);
+    if(form.nombregateway === ''){
+      handleShowWarning();
+    }else{
+      const data = await createNewMacGateway(
+        form.nombregateway,
+        Number(idcliente)
+      );
+      if (data !== undefined) {
+        console.log(data);
+        close();
+      }
     }
   };
   return (

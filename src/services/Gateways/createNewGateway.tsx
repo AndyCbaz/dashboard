@@ -5,6 +5,9 @@ import { toast } from "react-toastify";
 const handleShowServerToast = () => {
   toast.warning("Servidor sin Conexión");
 };
+const handleSucces = () => {
+  toast.success("Gateway Añadido");
+}
 
 export const createNewMacGateway = async (
   nombre: string,
@@ -15,6 +18,7 @@ export const createNewMacGateway = async (
       `http://${HOST}:${PORT}/api/user/crearMacGateway`,
       { "macgateway": nombre, idcliente: idcliente }
     );
+    handleSucces();
     return res.data;
   } catch (error) {
     handleShowServerToast();

@@ -13,17 +13,26 @@ import { themeColors } from "../../helpers/theme/theme.colors";
 import { createArea } from "../../services/Areas/crearArea";
 import useForm from "../../hooks/useForm";
 import { initialValues } from "../../helpers/Login/formProps";
+import { toast } from "react-toastify";
 
-export const NewArea = () => {
+export const NewArea = ({close}:any) => {
   const idcliente = Number(localStorage.getItem("idcliente"));
   const { form, handleChange, handleSubmit } = useForm(initialValues);
+  const handleShowWarning = () => {
+    toast.warning("Campo de Texto Vacio");
+  };
 
   const handleCreateArea = async () => {
-    createArea(form.nombreareacreate, idcliente).then((data) => {
-      if (data !== undefined) {
-        console.log(data);
-      }
-    });
+    if(form.nombreareacreate === ''){
+      handleShowWarning();
+    }else{
+      createArea(form.nombreareacreate, idcliente).then((data) => {
+        if (data !== undefined) {
+          console.log(data);
+          close();
+        }
+      });
+    }
     // console.log(form.nombreareacreate)
     // console.log(idcliente)
   };

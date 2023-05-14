@@ -86,7 +86,7 @@ export const Zonas = () => {
             mt: 4,
           }}
         >
-          <NewZone />
+          <NewZone close={handleClose}/>
         </Paper>
         
       </Modal>

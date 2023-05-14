@@ -82,7 +82,7 @@ export const GatewaysPage = () => {
             mt: 4,
           }}
         >
-          <NewGateway />
+          <NewGateway close={handleClose}/>
         </Paper>
         {/* </Box> */}
       </Modal>

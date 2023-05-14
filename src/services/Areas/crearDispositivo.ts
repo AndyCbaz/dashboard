@@ -5,6 +5,9 @@ import { toast } from "react-toastify";
 const handleShowServerToast = () => {
   toast.warning("Servidor sin Conexión");
 };
+const handleShowUserCreatedToast = () => {
+  toast.success("Usuario Creado con Exito");
+};
 
 
 export const createDevice = async (
@@ -35,8 +38,9 @@ export const createDevice = async (
         minHumedad: hmin,
       }
     );
-    
+    handleShowUserCreatedToast()
     return res.data;
+
   } catch (error) {
     handleShowServerToast();
   }

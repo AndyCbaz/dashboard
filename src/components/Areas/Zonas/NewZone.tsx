@@ -13,21 +13,26 @@ import { themeColors } from "../../../helpers/theme/theme.colors";
 import useForm from "../../../hooks/useForm";
 import { initialValues } from "../../../helpers/Login/formProps";
 import { createZona } from "../../../services/Areas/createZona";
+import { toast } from "react-toastify";
 
-export const NewZone = () => {
+export const NewZone = ({ close }: any) => {
   const { form, handleChange, handleSubmit } = useForm(initialValues);
   const idcliente = Number(localStorage.getItem("idcliente"));
   const idarea = Number(localStorage.getItem("idarea"));
+  const handleShowWarning = () => {
+    toast.warning("Campo de Texto Vacio");
+  };
 
   const handleCreateZona = async () => {
-    const data = await createZona(form.nombrezonacreate, idarea, idcliente);
-    if (data !== undefined) {
-      console.log(data);
+    if (form.nombrezonacreate === "") {
+      handleShowWarning();
+    } else {
+      const data = await createZona(form.nombrezonacreate, idarea, idcliente);
+      if (data !== undefined) {
+        console.log(data);
+        close();
+      }
     }
-    console.log(form.nombrezonacreate)
-    console.log(idarea)
-    console.log(idcliente)
-  
   };
 
   return (
@@ -48,7 +53,7 @@ export const NewZone = () => {
           <Divider />
           {/* INPUT NOMBRE */}
           <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-            <Typography variant="body1">Nombre </Typography>
+            <Typography variant="body2">Nombre </Typography>
           </Box>
           <Input
             sx={{

@@ -47,9 +47,7 @@ export const NewDevice = ({close}:any) => {
   const idarea = useAppSelector(selectIdArea)
   // const idzona = Number(localStorage.getItem("idzona"));
   const idzona = useAppSelector(selectIdZona)
-  const handleShowUserCreatedToast = () => {
-    toast.done("Usuario Creado con Exito");
-  };
+
 
   const handleChangeSelectUser = (event: SelectChangeEvent) => {
     setUserId(event.target.value);
@@ -89,7 +87,7 @@ export const NewDevice = ({close}:any) => {
       ).then((data) => {
         if (data !== undefined) {
           console.log(data);
-          handleShowUserCreatedToast();
+          // handleShowUserCreatedToast();
           close();
         }
       });
@@ -144,7 +142,7 @@ console.log(gatewayid)
           <Divider />
           {/* INPUT MAC */}
           <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-            <Typography variant="body1">MAC</Typography>
+            <Typography variant="body2">Mac</Typography>
           </Box>
           <Input
             sx={{
@@ -166,7 +164,7 @@ console.log(gatewayid)
           />
           {/* INPUT NOMBRE */}
           <Box sx={{ display: "flex", justifyContent: "start", flexGrow: 1 }}>
-            <Typography variant="body1">Nombre </Typography>
+            <Typography variant="body2">Nombre </Typography>
           </Box>
           <Input
             sx={{
@@ -199,7 +197,7 @@ console.log(gatewayid)
               }}
             >
               <Box>
-                <Typography sx={{textAlign:'start'}}>Usuario</Typography>
+                <Typography variant="body2" sx={{textAlign:'start'}}>Usuario</Typography>
               </Box>
               <Box sx={{ display: "flex" }}>
                 <FormControl fullWidth variant="filled" size="small" >

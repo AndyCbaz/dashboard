@@ -3,8 +3,11 @@ import { HOST, PORT } from "../../helpers/Apis/HostPort";
 import { toast } from "react-toastify";
 
 const handleShowServerToast = () => {
-  toast.warning("Usuario ya Registrado");
+  toast.warning("Error al crear usuario");
 };
+const handleShowSucces = () => {
+  toast.success("Usuario Creado con Éxito");
+}
 
 export const createUser = async (idcliente: number, nombreusuario:string, idmacgateway:number | string) => {
   try {
@@ -12,6 +15,7 @@ export const createUser = async (idcliente: number, nombreusuario:string, idmacg
       `http://${HOST}:${PORT}/api/user/crearUsuario`,
       { "idcliente": idcliente, "nombreusuario":nombreusuario,"idmacgateway":idmacgateway }
     );
+    handleShowSucces();
     return res.data;
   } catch (error) {
     handleShowServerToast();

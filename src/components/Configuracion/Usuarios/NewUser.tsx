@@ -25,8 +25,9 @@ import { createUser } from "../../../services/Configuracion/createUser";
 import useForm from "../../../hooks/useForm";
 import { initialValues } from "../../../helpers/Login/formProps";
 import { getComboGateways } from "../../../services/Configuracion/getComboGateways";
+import { toast } from "react-toastify";
 
-const NewUser = () => {
+const NewUser = ({close}:any) => {
   //redux
   const dispatch = useAppDispatch();
   const idcliente = Number(localStorage.getItem('idcliente'))
@@ -50,7 +51,9 @@ const NewUser = () => {
     
   }, []);
 
-  
+  const handleShowError = () => {
+    toast.warning("Campos de Texto Vacios");
+  }
 
   const handleCreateUser = () => {
     if (form.nombre !== "") {
@@ -59,6 +62,8 @@ const NewUser = () => {
           console.log(data);
         });
       }
+    }else{
+      handleShowError();
     }
   };
 

@@ -90,7 +90,7 @@ export const UsuariosPage = () => {
             mt: 4,
           }}
         >
-          <NewUser />
+          <NewUser close={handleClose} />
         </Paper>
         {/* </Box> */}
       </Modal>

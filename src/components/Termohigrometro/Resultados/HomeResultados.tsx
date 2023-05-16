@@ -492,7 +492,8 @@ export const HomeResultados = () => {
     }
     // console.log(idmacgateway)
     // console.log(iddispositivo)
-    if (location.href === `http://${HOST}:${PORTPAGE}/home/resultados`) {
+    
+    if ((location.href).slice(-10) === `resultados`) {
       dispatch(setSearchDisplayState(false));
     }
     if (datagrapinfo.length === 0) {
@@ -521,7 +522,6 @@ export const HomeResultados = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          
           width: {sm: "100%", xs: '100%'},
         }}
       >
@@ -576,6 +576,7 @@ export const HomeResultados = () => {
             <Box
               sx={{ display: "flex", justifyContent: "center", alignItems:'start' }}
             >
+              {/* control por periodo */}
               <Box
                 sx={{
                   display: "flex",
@@ -625,11 +626,9 @@ export const HomeResultados = () => {
                   </Button>
                 </ButtonGroup>
               </Box>
+              
             </Box>
-            <Divider
-              orientation="vertical"
-              sx={{ display: { sm: "block", xs: "none" } }}
-            />
+   
             <Divider sx={{ display: { xs: "block", sm: "none" } }} />
 
             {/* Controles fechas */}

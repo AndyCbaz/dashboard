@@ -9,6 +9,7 @@ import { drawerWidth } from "../helpers/Home/DrawerStyle";
 
 const theme = createTheme({
   palette: {
+    // mode: "dark",
     mode: "light",
     background: {
       default: themeColors.GRAY,

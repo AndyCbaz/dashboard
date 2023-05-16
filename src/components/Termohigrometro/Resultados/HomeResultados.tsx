@@ -555,20 +555,23 @@ export const HomeResultados = () => {
               </Button>
             </Box>
             {/* Titulo  */}
-            <Box sx={{ display: "flex", flexGrow: 1, justifyContent:'center' }}>
-              <Typography variant="h5">Registro de Datos</Typography>
+            <Box sx={{ display: "flex", flexGrow: 1, justifyContent:'center', pb:2 }}>
+              <Typography variant="h6" sx={{fontWeight:'bold'}}>Registro de Datos</Typography>
             </Box>
           </Box>
           {/* Control de Gráfica */}
           <Box
             sx={{
+              // backgroundColor:'blue',
               display: "flex",
               alignItems: {sm:'start', xs: "center"},
               flexDirection: { sm: "row", xs: "column" },
-              justifyContent:'center',
+              // justifyContent:'center',
+              justifyContent:'space-Around',
               flexGrow: 1,
               pb:0.5,
-              gap: { xs: 0.5, sm: 3 },
+              pl:4,
+              gap: { xs: 0.5, sm: 0 },
               // border: "solid",
             }}
           >
@@ -580,7 +583,7 @@ export const HomeResultados = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent:'start',
+                  justifyContent:'center',
                   alignItems: "center",
                gap:2
                 }}
@@ -626,15 +629,16 @@ export const HomeResultados = () => {
                 </ButtonGroup>
               </Box>
             </Box>
-            <Divider
+            {/* <Divider
               orientation="vertical"
               sx={{ display: { sm: "block", xs: "none" } }}
-            />
+            /> */}
             <Divider sx={{ display: { xs: "block", sm: "none" } }} />
 
             {/* Controles fechas */}
             <Box
               sx={{
+                // backgroundColor:'red',
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -709,10 +713,12 @@ export const HomeResultados = () => {
           {/* Grafica */}
           <Box
             sx={{
+              // backgroundColor:'red',
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
-              justifyContent: "center",
-              gap: 4,
+              // justifyContent: "center",
+              justifyContent: "space-Around",
+              // gap: 4,
               width: "100%",
             }}
           >
@@ -727,12 +733,12 @@ export const HomeResultados = () => {
                 borderRadius: 2,
               }}
             >
-              <Box sx={{ textAlign: "center" }}>
+              {/* <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h6">Información</Typography>
-              </Box>
+              </Box> */}
               {/* Nombre del Dispositivo */}
               <Box sx={{pb:0.5}}>
-                <Typography variant="body1" sx={{textAlign:'center'}}>{nombre}</Typography>
+                <Typography variant="h6" sx={{textAlign:'center'}}>{nombre}</Typography>
               </Box>
               {/* Botones */}
               <Box
@@ -956,7 +962,8 @@ export const HomeResultados = () => {
             {/* Grafica  */}
             <Box
               sx={{
-                width: { sm: "60%", xs: "99%" },
+                // backgroundColor:'red',
+                width: { sm: "50%", xs: "99%" },
                 height: { sm: "100%", xs: "300px" },
                 // border: "solid",
                 display: "flex",

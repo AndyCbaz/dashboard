@@ -216,6 +216,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
                 <ListItemButton
                   onClick={() => {
                     handleSubMenuOptionSelected("a");
+                    handleMenuOptionSelected(0);
                     handleUpdateRedux();
                     navigate("/home");
                   }}

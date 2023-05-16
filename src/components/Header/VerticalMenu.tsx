@@ -498,7 +498,7 @@ export const VerticalMenu = (props: VerticalMenuProp) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Box sx={{ display: "flex", p: 1, justifyContent: "center", gap: 1 }}>
+        <Box sx={{ display: "flex", p: 1, justifyContent: "center", gap: 1}}>
           <Box sx={{ display: "flex" }}>
             <AccountCircleIcon
               sx={{ height: "40px", width: "40px", color: themeColors.BLUE1 }}

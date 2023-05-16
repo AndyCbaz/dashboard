@@ -70,6 +70,7 @@ export const SearchSection = () => {
     })
   };
 
+  // return (null)
   return (
     <form onSubmit={handleSubmit}>
       <FormControl variant="standard" sx={{ flexGrow: 1 }}>

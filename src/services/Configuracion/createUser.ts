@@ -2,8 +2,8 @@ import axios from "axios";
 import { HOST, PORT } from "../../helpers/Apis/HostPort";
 import { toast } from "react-toastify";
 
-const handleShowServerToast = () => {
-  toast.warning("Error al crear usuario");
+const handleShowServerToast = (error:any) => {
+  toast.warning(error);
 };
 const handleShowSucces = () => {
   toast.success("Usuario Creado con Éxito");
@@ -17,7 +17,8 @@ export const createUser = async (idcliente: number, nombreusuario:string, idmacg
     );
     handleShowSucces();
     return res.data;
-  } catch (error) {
-    handleShowServerToast();
+  } catch (error:any) {
+    handleShowServerToast(error.response.data.data);
+    
   }
 };

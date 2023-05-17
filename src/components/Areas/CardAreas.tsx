@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Box } from "@mui/system";
 import Card from "@mui/material/Card";
@@ -18,15 +18,18 @@ interface CardProp {
   index: number;
   nombre: string;
   idarea: string;
+  
 }
 
 export const CardAreas: React.FC<CardProp> = ({ index, nombre, idarea }) => {
   const dispatch = useAppDispatch();
+  
   const handleSaveIdArea = async() => {
     localStorage.setItem("idarea", idarea);
     dispatch(setIdArea(idarea));
     const data = await getZonas(Number(idarea));
     dispatch(setZonasByAreas(data))
+    
     // console.log(idarea)
   };
 

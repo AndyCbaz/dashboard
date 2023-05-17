@@ -42,6 +42,8 @@ import { getDevicesByZonas } from "../../../services/Areas/getDevicesByZonas";
 import { setNombreArea, setNombreZona } from "../../../features/todos/search";
 
 export const Areas = () => {
+  //habilitar o deshabilitar el boton de añadir dispositivo
+  const [enableDeviceAdd, setEnableDevideAdd] = useState(false)
   //redux
   const dispatch = useAppDispatch();
   const idcliente = Number(localStorage.getItem("idcliente"));
@@ -175,7 +177,7 @@ export const Areas = () => {
                   key={area.nombrearea}
                   nombre={area.nombrearea}
                   idarea={area.idarea}
-                  
+                  devaddenable={setEnableDevideAdd}
                 />
               ))
             )}
@@ -213,6 +215,7 @@ export const Areas = () => {
                   index={zona.idzona}
                   idzona={zona.idzona}
                   nombre={zona.nombrezona}
+                  devaddenable={setEnableDevideAdd}
                 />
               ))
             )}
@@ -237,6 +240,7 @@ export const Areas = () => {
               onClick={handleOpenDevices}
               variant="outlined"
               startIcon={<LibraryAddIcon />}
+              disabled={enableDeviceAdd}
             >
               Agregar Dispositivos
             </Button>

@@ -10,7 +10,7 @@ import { themeColors } from "../../../helpers/theme/theme.colors";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectIdArea, setIdArea, setZonasByAreas } from "../../../features/cliente/clientComboMacgateways";
+import { selectIdArea, setIdArea, setIdZona, setZonasByAreas } from "../../../features/cliente/clientComboMacgateways";
 
 import { getZonas } from "../../../services/Areas/getZonas";
 import { setNombreArea } from "../../../features/todos/search";
@@ -19,10 +19,10 @@ interface CardProp {
   index: number;
   nombre: string;
   idarea: string;
-  
+  devaddenable:any;
 }
 
-export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) => {
+export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea,devaddenable }) => {
 
   
   const dispatch = useAppDispatch();
@@ -32,9 +32,11 @@ export const CardAreasDesktop: React.FC<CardProp> = ({ index, nombre, idarea }) 
     localStorage.setItem("nombrearea", nombre )
     dispatch(setNombreArea(nombre))
     dispatch(setIdArea(idarea));
+    dispatch(setIdZona(""))
     const data = await getZonas(Number(idarea));
     dispatch(setZonasByAreas(data))
     // console.log(idarea)
+    devaddenable(true)
   };
 
   return (

@@ -21,12 +21,14 @@ interface CardProp {
   index: number;
   nombre: string;
   idzona: string;
+  devaddenable:any;
 }
 
 export const CardZonasDesktop: React.FC<CardProp> = ({
   index,
   nombre,
   idzona,
+  devaddenable
 }) => {
   const dispatch = useAppDispatch();
   const idzonaredux = useAppSelector(selectIdZona);
@@ -40,6 +42,7 @@ export const CardZonasDesktop: React.FC<CardProp> = ({
       dispatch(setDevicesByZonas(data));
       // console.log(data)
     }
+    devaddenable(false)
   };
 
   return (

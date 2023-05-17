@@ -3,7 +3,7 @@ import { HOST, PORT } from "../../../helpers/Apis/HostPort";
 import { toast } from "react-toastify";
 
 const handleShowServerToast = () => {
-  toast.warning("Servidor sin Conexión");
+  toast.warning("Contraseña Anterior no Valida");
 };
 const handleShowCorrectAnswer = () => {
   toast.success("Contraseña Cambiada con Exito");

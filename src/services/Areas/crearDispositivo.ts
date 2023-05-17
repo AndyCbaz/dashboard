@@ -6,7 +6,7 @@ const handleShowServerToast = () => {
   toast.warning("Servidor sin Conexión");
 };
 const handleShowUserCreatedToast = () => {
-  toast.success("Usuario Creado con Exito");
+  toast.success("Dispositivo Creado con Exito");
 };
 
 

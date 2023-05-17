@@ -316,8 +316,8 @@ export const DevicePage = () => {
                   actualTemp={resumen.actualTemp}
                   actualHum={resumen.actualHum}
                   nombre={alldevices[index].nombreDispositivo}
-                  // zona={zonas[index].nombrezona}
-                  zona={'zona'}
+                  zona={zonas[index].nombrezona}
+                  // zona={'zona'}
                   area={areas[index].nombrearea}
                   key={alldevices[index].iddispositivo}
                   state={alldevices[index].online}

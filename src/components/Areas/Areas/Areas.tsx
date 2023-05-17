@@ -23,6 +23,7 @@ import {
   selectAreasByClient,
   selectDevicesByZonas,
   selectIdArea,
+  selectIdMacGateway,
   selectIdZona,
   selectZonasByAreas,
   setAreasByClient,
@@ -53,6 +54,7 @@ export const Areas = () => {
   const zonasbyareas = useAppSelector(selectZonasByAreas);
   const devicesByZonas = useAppSelector(selectDevicesByZonas);
   const idareaLocal = Number(localStorage.getItem("idarea"));
+  
   //Modal areas
   const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);

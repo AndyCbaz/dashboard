@@ -9,11 +9,12 @@ import { themeColors } from "../../helpers/theme/theme.colors";
 
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
-import { setIdArea, setZonasByAreas } from "../../features/cliente/clientComboMacgateways";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectIdMacGateway, setDevicesByGateways, setIdArea, setIdMacGateways, setZonasByAreas } from "../../features/cliente/clientComboMacgateways";
 import DnsIcon from '@mui/icons-material/Dns';
 
 import { getZonas } from "../../services/Areas/getZonas";
+import { getDevicesByGateways } from "../../services/Gateways/getDeviceByGateway";
 
 interface CardProp {
   index: number;
@@ -23,8 +24,16 @@ interface CardProp {
 
 export const CardGateways: React.FC<CardProp> = ({ index, nombre }) => {
   const dispatch = useAppDispatch();
+  const idmacgaetway = useAppSelector(selectIdMacGateway)
 const handleSaveNewGateway = () => {
-
+  dispatch(setIdMacGateways(index))
+  getDevicesByGateways(index)
+  .then((data)=>{
+    if(data!==undefined){
+      dispatch(setDevicesByGateways(data))
+    }
+  })
+  
 }
 
   return (
@@ -32,7 +41,7 @@ const handleSaveNewGateway = () => {
       key={index}
       sx={{
         display: "flex",
-        background:themeColors.GRAY,
+        background: index === idmacgaetway ? themeColors.GRAY3: themeColors.GRAY,
         boxShadow: 0,
         borderRadius: 4,
         "&:hover": { transform: "scale3d(1.02, 1.02, 1)" },

@@ -17,6 +17,8 @@ interface IComboData {
   idzona: any;
   devicesSelected: any;
   resumenAllDevicesSelected:any;
+  devicesbygateways:any;
+  idmacgateway:any;
 }
 
 const initialState: IComboData = {
@@ -35,6 +37,9 @@ const initialState: IComboData = {
   idzona: [],
   devicesSelected: [],
   resumenAllDevicesSelected: [],
+  devicesbygateways:[],
+  idmacgateway:[],
+
 };
 
 export const comboMacSlice = createSlice({
@@ -86,6 +91,12 @@ export const comboMacSlice = createSlice({
     setResumenAllDevicesSelected: (state, action: PayloadAction<any>) => {
       state.resumenAllDevicesSelected = action.payload;
     },
+    setDevicesByGateways: (state, action: PayloadAction<any>) => {
+      state.devicesbygateways = action.payload;
+    },
+    setIdMacGateways: (state, action: PayloadAction<any>) => {
+      state.idmacgateway = action.payload;
+    },
   },
 });
 
@@ -104,7 +115,9 @@ export const {
   setDevicesByZonas,
   setIdZona,
   setDevicesSelected,
-  setResumenAllDevicesSelected
+  setResumenAllDevicesSelected,
+  setDevicesByGateways,
+  setIdMacGateways
 } = comboMacSlice.actions;
 
 export const selectComboGateways = (state: RootState) =>
@@ -133,5 +146,7 @@ export const selectDevicesByZonas = (state: RootState) =>
 export const selectIdZona = (state: RootState) => state.clientPetitions.idzona;
 export const selectDevicesSelected = (state: RootState) => state.clientPetitions.devicesSelected;
 export const selectResumenAllDevicesSelected = (state: RootState) => state.clientPetitions.resumenAllDevicesSelected;
+export const selectDevicesByGateways = (state: RootState) => state.clientPetitions.devicesbygateways;
+export const selectIdMacGateway = (state: RootState) => state.clientPetitions.idmacgateway;
 
 export default comboMacSlice.reducer;

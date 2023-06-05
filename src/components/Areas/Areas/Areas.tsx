@@ -43,8 +43,10 @@ import { getDevicesByZonas } from "../../../services/Areas/getDevicesByZonas";
 import { setNombreArea, setNombreZona } from "../../../features/todos/search";
 
 export const Areas = () => {
+  //estado de loader
+  const [loaderState, setLoaderState] = useState(0)
   //habilitar o deshabilitar el boton de añadir dispositivo
-  const [enableDeviceAdd, setEnableDevideAdd] = useState(false)
+  const [enableDeviceAdd, setEnableDevideAdd] = useState(false);
   //redux
   const dispatch = useAppDispatch();
   const idcliente = Number(localStorage.getItem("idcliente"));
@@ -54,12 +56,12 @@ export const Areas = () => {
   const zonasbyareas = useAppSelector(selectZonasByAreas);
   const devicesByZonas = useAppSelector(selectDevicesByZonas);
   const idareaLocal = Number(localStorage.getItem("idarea"));
-  
+
   //Modal areas
   const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
-  //Modal zonas 
+  //Modal zonas
   const [openModalZonas, setOpenModalZonas] = useState(false);
   const handleOpenZonas = () => setOpenModalZonas(true);
   const handleCloseZonas = () => setOpenModalZonas(false);
@@ -68,34 +70,32 @@ export const Areas = () => {
   const handleOpenDevices = () => setOpenModalDevices(true);
   const handleCloseDevices = () => setOpenModalDevices(false);
 
-  const idareaRedux = useAppSelector(selectIdArea)
-  const idzonaRedux = useAppSelector(selectIdZona)
+  const idareaRedux = useAppSelector(selectIdArea);
+  const idzonaRedux = useAppSelector(selectIdZona);
 
   useEffect(() => {
     getAreas(idcliente).then((data) => {
+      console.log(data)
       if (data !== undefined) {
+        if(data.length===0){setLoaderState(2)}
         dispatch(setAreasByClient(data));
-        dispatch(setIdArea(data[0].idarea))
-        dispatch(setNombreArea(data[0].nombrearea))
-        getZonas(data[0].idarea)
-        .then((data)=>{
-          if(data !== undefined){
-            dispatch(setZonasByAreas(data))
-            dispatch(setIdZona(data[0].idzona))
-            dispatch(setNombreZona(data[0].nombrezona))
-            getDevicesByZonas(data[0].idzona)
-            .then((data)=>{
-              if(data!==undefined){
-                dispatch(setDevicesByZonas(data))
+        dispatch(setIdArea(data[0].idarea));
+        dispatch(setNombreArea(data[0].nombrearea));
+        getZonas(data[0].idarea).then((data) => {
+          if (data !== undefined) {
+            dispatch(setZonasByAreas(data));
+            dispatch(setIdZona(data[0].idzona));
+            dispatch(setNombreZona(data[0].nombrezona));
+            getDevicesByZonas(data[0].idzona).then((data) => {
+              if (data !== undefined) {
+                dispatch(setDevicesByZonas(data));
               }
-            })
-            
+            });
           }
-        })
+        });
       }
     });
     //obtener datos de la primera zona
-
   }, []);
   return (
     <Box
@@ -126,7 +126,7 @@ export const Areas = () => {
       >
         {areaByClient.length === 0 ? (
           <Box sx={{ display: "flex", width: "100%" }}>
-            <Loader />
+            <Loader estado={loaderState} />
           </Box>
         ) : (
           areaByClient.map((area: any) => (
@@ -171,7 +171,7 @@ export const Areas = () => {
           </Box>
           <Box sx={{ display: "flex", gap: 2 }}>
             {areaByClient.length === 0 ? (
-              <Loader />
+              <Loader estado={loaderState} />
             ) : (
               areaByClient.map((area: any) => (
                 <CardAreasDesktop
@@ -209,7 +209,12 @@ export const Areas = () => {
           </Box>
           <Box sx={{ display: "flex", gap: 2 }}>
             {zonasbyareas.length === 0 ? (
-              <Typography variant="h6" sx={{width:'100%', textAlign:'center'}}>Seleccione una Zona</Typography>
+              <Typography
+                variant="h6"
+                sx={{ width: "100%", textAlign: "center" }}
+              >
+                Seleccione una Zona
+              </Typography>
             ) : (
               zonasbyareas.map((zona: any) => (
                 <CardZonasDesktop
@@ -249,11 +254,16 @@ export const Areas = () => {
           </Box>
           <Box sx={{ display: "flex", gap: 2 }}>
             {devicesByZonas.length === 0 ? (
-              <Typography variant="h6" sx={{textAlign:'center', width:'100%'}}>Zona sin dispositivos Registrados</Typography>
+              <Typography
+                variant="h6"
+                sx={{ textAlign: "center", width: "100%" }}
+              >
+                Zona sin dispositivos Registrados
+              </Typography>
             ) : (
               devicesByZonas.map((device: any) => (
                 <CardDispositivosZonaDesktop
-                mac={device.macdispositivo}
+                  mac={device.macdispositivo}
                   key={device.iddispositivo}
                   index={device.iddispositivo}
                   state={device.online}
@@ -283,7 +293,7 @@ export const Areas = () => {
             mt: 4,
           }}
         >
-          <NewArea close={handleClose}/>
+          <NewArea close={handleClose} />
         </Paper>
         {/* </Box> */}
       </Modal>
@@ -304,7 +314,7 @@ export const Areas = () => {
             mt: 4,
           }}
         >
-          <NewDevice close={handleCloseDevices}/>
+          <NewDevice close={handleCloseDevices} />
         </Paper>
         {/* </Box> */}
       </Modal>
@@ -320,14 +330,13 @@ export const Areas = () => {
           sx={{
             borderRadius: 8,
             my: 8,
-            width: {sm: "350px", xs:'300px'},
+            width: { sm: "350px", xs: "300px" },
             ml: { xs: "10%", sm: "36%" },
             mt: 4,
           }}
         >
-          <NewZone close={handleCloseZonas}/>
+          <NewZone close={handleCloseZonas} />
         </Paper>
-        
       </Modal>
     </Box>
   );

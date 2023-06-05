@@ -11,9 +11,10 @@ import date from "date-and-time";
 
 type Props = {
   data: any;
+  horasIncrementadas: any;
 };
 
-export const ExcelDatos: React.FC<Props> = ({ data }) => {
+export const ExcelDatos: React.FC<Props> = ({ data, horasIncrementadas }) => {
   ////Parametros de la exportacion a EXCEL
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -33,9 +34,13 @@ export const ExcelDatos: React.FC<Props> = ({ data }) => {
   ////Accion del boton descargar Excel
   let a:any = excelValores;
     let b =a.map((e:{fecha:string})=>{
+      // console.log(e.fecha)
       let c = (e.fecha.slice(0,19)).replace('T',' ')
-      
-      return c
+      let d = new Date(c)
+      d.setHours(d.getHours() + horasIncrementadas)
+      let ej = d.toLocaleString()
+      // console.log(ej)
+      return ej
     })
     let newExcelData:any = []
     for(let i = 0; i < a.length; i++){

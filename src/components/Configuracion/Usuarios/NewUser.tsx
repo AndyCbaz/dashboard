@@ -105,6 +105,7 @@ const NewUser = ({close}:any) => {
                 alignItems: "center",
                 justifyContent: "center",
                 width: "100%",
+                gap:1
 
                 // border:'solid'
               }}
@@ -137,7 +138,7 @@ const NewUser = ({close}:any) => {
               </Box>
               {/* MAC */}
               <Box>
-                <Typography variant="body2">MAC</Typography>
+                <Typography variant="body2">Mac Gateway</Typography>
               </Box>
               <Box sx={{ width: "100%" }}>
                 <FormControl variant="standard" fullWidth size="small">

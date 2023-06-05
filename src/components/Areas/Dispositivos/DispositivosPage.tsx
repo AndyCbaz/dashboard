@@ -62,7 +62,7 @@ export const Dispositivos = () => {
       </Box>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         {devicesByZonas.length === 0 ? (
-          <Loader />
+          <Loader estado={0} />
         ) : (
           devicesByZonas.map((device: any) => (
             <CardDispositivosZona

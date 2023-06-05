@@ -44,12 +44,15 @@ import {
 import { HOST, PORT, PORTPAGE } from "../../../helpers/Apis/HostPort";
 
 export const HomeResultados = () => {
+  //botones periodo y search background
+  const [stateDataButtonResult, setStateDataButtonResult] = useState("");
   //redux
   const dispatch = useAppDispatch();
   const dataResult = useAppSelector(selectDataResultDevice);
   const dataConsulta = useAppSelector(selectDatosResultConsulta);
   const datagrapinfo = useAppSelector(selectDatosMaxMinGraf);
   const searchDisplayState = useAppSelector(selectSearchDisplayState);
+  const horasIncrementadas = 0;
 
   //react router dom
   const navigate = useNavigate();
@@ -108,6 +111,7 @@ export const HomeResultados = () => {
   if (fi.getDate() === ff.getDate()) {
     dateGraficas = fechaRecibidaFormato.map((data: any) => {
       const dateI = new Date(data);
+      dateI.setHours(dateI.getHours() + horasIncrementadas);
       return dateI.toLocaleTimeString();
     });
   } else {
@@ -316,13 +320,82 @@ export const HomeResultados = () => {
     horaI = `${year}-${month}-${day} 08:00:00`;
     horaF = `${year}-${month}-${day} 17:00:00`;
   } else {
-    horaI = fechaInicialEdit;
-    horaF = fechaFinalEdit;
+    // HORA INICIAL DE DATAPICKER
+    let fechainicialutc = new Date(fechaInicialEdit);
+    fechainicialutc.setHours(fechainicialutc.getHours() + horasIncrementadas);
+    let day = fechainicialutc.getDate();
+    let dayformat = "";
+    if (day < 10) {
+      dayformat = `0${day}`;
+    } else {
+      dayformat = `${day}`;
+    }
+    let month = fechainicialutc.getMonth() + 1;
+    let monthformat = "";
+    if (month < 10) {
+      monthformat = `0${month}`;
+    } else {
+      monthformat = `${month}`;
+    }
+    let year = fechainicialutc.getFullYear();
+    let horas = fechainicialutc.getHours();
+    let horaformat = "";
+    if (horas < 10) {
+      horaformat = `0${horas}`;
+    } else {
+      horaformat = `${horas}`;
+    }
+    let minutos = fechainicialutc.getMinutes();
+    let minutosformat = "";
+    if (minutos < 10) {
+      minutosformat = `0${minutos}`;
+    } else {
+      minutosformat = `${minutos}`;
+    }
+    horaI = `${year}-${monthformat}-${dayformat} ${horaformat}:${minutosformat}:00`;
+    // console.log(horaI)
+    // HORA FINAL DEL DATA PICKER
+    let fechafinalutc = new Date(fechaFinalEdit);
+    fechafinalutc.setHours(fechafinalutc.getHours() + horasIncrementadas);
+    let dayfinal = fechafinalutc.getDate();
+    let dayformatfinal = "";
+    if (dayfinal < 10) {
+      dayformatfinal = `0${dayfinal}`;
+    } else {
+      dayformatfinal = `${dayfinal}`;
+    }
+    let monthfinal = fechafinalutc.getMonth() + 1;
+    let monthformatfinal = "";
+    if (monthfinal < 10) {
+      monthformatfinal = `0${monthfinal}`;
+    } else {
+      monthformatfinal = `${monthfinal}`;
+    }
+    let yearfinal = fechafinalutc.getFullYear();
+    let horasfinal = fechafinalutc.getHours();
+    let horaformatfinal = "";
+    if (horasfinal < 10) {
+      horaformatfinal = `0${horasfinal}`;
+    } else {
+      horaformatfinal = `${horasfinal}`;
+    }
+    let minutosfinal = fechafinalutc.getMinutes();
+    let minutosformatfinal = "";
+    if (minutos < 10) {
+      minutosformatfinal = `0${minutosfinal}`;
+    } else {
+      minutosformatfinal = `${minutosfinal}`;
+    }
+    horaF = `${yearfinal}-${monthformatfinal}-${dayformatfinal} ${horaformatfinal}:${minutosformatfinal}:00`;
+    // console.log(horaF)
   }
   const handleShowServerToast = () => {
     toast.warning("Servidor sin Conexión");
   };
   const handleSearchNewDate = () => {
+    setStateDataButtonResult("search");
+    console.log(horaI);
+    console.log(horaF);
     getDataDevicesDetalle(
       dataConsulta.idgateway,
       dataConsulta.iddispositivo,
@@ -332,18 +405,19 @@ export const HomeResultados = () => {
       .then((data) => {
         if (data !== undefined) {
           dispatch(setDataResultDevice(data));
-          console.log(data);
+          // console.log(data);
         }
       })
       .catch(() => {
         handleShowServerToast();
       });
-    console.log(dataConsulta.idgateway);
-    console.log(dataConsulta.iddispositivo);
+    // console.log(dataConsulta.idgateway);
+    // console.log(dataConsulta.iddispositivo);
   };
 
   //** handles de botones para consulta de periodos /////////////////*/
   const handleTresMesesSearch = () => {
+    setStateDataButtonResult("3m");
     //dia inicial
     let fechaEcuador = date.addDays(formatUTC, -90);
     let year = date.format(fechaEcuador, "YYYY");
@@ -375,6 +449,7 @@ export const HomeResultados = () => {
       });
   };
   const handleUnMesSearch = () => {
+    setStateDataButtonResult("1m");
     //dia inicial
     let fechaEcuador = date.addDays(formatUTC, -30);
     let year = date.format(fechaEcuador, "YYYY");
@@ -406,6 +481,7 @@ export const HomeResultados = () => {
       });
   };
   const handleTwoWeeksSearch = () => {
+    setStateDataButtonResult("2s");
     //dia inicial
     let fechaEcuador = date.addDays(formatUTC, -15);
     let year = date.format(fechaEcuador, "YYYY");
@@ -437,6 +513,7 @@ export const HomeResultados = () => {
       });
   };
   const handleOneWeekSearch = () => {
+    setStateDataButtonResult("1s");
     //dia inicial
     let fechaEcuador = date.addDays(formatUTC, -7);
     let year = date.format(fechaEcuador, "YYYY");
@@ -469,17 +546,16 @@ export const HomeResultados = () => {
   };
   ///////////////////////////////////////////////////////////////////
   //constantes de informacion en caso de refresh
-  const tmaxgraf = (localStorage.getItem("tmax"));
-  const tmingraf = (localStorage.getItem("tmin"));
-  const hmaxgraf = (localStorage.getItem("hmax"));
-  const hmingraf = (localStorage.getItem("hmin"));
+  const tmaxgraf = localStorage.getItem("tmax");
+  const tmingraf = localStorage.getItem("tmin");
+  const hmaxgraf = localStorage.getItem("hmax");
+  const hmingraf = localStorage.getItem("hmin");
   const actualTemp = String(localStorage.getItem("actualTemp"));
   const actualHum = String(localStorage.getItem("actualHum"));
-  const nombre = (localStorage.getItem('nombredevice'))
+  const nombre = localStorage.getItem("nombredevice");
   //useefect
   useEffect(() => {
-    if(dataResult.length === 0){
-      
+    if (dataResult.length === 0) {
       getDataDevicesDetalle(idmacgateway, iddispositivo, horaI, horaF)
         .then((data) => {
           if (data !== undefined) {
@@ -492,12 +568,11 @@ export const HomeResultados = () => {
     }
     // console.log(idmacgateway)
     // console.log(iddispositivo)
-    
-    if ((location.href).slice(-10) === `resultados`) {
+
+    if (location.href.slice(-10) === `resultados`) {
       dispatch(setSearchDisplayState(false));
     }
     if (datagrapinfo.length === 0) {
-
       dispatch(
         setDataMaxMinGraf({
           tmax: tmaxgraf,
@@ -510,6 +585,9 @@ export const HomeResultados = () => {
       );
     }
   }, [dataResult]);
+  useEffect(() => {
+    setStateDataButtonResult("");
+  }, []);
 
   // Number(Number(datagrapinfo.actualTemp.replace(',','.')).toFixed(1))
   // Number(Number(datagrapinfo.actualHum.replace(',','.')).toFixed(1))
@@ -522,7 +600,7 @@ export const HomeResultados = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          width: {sm: "100%", xs: '100%'},
+          width: { sm: "100%", xs: "100%" },
         }}
       >
         {/* GRAFICA */}
@@ -541,7 +619,7 @@ export const HomeResultados = () => {
           }}
         >
           {/* Header */}
-          <Box sx={{ display: "flex", justifyContent: "start",  }}>
+          <Box sx={{ display: "flex", justifyContent: "start" }}>
             {/* Boton Atras */}
             <Box sx={{ display: "flex" }}>
               <Button
@@ -555,8 +633,17 @@ export const HomeResultados = () => {
               </Button>
             </Box>
             {/* Titulo  */}
-            <Box sx={{ display: "flex", flexGrow: 1, justifyContent:'center', pb:2 }}>
-              <Typography variant="h6" sx={{fontWeight:'bold'}}>Registro de Datos</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexGrow: 1,
+                justifyContent: "center",
+                pb: 2,
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Registro de Datos
+              </Typography>
             </Box>
           </Box>
           {/* Control de Gráfica */}
@@ -564,29 +651,33 @@ export const HomeResultados = () => {
             sx={{
               // backgroundColor:'blue',
               display: "flex",
-              alignItems: {sm:'start', xs: "center"},
+              alignItems: { sm: "start", xs: "center" },
               flexDirection: { sm: "row", xs: "column" },
               // justifyContent:'center',
-              justifyContent:'space-Around',
+              justifyContent: "space-Around",
               flexGrow: 1,
-              pb:0.5,
-              pl:4,
+              pb: 0.5,
+              pl: 4,
               gap: { xs: 0.5, sm: 0 },
               // border: "solid",
             }}
           >
             {/* Cotroles botones  */}
             <Box
-              sx={{ display: "flex", justifyContent: "center", alignItems:'start' }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "start",
+              }}
             >
               {/* control por periodo */}
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent:'center',
+                  justifyContent: "center",
                   alignItems: "center",
-               gap:2
+                  gap: 2,
                 }}
               >
                 <Typography>Seleccione un periodo</Typography>
@@ -598,7 +689,14 @@ export const HomeResultados = () => {
                   <Button
                     onClick={handleTresMesesSearch}
                     sx={{
-                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                      "&:hover": {
+                        transform: "scale3d(1.05, 1.05, 1)",
+                        background: themeColors.GRAY3,
+                      },
+                      background:
+                        stateDataButtonResult === "3m"
+                          ? themeColors.GRAY3
+                          : "white",
                     }}
                   >
                     3M
@@ -606,7 +704,14 @@ export const HomeResultados = () => {
                   <Button
                     onClick={handleUnMesSearch}
                     sx={{
-                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                      "&:hover": {
+                        transform: "scale3d(1.05, 1.05, 1)",
+                        background: themeColors.GRAY3,
+                      },
+                      background:
+                        stateDataButtonResult === "1m"
+                          ? themeColors.GRAY3
+                          : "white",
                     }}
                   >
                     1M
@@ -614,7 +719,14 @@ export const HomeResultados = () => {
                   <Button
                     onClick={handleTwoWeeksSearch}
                     sx={{
-                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                      "&:hover": {
+                        transform: "scale3d(1.05, 1.05, 1)",
+                        background: themeColors.GRAY3,
+                      },
+                      background:
+                        stateDataButtonResult === "2s"
+                          ? themeColors.GRAY3
+                          : "white",
                     }}
                   >
                     2S
@@ -622,20 +734,26 @@ export const HomeResultados = () => {
                   <Button
                     onClick={handleOneWeekSearch}
                     sx={{
-                      "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
+                      "&:hover": {
+                        transform: "scale3d(1.05, 1.05, 1)",
+                        background: themeColors.GRAY3,
+                      },
+                      background:
+                        stateDataButtonResult === "1s"
+                          ? themeColors.GRAY3
+                          : "white",
                     }}
                   >
                     7D
                   </Button>
                 </ButtonGroup>
               </Box>
-              
             </Box>
             {/* <Divider
               orientation="vertical"
               sx={{ display: { sm: "block", xs: "none" } }}
             /> */}
-   
+
             <Divider sx={{ display: { xs: "block", sm: "none" } }} />
 
             {/* Controles fechas */}
@@ -662,7 +780,21 @@ export const HomeResultados = () => {
                 }}
               >
                 <Box sx={{ display: "flex", height: "70%" }}>
-                  <Button onClick={handleSearchNewDate}>Buscar</Button>
+                  <Button
+                    onClick={handleSearchNewDate}
+                    sx={{
+                      "&:hover": {
+                        transform: "scale3d(1.05, 1.05, 1)",
+                        background: themeColors.GRAY3,
+                      },
+                      background:
+                        stateDataButtonResult === "search"
+                          ? themeColors.GRAY3
+                          : "white",
+                    }}
+                  >
+                    Buscar
+                  </Button>
                 </Box>
                 <Box
                   sx={{
@@ -729,8 +861,8 @@ export const HomeResultados = () => {
             <Box
               sx={{
                 display: "flex",
-                p: {sm:2, xs:0},
-                py:{sm:1, xs:2},
+                p: { sm: 2, xs: 0 },
+                py: { sm: 1, xs: 2 },
                 flexDirection: "column",
                 boxShadow: 2,
                 borderRadius: 2,
@@ -740,8 +872,10 @@ export const HomeResultados = () => {
                 <Typography variant="h6">Información</Typography>
               </Box> */}
               {/* Nombre del Dispositivo */}
-              <Box sx={{pb:0.5}}>
-                <Typography variant="h6" sx={{textAlign:'center'}}>{nombre}</Typography>
+              <Box sx={{ pb: 0.5 }}>
+                <Typography variant="h6" sx={{ textAlign: "center" }}>
+                  {nombre}
+                </Typography>
               </Box>
               {/* Botones */}
               <Box
@@ -757,11 +891,11 @@ export const HomeResultados = () => {
                   <Button
                     onClick={handleDisplayTemperature}
                     sx={{
-                      color:!tempGrap ? "white" : "black",
+                      color: !tempGrap ? "white" : "black",
                       background: !tempGrap
                         ? themeColors.BLUE1
                         : themeColors.GRAY,
-                        
+
                       transform: !tempGrap ? "scale3d(1.05, 1.05, 1)" : "none",
                       "&:hover": {
                         transform: "scale3d(1.05, 1.05, 1)",
@@ -778,7 +912,7 @@ export const HomeResultados = () => {
                   <Button
                     onClick={handleDisplayHumedad}
                     sx={{
-                      color:!humGrap ? "white" : "black",
+                      color: !humGrap ? "white" : "black",
                       background: !humGrap
                         ? themeColors.GREEN
                         : themeColors.GRAY,
@@ -816,7 +950,7 @@ export const HomeResultados = () => {
                     gap: 2,
                   }}
                 >
-                  <Box sx={{display:'flex', height:'110px'}}>
+                  <Box sx={{ display: "flex", height: "110px" }}>
                     <RadialIndicadorTemperatura
                       valor={Number(Number(datagrapinfo.actualTemp).toFixed(1))}
                       circleWidth={105}
@@ -890,7 +1024,7 @@ export const HomeResultados = () => {
                     gap: 2,
                   }}
                 >
-                  <Box sx={{ display:'flex', height:'110px'}}>
+                  <Box sx={{ display: "flex", height: "110px" }}>
                     <RadialIndicadorHumedad
                       valor={Number(Number(datagrapinfo.actualHum).toFixed(1))}
                       circleWidth={105}
@@ -996,7 +1130,10 @@ export const HomeResultados = () => {
               ml: { xs: "2%", sm: "15%" },
             }}
           >
-            <ExcelDatos data={dataResult} />
+            <ExcelDatos
+              data={dataResult}
+              horasIncrementadas={horasIncrementadas}
+            />
           </Paper>
           {/* </Box> */}
         </Modal>

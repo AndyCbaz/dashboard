@@ -49,7 +49,7 @@ export const comboMacSlice = createSlice({
     setComboGateways: (state, action: PayloadAction<boolean>) => {
       state.comboGateways = action.payload;
     },
-    setZonasByClient: (state, action: PayloadAction<boolean>) => {
+    setZonasByClient: (state, action: PayloadAction<any>) => {
       state.zonasbyclient = action.payload;
     },
     setGatewaysByClient: (state, action: PayloadAction<boolean>) => {

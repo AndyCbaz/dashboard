@@ -48,9 +48,23 @@ import {
   setZonasByClient,
 } from "../../../features/cliente/clientComboMacgateways";
 import { CardDispositivosSelected } from "./CardDispositivosSelected";
-import { selectAreasByDevices, selectNombreArea, selectNombreZona, setAreasByDevices } from "../../../features/todos/search";
+import {
+  selectAreasByDevices,
+  selectNombreArea,
+  selectNombreZona,
+  setAreasByDevices,
+} from "../../../features/todos/search";
+import { Modal, Paper, Typography } from "@mui/material";
+import { CardNewDevices } from "./CardNewDevices";
+import { NewDeviceCard } from "./NewDeviceModal";
 
 export const DevicePage = () => {
+  //laoder estado
+  const [loaderState, setLoaderState] = useState(0)
+  //modal
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
   //redux
   const dispatch = useAppDispatch();
   const usuario = String(localStorage.getItem("usuario"));
@@ -59,8 +73,8 @@ export const DevicePage = () => {
   const idcliente = Number(localStorage.getItem("idcliente"));
   const zonas = useAppSelector(selectZonasByClient);
   const areas = useAppSelector(selectAreasByDevices);
-  const zonaSelected = useAppSelector(selectNombreZona)
-  const areaSelected = useAppSelector(selectNombreArea)
+  const zonaSelected = useAppSelector(selectNombreZona);
+  const areaSelected = useAppSelector(selectNombreArea);
 
   const dataCliente = useAppSelector(selectDataCliente);
   const usuariosporcliente = useAppSelector(selectUsersByClient);
@@ -105,6 +119,7 @@ export const DevicePage = () => {
             devicesbyclient.push(device);
           }
           // console.log(devicesbyclient)
+          if(devicesbyclient.length===0){setLoaderState(1)}
           dispatch(setDevicessByClient(devicesbyclient));
           let dataforresumenbyuser = [];
           let zonas: any = [];
@@ -121,7 +136,7 @@ export const DevicePage = () => {
                       k++
                     ) {
                       // console.log(devicesbyclient[i].areas[j].zonas[k])
-                      
+
                       if (
                         devicesbyclient[i].areas[j].zonas[k].dispositivos
                           .length !== 0
@@ -137,12 +152,14 @@ export const DevicePage = () => {
                           dataforresumenbyuser.push(
                             devicesbyclient[i].areas[j].zonas[k].dispositivos[l]
                           );
-                          zonas.push(
-                            {nombrezona: devicesbyclient[i].areas[j].zonas[k].nombrezona}
-                          );
-                          areas.push({nombrearea: devicesbyclient[i].areas[j].nombrearea})
+                          zonas.push({
+                            nombrezona:
+                              devicesbyclient[i].areas[j].zonas[k].nombrezona,
+                          });
+                          areas.push({
+                            nombrearea: devicesbyclient[i].areas[j].nombrearea,
+                          });
                         }
-                        
                       }
                     }
                   }
@@ -191,7 +208,6 @@ export const DevicePage = () => {
 
       //////////////////////////////
     } else if (usuario !== "") {
-      
       ////////USUARIO///////////////
       let devicesbyclient: any = [];
       getDataUser(idusuario, idcliente).then(async (data) => {
@@ -213,7 +229,7 @@ export const DevicePage = () => {
                       k++
                     ) {
                       // console.log(devicesbyclient[i].areas[j].zonas[k])
-                      
+
                       if (
                         devicesbyclient[i].areas[j].zonas[k].dispositivos
                           .length !== 0
@@ -229,20 +245,22 @@ export const DevicePage = () => {
                           dataforresumenbyuser.push(
                             devicesbyclient[i].areas[j].zonas[k].dispositivos[l]
                           );
-                          zonas.push(
-                            {nombrezona: devicesbyclient[i].areas[j].zonas[k].nombrezona}
-                          );
-                          areas.push({nombrearea: devicesbyclient[i].areas[j].nombrearea})
+                          zonas.push({
+                            nombrezona:
+                              devicesbyclient[i].areas[j].zonas[k].nombrezona,
+                          });
+                          areas.push({
+                            nombrearea: devicesbyclient[i].areas[j].nombrearea,
+                          });
                         }
                       }
-                      
                     }
                   }
                 }
               }
             }
           }
-          
+
           dispatch(setZonasByClient(zonas));
           dispatch(setAreasByDevices(areas));
           dispatch(setAllDevices(dataforresumenbyuser));
@@ -288,8 +306,9 @@ export const DevicePage = () => {
         resumenalldevicesselected.length === 0 ? (
           //device page del cliente
           resumenalldevices.length === 0 || alldevices.length === 0 ? (
-            <Loader />
+            <Loader estado={loaderState} />
           ) : (
+            // <Typography>No hay dispositivos Registrados</Typography>
             <Box
               sx={{
                 mt: 1,
@@ -331,51 +350,52 @@ export const DevicePage = () => {
                   dataH={resumen.infoset === false ? false : true}
                 />
               ))}
+              <CardNewDevices handleOpen={handleOpen} />
             </Box>
           )
         ) : (
           //si se se ha seleccionado un dispositivo
           // <Loader/>
-          resumenalldevicesselected.map((device: any, index:any) => (
-            <Box key={index} sx={{display:"flex",mt:1}}>
-            <CardDispositivosSelected
-              //para consulta
-              idmac={devicesSelected[index].idmacgateway}
-              iddispositivo={devicesSelected[index].iddispositivo}
-              //redux
-              tmaxgraf={devicesSelected[index].maxTemperatura}
-              tmingraf={devicesSelected[index].minTemperatura}
-              hmaxgraf={devicesSelected[index].maxHumedad}
-              hmingraf={devicesSelected[index].minHumedad}
-              //renderizado
-              bateria={device.bateria}
-              senial={device.nivelSenial}
-              actualTemp={device.actualTemp}
-              actualHum={device.actualHum}
-              // nombre={devicesSelected[0].nombreDispositivo}
-              nombre={devicesSelected[index].nombreDispositivo}
-              zona={zonaSelected}
-              area={areaSelected}
-              // area={areas[index].nombrearea}
-              key={devicesSelected[index].iddispositivo}
-              index={devicesSelected[index].iddispositivo}
-              state={devicesSelected[index].online}
-              tmax={device.maximoTemp}
-              tmin={device.minimoTemp}
-              tprom={device.avgTemp}
-              hmax={device.maximoHum}
-              hmin={device.minimoHum}
-              hprom={device.avgHum}
-              dataT={device.infoset === false ? false : true}
-              dataH={device.infoset === false ? false : true}
-            />
+          resumenalldevicesselected.map((device: any, index: any) => (
+            <Box key={index} sx={{ display: "flex", mt: 1 }}>
+              <CardDispositivosSelected
+                //para consulta
+                idmac={devicesSelected[index].idmacgateway}
+                iddispositivo={devicesSelected[index].iddispositivo}
+                //redux
+                tmaxgraf={devicesSelected[index].maxTemperatura}
+                tmingraf={devicesSelected[index].minTemperatura}
+                hmaxgraf={devicesSelected[index].maxHumedad}
+                hmingraf={devicesSelected[index].minHumedad}
+                //renderizado
+                bateria={device.bateria}
+                senial={device.nivelSenial}
+                actualTemp={device.actualTemp}
+                actualHum={device.actualHum}
+                // nombre={devicesSelected[0].nombreDispositivo}
+                nombre={devicesSelected[index].nombreDispositivo}
+                zona={zonaSelected}
+                area={areaSelected}
+                // area={areas[index].nombrearea}
+                key={devicesSelected[index].iddispositivo}
+                index={devicesSelected[index].iddispositivo}
+                state={devicesSelected[index].online}
+                tmax={device.maximoTemp}
+                tmin={device.minimoTemp}
+                tprom={device.avgTemp}
+                hmax={device.maximoHum}
+                hmin={device.minimoHum}
+                hprom={device.avgHum}
+                dataT={device.infoset === false ? false : true}
+                dataH={device.infoset === false ? false : true}
+              />
             </Box>
           ))
         )
       ) : //device page del usuario
       devicesSelected.length === 0 || resumenalldevicesselected.length === 0 ? (
         resumenalldevices.length === 0 || alldevices.length === 0 ? (
-          <Loader />
+          <Loader estado={resumenalldevices.length} />
         ) : (
           <Box
             sx={{
@@ -420,11 +440,11 @@ export const DevicePage = () => {
             ))}
           </Box>
         )
-      ):(
+      ) : (
         //si se se ha seleccionado un dispositivo
-          // <Loader/>
-          resumenalldevicesselected.map((device: any, index:any) => (
-            <Box key={index} sx={{display:"flex",mt:1}}>
+        // <Loader/>
+        resumenalldevicesselected.map((device: any, index: any) => (
+          <Box key={index} sx={{ display: "flex", mt: 1 }}>
             <CardDispositivosSelected
               //para consulta
               idmac={devicesSelected[index].idmacgateway}
@@ -456,12 +476,27 @@ export const DevicePage = () => {
               dataT={device.infoset === false ? false : true}
               dataH={device.infoset === false ? false : true}
             />
-            </Box>
-          ))
-      )
-      
-
-    }
+          </Box>
+        ))
+      )}
+      <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Paper
+          variant="outlined"
+          sx={{
+            borderRadius: 8,
+            width: { sm: "400px", xs: "310px" },
+            ml: { xs: "10%", sm: "35%" },
+            mt: 4,
+          }}
+        >
+          <NewDeviceCard />
+        </Paper>
+      </Modal>
     </Box>
   );
 };

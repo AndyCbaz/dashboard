@@ -1137,6 +1137,7 @@ export const HomeResultados = () => {
             <ExcelDatos
               data={dataResult}
               horasIncrementadas={horasIncrementadas}
+              name={nombre}
             />
           </Paper>
           {/* </Box> */}

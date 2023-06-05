@@ -12,9 +12,10 @@ import date from "date-and-time";
 type Props = {
   data: any;
   horasIncrementadas: any;
+  name:any;
 };
 
-export const ExcelDatos: React.FC<Props> = ({ data, horasIncrementadas }) => {
+export const ExcelDatos: React.FC<Props> = ({ data, horasIncrementadas, name }) => {
   ////Parametros de la exportacion a EXCEL
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -47,8 +48,7 @@ export const ExcelDatos: React.FC<Props> = ({ data, horasIncrementadas }) => {
       newExcelData.push({temperatura: a[i].temperatura, humedad:a[i].humedad, fecha: b[i]})
     }
   const storeTemp = () => {
-    
-    exportToCSV(newExcelData, "Datos Exportados");
+    exportToCSV(newExcelData, `Datos de ${name}`);
     // console.log(newExcelData)
   };
   //excel

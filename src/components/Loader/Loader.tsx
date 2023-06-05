@@ -34,7 +34,7 @@ export const Loader: React.FC<LoaderProp> = ({ estado }) => {
           }}
         >
           <Typography variant="h6">
-            No existen dispositivos registrados
+            No existen dispositivos registrados para agregar uno porfavor verifique si existen áreas disponibles
           </Typography>
         </Box>)
         : estado === 2 ? (<>  

@@ -150,6 +150,8 @@ export const HomeResultados = () => {
     labels,
     datasets: [
       {
+        borderWidth: 2,
+        pointBorderWidth: 0,
         label: "Temperatura",
         data: dataResult.map((e: { temperatura: string }) => {
           const formatValue = e.temperatura.replace(",", ".");
@@ -162,6 +164,8 @@ export const HomeResultados = () => {
         hidden: tempGrap,
       },
       {
+        borderWidth: 2,
+        pointBorderWidth: 0,
         label: "Humedad",
         data: dataResult.map((e: { humedad: string }) => {
           const formatValue = e.humedad.replace(",", ".");
@@ -239,7 +243,7 @@ export const HomeResultados = () => {
       title: {
         display: true,
         text: "Temperatura y Humedad",
-        font: { size: 24 },
+        font: { size: 19 },
       },
       legend: {
         display: false,

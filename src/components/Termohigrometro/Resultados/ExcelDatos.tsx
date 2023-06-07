@@ -48,7 +48,7 @@ export const ExcelDatos: React.FC<Props> = ({ data, horasIncrementadas, name }) 
       newExcelData.push({temperatura: a[i].temperatura, humedad:a[i].humedad, fecha: b[i]})
     }
   const storeTemp = () => {
-    exportToCSV(newExcelData, `Datos de ${name}`);
+    exportToCSV(newExcelData, `Datos ${name}`);
     // console.log(newExcelData)
   };
   //excel

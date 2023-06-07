@@ -56,7 +56,7 @@ export const Zonas = () => {
       
       <Box sx={{ display: "flex", gap: 2, flexWrap: 'wrap' }}>
         {zonasbyareas.length === 0 ? (
-          <Loader />
+          <Loader estado={0}/>
         ) : (
           zonasbyareas.map((zona: any) => (
             <CardZonas

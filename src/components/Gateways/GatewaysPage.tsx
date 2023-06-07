@@ -74,7 +74,7 @@ export const GatewaysPage = () => {
       >
         {gatewaysByClient.length === 0 ? (
           <Box sx={{ display: "flex", width: "100%" }}>
-            <Loader />
+            <Loader estado={0}/>
           </Box>
         ) : (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width:'100%' }}>

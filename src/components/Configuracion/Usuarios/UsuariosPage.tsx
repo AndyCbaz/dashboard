@@ -60,7 +60,7 @@ export const UsuariosPage = () => {
       </Box>
       <Box sx={{ display: "flex", gap: 3 }}>
         {userByClient.length === 0 ? (
-          <Box sx={{display:'flex',flexGrow:1}}><Loader /></Box>
+          <Box sx={{display:'flex',flexGrow:1}}><Loader estado={0}/></Box>
         ) : (
           userByClient.map((user: any) => (
             <Box key={user.nombreusuario}>
